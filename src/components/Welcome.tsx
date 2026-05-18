@@ -40,6 +40,7 @@ const COMPONENTS = [
   { to: "/multi-combobox", name: "MultiCombobox", description: "Multi-select Combobox with chip trigger + overflow collapse + sync / async option loading" },
   { to: "/rating", name: "Rating", description: "5-star rating input; hover preview, arrow-key nav, sm / md / lg, customizable max" },
   { to: "/nps", name: "NPS", description: "Net Promoter Score 0-10 strip with detractor / passive / promoter color buckets" },
+  { to: "/likert", name: "Likert", description: "n-point attitudinal scale; segmented + stacked layouts, custom option sets" },
 ];
 
 const Welcome = () => {

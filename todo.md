@@ -346,8 +346,12 @@ UX research (Baymard, Stripe Elements, NNG, *Form Design Patterns*).
       error/warning/success tokens. Selected score gets the saturated
       bucket fill. Anchor labels customizable, optional bucket caption
       below ("8 · Promoter"). Demo at `/nps`.
-- [ ] **Likert scale** (5-point agree/disagree) — also distinct from
-      rating; semantically a single-choice question with fixed labels.
+- [x] **Likert scale** — `<Likert>` n-point attitudinal scale.
+      Default 5-point Strongly disagree → Strongly agree; pass
+      `options` for any attitudinal scale (agreement / frequency /
+      importance / ease / satisfaction). Two layouts: `segmented`
+      (default — compact pill strip) and `stacked` (vertical radio
+      list, more readable). Demo at `/likert`.
 - [x] **Range slider** (two-handle) — already shipped. The existing
       `<Slider>` auto-renders one Radix Thumb per value in the array
       (`defaultValue={[20, 80]}`), so range is just an array-shaped

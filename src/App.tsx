@@ -47,6 +47,7 @@ import NewTagInputDemo from "./components/NewTagInputDemo";
 import NewMultiComboboxDemo from "./components/NewMultiComboboxDemo";
 import NewRatingDemo from "./components/NewRatingDemo";
 import NewNpsDemo from "./components/NewNpsDemo";
+import NewLikertDemo from "./components/NewLikertDemo";
 import { Toaster } from "./components/toast/toaster";
 
 /**
@@ -106,6 +107,7 @@ const NAV: NavGroup[] = [
       { to: "/multi-combobox", label: "MultiCombobox" },
       { to: "/rating", label: "Rating" },
       { to: "/nps", label: "NPS" },
+      { to: "/likert", label: "Likert" },
     ],
   },
 ];
@@ -253,6 +255,7 @@ const App: React.FC = () => {
             <Route path="/multi-combobox" element={<NewMultiComboboxDemo />} />
             <Route path="/rating" element={<NewRatingDemo />} />
             <Route path="/nps" element={<NewNpsDemo />} />
+            <Route path="/likert" element={<NewLikertDemo />} />
           </Routes>
         </main>
       </div>

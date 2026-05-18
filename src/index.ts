@@ -37,6 +37,10 @@ export type { RatingProps } from "./components/survey/rating";
 export { NPS } from "./components/survey/nps";
 export type { NPSProps } from "./components/survey/nps";
 
+// Survey primitives - Likert (n-point agree/disagree attitudinal scale)
+export { Likert } from "./components/survey/likert";
+export type { LikertProps, LikertOption } from "./components/survey/likert";
+
 // Form Components - TagInput (type + Enter chip input)
 export { TagInput } from "./components/form/tag-input/tag-input";
 export type { TagInputProps } from "./components/form/tag-input/tag-input";

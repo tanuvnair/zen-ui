@@ -351,8 +351,11 @@ UX research (Baymard, Stripe Elements, NNG, *Form Design Patterns*).
       the Airbnb / Booking side-by-side layout; drop to 1 for narrow
       popovers. Re-uses the existing Calendar component. Demo at
       `/date-range-picker`.
-- [ ] **Tag / chip input** — type + Enter to add. Skills, interests,
-      tags. Underrated for collecting structured-but-open lists.
+- [x] **Tag / chip input** — `<TagInput>` with type+Enter commit,
+      Backspace-on-empty remove, paste-splits-on-delimiters, optional
+      per-tag `validate`, `max` cap, `unique` dedupe. Chips render as
+      removable pills (or via a `renderTag` override). Demo at
+      `/tag-input`.
 - [ ] **Multi-select Combobox** — today's Combobox is single-select.
       Multi with a selected-chip row above the list.
 

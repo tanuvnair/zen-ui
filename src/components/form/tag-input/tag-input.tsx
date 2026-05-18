@@ -1,0 +1,246 @@
+import * as React from "react";
+import { cn } from "../../../lib/cn";
+
+/**
+ * TagInput — type-and-press-Enter chip input. The text input lives at
+ * the trailing edge of a wrap-friendly container; each committed value
+ * renders as a removable chip ahead of it. The whole control behaves
+ * like a single text-field for layout / focus purposes.
+ *
+ *   const [tags, setTags] = useState<string[]>(["react", "typescript"]);
+ *   <TagInput value={tags} onValueChange={setTags} placeholder="Add a skill…" />
+ *
+ * Interaction model (mirrors GitHub / Linear / Notion patterns):
+ *   - Type + Enter (or Tab, or any character in `delimiters`) commits
+ *     the current input as a new tag.
+ *   - Backspace on an empty input removes the trailing tag.
+ *   - Click ✕ on any chip to remove that specific tag.
+ *   - Paste handler splits the pasted text on `delimiters` so a
+ *     comma-separated list pastes as multiple tags at once.
+ *
+ * `validate` lets callers gate commit — return false (or a falsy
+ * promise) and the input keeps the candidate text so the user can fix
+ * it instead of losing their typing. `unique` (default true) drops
+ * duplicates silently.
+ */
+
+export interface TagInputProps {
+  value?: string[];
+  defaultValue?: string[];
+  onValueChange?: (next: string[]) => void;
+  placeholder?: string;
+  disabled?: boolean;
+  /** Maximum number of tags accepted. Further commits are no-ops. */
+  max?: number;
+  /** Characters that trigger commit in addition to Enter/Tab. Default `,` */
+  delimiters?: string[];
+  /** Drop duplicates silently. Default true. */
+  unique?: boolean;
+  /** Per-tag validator. Return false / falsy-promise to reject the
+   *  candidate; the input keeps the typed text so the user can fix it. */
+  validate?: (candidate: string) => boolean | Promise<boolean>;
+  /** Normalize before commit. Defaults to `.trim()`. */
+  normalize?: (raw: string) => string;
+  className?: string;
+  /** Render override for individual chips. Default is a rounded pill. */
+  renderTag?: (tag: string, remove: () => void) => React.ReactNode;
+  /** aria-label for the underlying text input. */
+  inputAriaLabel?: string;
+}
+
+export const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>(
+  (
+    {
+      value: valueProp,
+      defaultValue,
+      onValueChange,
+      placeholder = "Add a tag…",
+      disabled,
+      max,
+      delimiters = [","],
+      unique = true,
+      validate,
+      normalize = (s) => s.trim(),
+      className,
+      renderTag,
+      inputAriaLabel,
+    },
+    ref,
+  ) => {
+    const [tagsInner, setTagsInner] = React.useState<string[]>(
+      defaultValue ?? [],
+    );
+    const tags = valueProp ?? tagsInner;
+    const [input, setInput] = React.useState("");
+
+    const setTags = React.useCallback(
+      (next: string[]) => {
+        if (valueProp === undefined) setTagsInner(next);
+        onValueChange?.(next);
+      },
+      [valueProp, onValueChange],
+    );
+
+    const commit = React.useCallback(
+      async (raw: string): Promise<boolean> => {
+        const candidate = normalize(raw);
+        if (!candidate) return false;
+        if (unique && tags.includes(candidate)) return true; // already present, consume input
+        if (max !== undefined && tags.length >= max) return false;
+        if (validate) {
+          const ok = await validate(candidate);
+          if (!ok) return false;
+        }
+        setTags([...tags, candidate]);
+        return true;
+      },
+      [tags, max, unique, validate, normalize, setTags],
+    );
+
+    const removeAt = (idx: number) => {
+      const next = tags.slice();
+      next.splice(idx, 1);
+      setTags(next);
+    };
+
+    const onKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        const ok = await commit(input);
+        if (ok) setInput("");
+      } else if (e.key === "Tab" && input.trim().length > 0) {
+        // Tab also commits unless empty — lets the user move focus on.
+        const ok = await commit(input);
+        if (ok) {
+          e.preventDefault();
+          setInput("");
+        }
+      } else if (
+        e.key === "Backspace" &&
+        input.length === 0 &&
+        tags.length > 0
+      ) {
+        removeAt(tags.length - 1);
+      } else if (delimiters.includes(e.key) && input.trim().length > 0) {
+        e.preventDefault();
+        const ok = await commit(input);
+        if (ok) setInput("");
+      }
+    };
+
+    const onPaste = async (e: React.ClipboardEvent<HTMLInputElement>) => {
+      const text = e.clipboardData.getData("text");
+      if (!text) return;
+      const pattern = new RegExp(
+        `[${delimiters.map((d) => `\\${d}`).join("")}\\n\\r\\t]+`,
+      );
+      const parts = text.split(pattern).map(normalize).filter(Boolean);
+      if (parts.length <= 1) return; // single token: let it land normally
+      e.preventDefault();
+      let next = tags;
+      for (const part of parts) {
+        if (max !== undefined && next.length >= max) break;
+        if (unique && next.includes(part)) continue;
+        if (validate) {
+          const ok = await validate(part);
+          if (!ok) continue;
+        }
+        next = [...next, part];
+      }
+      setTags(next);
+    };
+
+    return (
+      <div
+        className={cn(
+          "flex flex-wrap items-center gap-1.5",
+          "min-h-10 w-full rounded-zen-md border border-zen-border bg-zen-background",
+          "px-2 py-1.5 text-sm",
+          "focus-within:outline-none focus-within:ring-2 focus-within:ring-zen-ring focus-within:ring-offset-2",
+          disabled && "opacity-50 cursor-not-allowed",
+          className,
+        )}
+        onClick={(e) => {
+          /* Click anywhere in the wrap region to focus the input —
+           * makes the whole tile feel like one big text field. */
+          const target = e.target as HTMLElement;
+          if (target.tagName !== "BUTTON" && target.tagName !== "INPUT") {
+            const input = (e.currentTarget as HTMLDivElement).querySelector(
+              "input",
+            );
+            input?.focus();
+          }
+        }}
+      >
+        {tags.map((tag, i) =>
+          renderTag ? (
+            <React.Fragment key={`${tag}-${i}`}>
+              {renderTag(tag, () => removeAt(i))}
+            </React.Fragment>
+          ) : (
+            <span
+              key={`${tag}-${i}`}
+              className={cn(
+                "inline-flex items-center gap-1 px-2 py-0.5",
+                "text-xs font-medium",
+                "rounded-zen-full bg-zen-primary-soft text-zen-primary-soft-fg",
+              )}
+            >
+              <span>{tag}</span>
+              <button
+                type="button"
+                onClick={() => removeAt(i)}
+                aria-label={`Remove ${tag}`}
+                disabled={disabled}
+                className={cn(
+                  "inline-flex items-center justify-center",
+                  "h-4 w-4 rounded-zen-full bg-transparent border-0 cursor-pointer",
+                  "text-current opacity-70 hover:opacity-100 hover:bg-black/10",
+                  "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zen-ring",
+                  "disabled:cursor-not-allowed",
+                )}
+              >
+                <svg
+                  width="10"
+                  height="10"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                >
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </span>
+          ),
+        )}
+        <input
+          ref={ref}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={onKeyDown}
+          onPaste={onPaste}
+          onBlur={async () => {
+            /* Commit pending text on blur — most users expect this. */
+            if (input.trim().length === 0) return;
+            const ok = await commit(input);
+            if (ok) setInput("");
+          }}
+          placeholder={tags.length === 0 ? placeholder : ""}
+          disabled={disabled}
+          aria-label={inputAriaLabel}
+          className={cn(
+            "flex-1 min-w-[6rem] bg-transparent border-0",
+            "text-sm outline-none placeholder:text-zen-muted-fg",
+            "disabled:cursor-not-allowed",
+          )}
+        />
+      </div>
+    );
+  },
+);
+TagInput.displayName = "TagInput";

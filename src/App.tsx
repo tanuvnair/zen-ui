@@ -43,6 +43,7 @@ import NewAccordionDemo from "./components/NewAccordionDemo";
 import NewCardDemo from "./components/NewCardDemo";
 import NewSheetDemo from "./components/NewSheetDemo";
 import NewDateRangePickerDemo from "./components/NewDateRangePickerDemo";
+import NewTagInputDemo from "./components/NewTagInputDemo";
 import { Toaster } from "./components/toast/toaster";
 
 /**
@@ -98,6 +99,7 @@ const NAV: NavGroup[] = [
       { to: "/card", label: "Card" },
       { to: "/sheet", label: "Sheet / Drawer" },
       { to: "/date-range-picker", label: "DateRangePicker" },
+      { to: "/tag-input", label: "TagInput" },
     ],
   },
 ];
@@ -241,6 +243,7 @@ const App: React.FC = () => {
             <Route path="/card" element={<NewCardDemo />} />
             <Route path="/sheet" element={<NewSheetDemo />} />
             <Route path="/date-range-picker" element={<NewDateRangePickerDemo />} />
+            <Route path="/tag-input" element={<NewTagInputDemo />} />
           </Routes>
         </main>
       </div>

@@ -36,6 +36,7 @@ const COMPONENTS = [
   { to: "/card", name: "Card", description: "Surface primitive + SelectableCard variant for goal pickers / plan selectors" },
   { to: "/sheet", name: "Sheet / Drawer", description: "Slide-in side panel on Radix Dialog; right / left / top / bottom" },
   { to: "/date-range-picker", name: "DateRangePicker", description: "Two-month side-by-side calendar in a Popover; range anchoring, controlled / uncontrolled" },
+  { to: "/tag-input", name: "TagInput", description: "Type + Enter chip input; comma-paste splits, Backspace removes, per-tag validator, max-N" },
 ];
 
 const Welcome = () => {

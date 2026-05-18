@@ -29,6 +29,10 @@ export type {
   DatePickerProps,
   CalendarProps,
 } from "./components/form/date-picker/date-picker";
+// Form Components - TagInput (type + Enter chip input)
+export { TagInput } from "./components/form/tag-input/tag-input";
+export type { TagInputProps } from "./components/form/tag-input/tag-input";
+
 // Form Components - DateRangePicker (Calendar mode="range" in a Popover)
 export { DateRangePicker } from "./components/form/date-picker/date-range-picker";
 export type {

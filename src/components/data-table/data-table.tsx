@@ -2,6 +2,7 @@ import * as React from "react";
 import {
   flexRender,
   getCoreRowModel,
+  getExpandedRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
@@ -12,6 +13,7 @@ import {
   type ColumnOrderState,
   type ColumnPinningState,
   type ColumnSizingState,
+  type ExpandedState,
   type FilterFn,
   type PaginationState,
   type Row,
@@ -168,6 +170,32 @@ export interface DataTableProps<TData, TValue = unknown> {
   enableRowOrdering?: boolean;
   onRowOrderChange?: (orderedIds: string[]) => void;
   /**
+   * Expandable rows. Pass a render function and DataTable prepends a
+   * chevron toggle column; when a row is expanded, the function renders
+   * a full-width detail panel directly beneath the row.
+   *
+   *   <DataTable
+   *     data={orders}
+   *     columns={cols}
+   *     renderSubRow={(row) => (
+   *       <div className="px-6 py-3">
+   *         <OrderDetails id={row.original.id} />
+   *       </div>
+   *     )}
+   *   />
+   *
+   * The caller controls rendering of the expanded content; DataTable
+   * just manages the expand toggle + the row-below slot. Expansion
+   * state can be controlled via `expanded` + `onExpandedChange` if you
+   * need to drive it externally (e.g. expand-all from a button).
+   *
+   * Not wired into virtualized mode in this release — sub-rows have
+   * variable height, which the fixed-size virtualizer doesn't model.
+   */
+  renderSubRow?: (row: Row<TData>) => React.ReactNode;
+  expanded?: ExpandedState;
+  onExpandedChange?: (state: ExpandedState) => void;
+  /**
    * Stable row-id resolver. Defaults to the row's array index, which is
    * fine for static lists but breaks identity-tracking features the
    * moment rows reorder or get inserted: row selection by id, row
@@ -309,6 +337,9 @@ export function DataTable<TData, TValue = unknown>({
   onRowOrderChange,
   getRowId,
   renderBulkActions,
+  renderSubRow,
+  expanded: expandedProp,
+  onExpandedChange,
   enableColumnOrdering = false,
   onColumnOrderChange,
   enableColumnResizing = false,
@@ -364,6 +395,9 @@ export function DataTable<TData, TValue = unknown>({
       initialColumnPinning ?? { left: [], right: [] },
     );
   const columnPinning = columnPinningProp ?? columnPinningInner;
+  const [expandedInner, setExpandedInner] = React.useState<ExpandedState>({});
+  const expanded = expandedProp ?? expandedInner;
+  const expansionEnabled = !!renderSubRow;
 
   /* Which cell is currently being edited. Single-cell editing only —
    * starting a new edit auto-commits the previous one would be a nice
@@ -406,6 +440,38 @@ export function DataTable<TData, TValue = unknown>({
         id: "__drag__",
         header: () => <span className="sr-only">Reorder</span>,
         cell: ({ row }) => <DragHandle id={row.id} />,
+        enableSorting: false,
+        enableHiding: false,
+        size: 32,
+      });
+    }
+
+    if (expansionEnabled) {
+      leading.push({
+        id: "__expand__",
+        header: () => <span className="sr-only">Expand</span>,
+        cell: ({ row }) => (
+          <button
+            type="button"
+            onClick={() => row.toggleExpanded()}
+            aria-expanded={row.getIsExpanded()}
+            aria-label={
+              row.getIsExpanded() ? "Collapse row" : "Expand row"
+            }
+            className={cn(
+              "inline-flex items-center justify-center h-6 w-6",
+              "rounded-zen-sm bg-transparent border-0 cursor-pointer",
+              "text-zen-muted-fg hover:text-zen-foreground hover:bg-zen-muted",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zen-ring",
+              "transition-transform",
+              row.getIsExpanded() && "rotate-90",
+            )}
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <polyline points="9 6 15 12 9 18" />
+            </svg>
+          </button>
+        ),
         enableSorting: false,
         enableHiding: false,
         size: 32,
@@ -458,7 +524,7 @@ export function DataTable<TData, TValue = unknown>({
     });
 
     return [...leading, ...withVariantFilters];
-  }, [columns, enableRowSelection, rowOrderingActive]);
+  }, [columns, enableRowSelection, rowOrderingActive, expansionEnabled]);
 
   const table = useReactTable({
     data,
@@ -472,6 +538,7 @@ export function DataTable<TData, TValue = unknown>({
       columnOrder,
       columnSizing,
       columnPinning,
+      expanded,
       ...(manualPagination
         ? {
             pagination: {
@@ -507,6 +574,12 @@ export function DataTable<TData, TValue = unknown>({
         typeof updater === "function" ? updater(columnPinning) : updater;
       if (columnPinningProp === undefined) setColumnPinningInner(next);
       onColumnPinningChange?.(next);
+    },
+    onExpandedChange: (updater) => {
+      const next =
+        typeof updater === "function" ? updater(expanded) : updater;
+      if (expandedProp === undefined) setExpandedInner(next);
+      onExpandedChange?.(next);
     },
     onSortingChange: (updater) => {
       const next = typeof updater === "function" ? updater(sorting) : updater;
@@ -559,6 +632,7 @@ export function DataTable<TData, TValue = unknown>({
         : undefined,
     getPaginationRowModel:
       enablePagination && !manualPagination ? getPaginationRowModel() : undefined,
+    getExpandedRowModel: expansionEnabled ? getExpandedRowModel() : undefined,
   });
 
   const rows = table.getRowModel().rows;
@@ -774,34 +848,47 @@ export function DataTable<TData, TValue = unknown>({
                 })}
               </SortableRow>
             ) : (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() ? "selected" : undefined}
-              >
-                {row.getVisibleCells().map((cell) => {
-                  const pin = pinStyle(cell.column);
-                  const isEditing =
-                    editingCell?.rowId === row.id &&
-                    editingCell?.columnId === cell.column.id;
-                  return (
-                    <TableCell
-                      key={cell.id}
-                      className={sepCellClass}
-                      style={pin}
-                    >
-                      <EditableCell
-                        cell={cell}
-                        editing={isEditing}
-                        onStartEdit={() => startEdit(row.id, cell.column.id)}
-                        onCommit={(v) => commitEdit(row.id, cell.column.id, v)}
-                        onCancel={cancelEdit}
+              <React.Fragment key={row.id}>
+                <TableRow
+                  data-state={row.getIsSelected() ? "selected" : undefined}
+                >
+                  {row.getVisibleCells().map((cell) => {
+                    const pin = pinStyle(cell.column);
+                    const isEditing =
+                      editingCell?.rowId === row.id &&
+                      editingCell?.columnId === cell.column.id;
+                    return (
+                      <TableCell
+                        key={cell.id}
+                        className={sepCellClass}
+                        style={pin}
                       >
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </EditableCell>
+                        <EditableCell
+                          cell={cell}
+                          editing={isEditing}
+                          onStartEdit={() => startEdit(row.id, cell.column.id)}
+                          onCommit={(v) => commitEdit(row.id, cell.column.id, v)}
+                          onCancel={cancelEdit}
+                        >
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </EditableCell>
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+                {/* Expanded sub-row: a single full-width <td> spanning every
+                 * visible column. Renders only when the toggle is open. */}
+                {expansionEnabled && row.getIsExpanded() && renderSubRow ? (
+                  <TableRow data-expanded-of={row.id}>
+                    <TableCell
+                      colSpan={row.getVisibleCells().length}
+                      className="p-0 bg-zen-muted/30"
+                    >
+                      {renderSubRow(row)}
                     </TableCell>
-                  );
-                })}
-              </TableRow>
+                  </TableRow>
+                ) : null}
+              </React.Fragment>
             ),
           )
         )}

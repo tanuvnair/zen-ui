@@ -686,7 +686,62 @@ const columns = [
       </section>
 
       <section className="demo-section">
-        <h2>21. Everything together</h2>
+        <h2>21. Expandable rows</h2>
+        <CodeExample
+          title="renderSubRow renders a full-width detail panel under each expanded row"
+          description={`Prepends a chevron toggle column. Click it (or press Enter/Space when focused) to reveal the sub-row. Caller controls the panel content; DataTable just owns the toggle + the slot. Not wired into virtualized mode in this release.`}
+          code={`<DataTable
+  data={small}
+  columns={columns}
+  renderSubRow={(row) => (
+    <div className="px-6 py-3 text-sm">
+      <strong>Email:</strong> {row.original.email}<br />
+      <strong>Department:</strong> {row.original.department}<br />
+      <strong>Manager:</strong> {row.original.manager}
+    </div>
+  )}
+/>`}
+        >
+          <DataTable
+            data={SMALL}
+            columns={columns}
+            renderSubRow={(row) => (
+              <div
+                style={{
+                  padding: "1rem 1.6rem",
+                  fontSize: "1.3rem",
+                  display: "grid",
+                  gridTemplateColumns: "repeat(3, 1fr)",
+                  gap: "0.6rem 1.6rem",
+                  color: "var(--zen-color-foreground)",
+                }}
+              >
+                <div>
+                  <strong>Department:</strong> {row.original.department}
+                </div>
+                <div>
+                  <strong>Location:</strong> {row.original.location}
+                </div>
+                <div>
+                  <strong>Manager:</strong> {row.original.manager}
+                </div>
+                <div>
+                  <strong>Phone:</strong> {row.original.phone}
+                </div>
+                <div>
+                  <strong>Salary:</strong> ₹{row.original.salary.toLocaleString("en-IN")}
+                </div>
+                <div>
+                  <strong>Joined:</strong> {row.original.joinedYear}
+                </div>
+              </div>
+            )}
+          />
+        </CodeExample>
+      </section>
+
+      <section className="demo-section">
+        <h2>22. Everything together</h2>
         <CodeExample
           title="All toggles on, virtualization off (uses pagination instead)"
           code={`<DataTable

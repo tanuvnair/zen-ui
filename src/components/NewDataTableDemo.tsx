@@ -577,16 +577,20 @@ const handleOrderChange = (orderedIds: string[]) => {
       </section>
 
       <section className="demo-section">
-        <h2>17. Column pinning + virtualization</h2>
+        <h2>17. Virtualization + pinning + resize + reorder + filters</h2>
         <CodeExample
-          title="Pinning works in the virtualized grid too"
-          description={`Requires explicit \`size\` on each column so the row overflows horizontally — that's what pinning pins against. Sticky-header in virtualized mode is unconditional, so this gives you a full 2-D freeze on 2 000 rows.`}
+          title="The virtualized grid now wires column resize, reorder, and per-column filters"
+          description={`Drag any header sideways to reorder; drag the right edge to resize (and the body re-flows because the grid template reads the live columnSizing state). Per-column filters render as a second sticky row under the header — pinned columns keep their offsets so the inputs travel with the column on horizontal scroll. All on 2 000 virtualized rows.`}
           code={`<DataTable
   data={large}
-  columns={sizedColumns}    // each column has \`size: <px>\`
+  columns={sizedColumns}      // each column has \`size: <px>\`
   enableVirtualization
   enableColumnPinning
   initialColumnPinning={{ left: ["name"], right: ["lastSeen"] }}
+  enableColumnResizing
+  enableColumnOrdering
+  enablePerColumnFilters
+  enableSorting
   maxBodyHeight={360}
 />`}
         >
@@ -596,6 +600,10 @@ const handleOrderChange = (orderedIds: string[]) => {
             enableVirtualization
             enableColumnPinning
             initialColumnPinning={{ left: ["name"], right: ["lastSeen"] }}
+            enableColumnResizing
+            enableColumnOrdering
+            enablePerColumnFilters
+            enableSorting
             maxBodyHeight={360}
           />
         </CodeExample>

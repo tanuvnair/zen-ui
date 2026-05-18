@@ -1134,6 +1134,12 @@ export function DataTable<TData, TValue = unknown>({
             emptyMessage={emptyMessage}
             loading={loading}
             enableColumnPinning={enableColumnPinning}
+            enableColumnResizing={enableColumnResizing}
+            enableColumnOrdering={enableColumnOrdering}
+            enablePerColumnFilters={enablePerColumnFilters}
+            visibleColumnIds={visibleColumnIds}
+            onColumnDragEnd={handleColumnDragEnd}
+            sensors={sensors}
             editingCell={editingCell}
             onStartEdit={startEdit}
             onCommitEdit={commitEdit}
@@ -2063,6 +2069,12 @@ function VirtualizedBody<TData>({
   emptyMessage,
   loading,
   enableColumnPinning,
+  enableColumnResizing,
+  enableColumnOrdering,
+  enablePerColumnFilters,
+  visibleColumnIds,
+  onColumnDragEnd,
+  sensors,
   editingCell,
   onStartEdit,
   onCommitEdit,
@@ -2075,6 +2087,12 @@ function VirtualizedBody<TData>({
   emptyMessage: string;
   loading: boolean;
   enableColumnPinning?: boolean;
+  enableColumnResizing?: boolean;
+  enableColumnOrdering?: boolean;
+  enablePerColumnFilters?: boolean;
+  visibleColumnIds: string[];
+  onColumnDragEnd: (event: DragEndEvent) => void;
+  sensors: ReturnType<typeof useSensors>;
   editingCell: EditingState | null;
   onStartEdit: (rowId: string, columnId: string) => void;
   onCommitEdit: (rowId: string, columnId: string, value: unknown) => void;
@@ -2118,11 +2136,23 @@ function VirtualizedBody<TData>({
   });
 
   const visibleColumns = table.getVisibleLeafColumns();
+  /* Column width source of truth:
+   *   1. live resize state (columnSizing[col.id]) overrides everything;
+   *   2. column def's explicit `size` if set;
+   *   3. otherwise share the remaining width via `minmax(0, 1fr)`.
+   *
+   * The runtime resize state has to override the columnDef, otherwise
+   * dragging the resize handle wouldn't visually move the body cells in
+   * virtualized mode (the grid template would keep rendering the old
+   * static size). */
+  const sizingState = table.getState().columnSizing;
   const gridTemplateColumns = visibleColumns
     .map((col) => {
-      const size = col.getSize();
-      const hasExplicit = col.columnDef.size !== undefined;
-      return hasExplicit && size && size !== 150 ? `${size}px` : "minmax(0, 1fr)";
+      const stateSize = sizingState[col.id];
+      if (stateSize !== undefined) return `${stateSize}px`;
+      const explicit = col.columnDef.size;
+      if (explicit !== undefined && explicit !== 150) return `${explicit}px`;
+      return "minmax(0, 1fr)";
     })
     .join(" ");
 
@@ -2139,70 +2169,104 @@ function VirtualizedBody<TData>({
       aria-rowcount={rows.length + 1}
       aria-colcount={colCount}
     >
-      {/* Sticky header row — same grid template as body rows so columns align */}
-      {table.getHeaderGroups().map((hg) => (
-        <div
-          key={hg.id}
-          role="row"
-          style={{
-            display: "grid",
-            gridTemplateColumns,
-            position: "sticky",
-            top: 0,
-            zIndex: 1,
-            background: "var(--zen-color-background)",
-            borderBottom: "1px solid var(--zen-color-border)",
-          }}
-        >
-          {hg.headers.map((header) => {
-            const canSort = header.column.getCanSort();
-            const sorted = header.column.getIsSorted();
-            const pin = pinStyle(header.column);
-            return (
-              <div
-                key={header.id}
-                role="columnheader"
-                data-active={sorted ? "true" : undefined}
-                aria-sort={
-                  sorted === "asc"
-                    ? "ascending"
-                    : sorted === "desc"
-                    ? "descending"
-                    : undefined
-                }
-                className={cn(
-                  "text-sm font-medium text-zen-muted-fg flex items-center transition-colors",
-                  canSort && "hover:bg-zen-muted",
-                  "data-[active=true]:bg-zen-primary-soft data-[active=true]:text-zen-primary-soft-fg",
-                )}
-                style={{
-                  minWidth: 0,
-                  ...(pin ?? {}),
-                  /* Header row is already sticky vertically with z=1; lift
-                   * pinned header cells to z=2 so the corner stacks above
-                   * both non-pinned header cells and pinned body cells. */
-                  ...(pin ? { zIndex: 2 } : {}),
-                }}
-              >
-                {header.isPlaceholder ? null : canSort ? (
-                  <button
-                    type="button"
-                    onClick={header.column.getToggleSortingHandler()}
-                    className="w-full h-full px-2 py-2 inline-flex items-center gap-1 bg-transparent border-0 cursor-pointer text-inherit font-inherit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zen-ring focus-visible:ring-inset"
+      {/* Sticky header — wraps the actual <thead>-equivalent rows in a
+       * single sticky container so they stay flush together (header +
+       * per-column filter row, when on) and so the DndContext for
+       * column ordering wraps both. */}
+      <div
+        style={{
+          position: "sticky",
+          top: 0,
+          zIndex: 1,
+          background: "var(--zen-color-background)",
+          borderBottom: "1px solid var(--zen-color-border)",
+        }}
+      >
+        {(enableColumnOrdering ? (
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={onColumnDragEnd}
+          >
+            <SortableContext
+              items={visibleColumnIds}
+              strategy={horizontalListSortingStrategy}
+            >
+              {table.getHeaderGroups().map((hg) => (
+                <div
+                  key={hg.id}
+                  role="row"
+                  style={{ display: "grid", gridTemplateColumns }}
+                >
+                  {hg.headers.map((header) => (
+                    <VirtSortableHeaderCell
+                      key={header.id}
+                      header={header}
+                      pinStyle={pinStyle(header.column)}
+                      enableColumnResizing={enableColumnResizing}
+                    />
+                  ))}
+                </div>
+              ))}
+            </SortableContext>
+          </DndContext>
+        ) : (
+          table.getHeaderGroups().map((hg) => (
+            <div
+              key={hg.id}
+              role="row"
+              style={{ display: "grid", gridTemplateColumns }}
+            >
+              {hg.headers.map((header) => (
+                <VirtHeaderCell
+                  key={header.id}
+                  header={header}
+                  pinStyle={pinStyle(header.column)}
+                  enableColumnResizing={enableColumnResizing}
+                />
+              ))}
+            </div>
+          ))
+        ))}
+
+        {/* Per-column filter row — second sticky <tr>-equivalent below
+         * the header row when enabled. Same grid template so columns
+         * stay aligned. Pinned cells keep their offsets so the filter
+         * inputs travel with their column on horizontal scroll. */}
+        {enablePerColumnFilters &&
+          table.getHeaderGroups().map((hg) => (
+            <div
+              key={`${hg.id}-filter`}
+              role="row"
+              style={{
+                display: "grid",
+                gridTemplateColumns,
+                borderTop: "1px solid var(--zen-color-border)",
+              }}
+            >
+              {hg.headers.map((header) => {
+                const pin = pinStyle(header.column);
+                return (
+                  <div
+                    key={`${header.id}-filter`}
+                    style={{
+                      padding: "0.4rem 0.5rem",
+                      minWidth: 0,
+                      background: "var(--zen-color-background)",
+                      ...(pin ?? {}),
+                      ...(pin ? { zIndex: 2 } : {}),
+                    }}
                   >
-                    {flexRender(header.column.columnDef.header, header.getContext())}
-                    <SortIndicator state={sorted} />
-                  </button>
-                ) : (
-                  <span className="px-2 py-2 inline-flex items-center gap-1">
-                    {flexRender(header.column.columnDef.header, header.getContext())}
-                  </span>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      ))}
+                    {header.column.getCanFilter() &&
+                    !header.id.startsWith("__") ? (
+                      <FilterCell column={header.column} />
+                    ) : null}
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+      </div>
 
       {/* Virtualized body — absolute-positioned rows, each its own grid */}
       <div style={{ height: virtualizer.getTotalSize(), position: "relative" }}>
@@ -2296,6 +2360,167 @@ function VirtualizedBody<TData>({
       </div>
       {/* Hidden helper to silence a11y linters that complain about empty <tbody> */}
       <span hidden aria-hidden>{colCount} columns</span>
+    </div>
+  );
+}
+
+/* ----------------------------- Virt header cells --------------------- */
+/**
+ * Renders the inner content of a virtualized header cell: sort button +
+ * sort indicator (when sortable), and an optional resize handle on the
+ * right edge. Used by both VirtHeaderCell (static) and
+ * VirtSortableHeaderCell (drag-to-reorder) so the cell content stays in
+ * one place.
+ */
+function VirtHeaderCellInner<TData, TValue>({
+  header,
+  enableColumnResizing,
+}: {
+  header: import("@tanstack/react-table").Header<TData, TValue>;
+  enableColumnResizing?: boolean;
+}) {
+  const canSort = header.column.getCanSort();
+  const sorted = header.column.getIsSorted();
+  const isResizing = header.column.getIsResizing();
+  return (
+    <>
+      {header.isPlaceholder ? null : canSort ? (
+        <button
+          type="button"
+          onClick={header.column.getToggleSortingHandler()}
+          className="w-full h-full px-2 py-2 inline-flex items-center gap-1 bg-transparent border-0 cursor-pointer text-inherit font-inherit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zen-ring focus-visible:ring-inset"
+        >
+          {flexRender(header.column.columnDef.header, header.getContext())}
+          <SortIndicator state={sorted} />
+        </button>
+      ) : (
+        <span className="px-2 py-2 inline-flex items-center gap-1">
+          {flexRender(header.column.columnDef.header, header.getContext())}
+        </span>
+      )}
+      {enableColumnResizing && header.column.getCanResize() ? (
+        <button
+          type="button"
+          aria-label={`Resize ${header.column.id}`}
+          onMouseDown={header.getResizeHandler()}
+          onTouchStart={header.getResizeHandler()}
+          onClick={(e) => e.stopPropagation()}
+          /* stopPropagation on pointer events too, so dragging the
+           * resize handle doesn't also activate the column-reorder
+           * drag listener attached to the outer cell. */
+          onPointerDown={(e) => e.stopPropagation()}
+          className={cn(
+            "absolute right-0 top-0 h-full w-1.5 cursor-col-resize select-none touch-none",
+            "bg-transparent border-0 p-0",
+            "hover:bg-zen-primary",
+            isResizing && "bg-zen-primary",
+          )}
+        />
+      ) : null}
+    </>
+  );
+}
+
+/** Non-orderable header cell. Outer <div> applies pin styling + sort
+ *  hover/active state. */
+function VirtHeaderCell<TData, TValue>({
+  header,
+  pinStyle,
+  enableColumnResizing,
+}: {
+  header: import("@tanstack/react-table").Header<TData, TValue>;
+  pinStyle?: React.CSSProperties;
+  enableColumnResizing?: boolean;
+}) {
+  const canSort = header.column.getCanSort();
+  const sorted = header.column.getIsSorted();
+  return (
+    <div
+      role="columnheader"
+      data-active={sorted ? "true" : undefined}
+      aria-sort={
+        sorted === "asc"
+          ? "ascending"
+          : sorted === "desc"
+          ? "descending"
+          : undefined
+      }
+      className={cn(
+        "text-sm font-medium text-zen-muted-fg flex items-center transition-colors relative",
+        canSort && "hover:bg-zen-muted",
+        "data-[active=true]:bg-zen-primary-soft data-[active=true]:text-zen-primary-soft-fg",
+      )}
+      style={{
+        minWidth: 0,
+        ...(pinStyle ?? {}),
+        ...(pinStyle ? { zIndex: 2 } : {}),
+      }}
+    >
+      <VirtHeaderCellInner
+        header={header}
+        enableColumnResizing={enableColumnResizing}
+      />
+    </div>
+  );
+}
+
+/** Sortable header cell. Wraps the same content as VirtHeaderCell but
+ *  attaches @dnd-kit's useSortable so the column header is draggable.
+ *  Must be rendered inside a <SortableContext>. */
+function VirtSortableHeaderCell<TData, TValue>({
+  header,
+  pinStyle,
+  enableColumnResizing,
+}: {
+  header: import("@tanstack/react-table").Header<TData, TValue>;
+  pinStyle?: React.CSSProperties;
+  enableColumnResizing?: boolean;
+}) {
+  const {
+    setNodeRef,
+    attributes,
+    listeners,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: header.column.id });
+  const canSort = header.column.getCanSort();
+  const sorted = header.column.getIsSorted();
+  return (
+    <div
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      /* role/aria explicitly after the dnd-kit spread so they win over
+       * useSortable's default `role="button"`. */
+      role="columnheader"
+      data-active={sorted ? "true" : undefined}
+      aria-sort={
+        sorted === "asc"
+          ? "ascending"
+          : sorted === "desc"
+          ? "descending"
+          : undefined
+      }
+      className={cn(
+        "text-sm font-medium text-zen-muted-fg flex items-center transition-colors relative",
+        canSort && "hover:bg-zen-muted",
+        "data-[active=true]:bg-zen-primary-soft data-[active=true]:text-zen-primary-soft-fg",
+      )}
+      style={{
+        minWidth: 0,
+        transform: CSS.Transform.toString(transform),
+        transition,
+        opacity: isDragging ? 0.6 : 1,
+        cursor: "grab",
+        ...(pinStyle ?? {}),
+        ...(pinStyle ? { zIndex: 2 } : {}),
+      }}
+    >
+      <VirtHeaderCellInner
+        header={header}
+        enableColumnResizing={enableColumnResizing}
+      />
     </div>
   );
 }

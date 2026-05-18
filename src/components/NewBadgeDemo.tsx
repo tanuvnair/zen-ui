@@ -86,11 +86,14 @@ const NewBadgeDemo: React.FC = () => (
       <CodeExample
         title="className wins over CVA defaults (tailwind-merge)"
         code={`<Badge className="bg-zen-accent-purple text-white">Beta</Badge>
-<Badge className="bg-zen-accent-orange text-white">Hot</Badge>`}
+<Badge className="bg-zen-accent-magenta text-white">New</Badge>
+<Badge className="bg-zen-accent-orange text-zen-foreground">Hot</Badge>
+<Badge className="bg-zen-accent-cream text-zen-foreground">Soft</Badge>`}
       >
         <Badge className="bg-zen-accent-purple text-white">Beta</Badge>
-        <Badge className="bg-zen-accent-orange text-white">Hot</Badge>
-        <Badge className="bg-zen-accent-light-blue text-zen-foreground">Cool</Badge>
+        <Badge className="bg-zen-accent-magenta text-white">New</Badge>
+        <Badge className="bg-zen-accent-orange text-zen-foreground">Hot</Badge>
+        <Badge className="bg-zen-accent-cream text-zen-foreground">Soft</Badge>
       </CodeExample>
     </section>
 

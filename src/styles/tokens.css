@@ -69,6 +69,8 @@
   --zen-color-accent-orange: #F2622E;
   --zen-color-accent-purple: #3A136D;
   --zen-color-accent-light-blue: #B1C7D7;
+  --zen-color-accent-magenta: #D9298C;
+  --zen-color-accent-cream: #F2E2C9;
 
   --zen-radius-sm: 4px;
   --zen-radius-md: 6px;
@@ -107,42 +109,39 @@
 }
 
 /* ===================================================================== *
- * ZEN THEME — Algorisys Zen palette                                     *
+ * ZEN THEME — Algorisys Zen palette (cream / orange / magenta / purple) *
  *                                                                       *
- * Full 10-step shade scales for every role exposed as                   *
- * --zen-color-<role>-<step> tokens; the role-based aliases              *
- * (--zen-color-<role>, -soft, -soft-fg, -fg) map to specific steps so   *
- * the existing components continue to work unchanged.                   *
+ * Brand palette (from design spec):                                     *
+ *   Cream    #F2E2C9   — soft surface / brand accent                    *
+ *   Orange   #F8A93F   — warning scale anchor                           *
+ *   Magenta  #D9298C   — secondary brand accent                         *
+ *   Purple   #5B1494   — primary identity colour                        *
  *                                                                       *
- *   Primary  blue:        500 = #214698                                 *
- *   Neutral  dark grey:   500 = #131A25                                 *
- *   Success  green:       500 = #1A7A1E                                 *
- *   Info     teal:        500 = #007FAD                                 *
- *   Warning  orange:      500 = #ED8E00                                 *
- *   Destructive red:      500 = #E23318                                 *
+ * Success / info / error keep their conventional green / teal / red so  *
+ * users can still parse semantic affordances unchanged.                 *
  *                                                                       *
  * Convention: -soft = step 20, -soft-fg = step 700, on white surface.   *
  * ===================================================================== */
 :root[data-theme="zen-theme"] {
-  /* ---- Primary (blue) scale ----------------------------------------- */
-  --zen-color-primary-20: #DBE9FA;
-  --zen-color-primary-50: #DBE9FA;
-  --zen-color-primary-100: #A8C7F4;
-  --zen-color-primary-200: #A8C7F4;
-  --zen-color-primary-300: #769EE0;
-  --zen-color-primary-400: #4F76C1;
-  --zen-color-primary-500: #214698;
-  --zen-color-primary-600: #183582;
-  --zen-color-primary-700: #10276D;
-  --zen-color-primary-800: #0F2046;
-  --zen-color-primary-900: #09132A;
+  /* ---- Primary (purple) scale --------------------------------------- */
+  --zen-color-primary-20: #F0E6F9;
+  --zen-color-primary-50: #E2CDF2;
+  --zen-color-primary-100: #CBA8E6;
+  --zen-color-primary-200: #B284D6;
+  --zen-color-primary-300: #9760C2;
+  --zen-color-primary-400: #7A3DAA;
+  --zen-color-primary-500: #5B1494;
+  --zen-color-primary-600: #4A0F7C;
+  --zen-color-primary-700: #380B62;
+  --zen-color-primary-800: #270849;
+  --zen-color-primary-900: #160530;
 
   --zen-color-primary: var(--zen-color-primary-500);
   --zen-color-primary-fg: #ffffff;
   --zen-color-primary-soft: var(--zen-color-primary-20);
   --zen-color-primary-soft-fg: var(--zen-color-primary-700);
 
-  /* ---- Neutral / greys --------------------------------------------- */
+  /* ---- Neutral / greys (unchanged) --------------------------------- */
   --zen-color-neutral-10: #FAFAFB;
   --zen-color-neutral-30: #F3F3F4;
   --zen-color-neutral-40: #ECEDED;
@@ -162,7 +161,7 @@
   --zen-color-neutral-soft: var(--zen-color-neutral-30);
   --zen-color-neutral-soft-fg: var(--zen-color-neutral-500);
 
-  /* ---- Success (green) --------------------------------------------- */
+  /* ---- Success (green — kept) -------------------------------------- */
   --zen-color-success-20: #E9FCE5;
   --zen-color-success-50: #E0F9D6;
   --zen-color-success-100: #DDF8D1;
@@ -180,7 +179,7 @@
   --zen-color-success-soft: var(--zen-color-success-20);
   --zen-color-success-soft-fg: var(--zen-color-success-700);
 
-  /* ---- Info (teal / cyan) ------------------------------------------ */
+  /* ---- Info (teal — kept) ------------------------------------------ */
   --zen-color-info-20: #EBFEFE;
   --zen-color-info-50: #E0FCFD;
   --zen-color-info-100: #C8FAFA;
@@ -198,26 +197,26 @@
   --zen-color-info-soft: var(--zen-color-info-20);
   --zen-color-info-soft-fg: var(--zen-color-info-700);
 
-  /* ---- Warning (orange) -------------------------------------------- */
-  --zen-color-warning-20: #FFF8E7;
-  --zen-color-warning-50: #FFF2D1;
-  --zen-color-warning-100: #FEF2CB;
-  --zen-color-warning-200: #FDE097;
-  --zen-color-warning-300: #F9C963;
-  --zen-color-warning-400: #F4B23D;
-  --zen-color-warning-500: #ED8E00;
-  --zen-color-warning-600: #CB7100;
-  --zen-color-warning-700: #AA5800;
-  --zen-color-warning-800: #894100;
-  --zen-color-warning-900: #713100;
+  /* ---- Warning (palette orange #F8A93F) ---------------------------- */
+  --zen-color-warning-20: #FFF6E7;
+  --zen-color-warning-50: #FEEDCF;
+  --zen-color-warning-100: #FDE2B5;
+  --zen-color-warning-200: #FBD089;
+  --zen-color-warning-300: #FABA5F;
+  --zen-color-warning-400: #F9B14E;
+  --zen-color-warning-500: #F8A93F;
+  --zen-color-warning-600: #DC8E1F;
+  --zen-color-warning-700: #B97615;
+  --zen-color-warning-800: #8D5A0E;
+  --zen-color-warning-900: #6B4408;
 
   --zen-color-warning: var(--zen-color-warning-500);
-  /* Warning solid bg is bright orange — dark text gives WCAG AA contrast */
+  /* Warning solid bg is bright amber — dark text gives WCAG AA contrast */
   --zen-color-warning-fg: var(--zen-color-neutral-500);
   --zen-color-warning-soft: var(--zen-color-warning-20);
   --zen-color-warning-soft-fg: var(--zen-color-warning-800);
 
-  /* ---- Destructive / error (red) ----------------------------------- */
+  /* ---- Destructive / error (red — kept) ---------------------------- */
   --zen-color-error-20: #FFF1EA;
   --zen-color-error-50: #FFE1D1;
   --zen-color-error-100: #FDE4D0;
@@ -235,6 +234,32 @@
   --zen-color-error-soft: var(--zen-color-error-20);
   --zen-color-error-soft-fg: var(--zen-color-error-700);
 
+  /* ---- Brand secondary — magenta (palette #D9298C) ----------------- */
+  --zen-color-magenta-20: #FCEAF3;
+  --zen-color-magenta-50: #F8D2E5;
+  --zen-color-magenta-100: #F3B0D1;
+  --zen-color-magenta-200: #EC85B6;
+  --zen-color-magenta-300: #E25E9F;
+  --zen-color-magenta-400: #DE3F92;
+  --zen-color-magenta-500: #D9298C;
+  --zen-color-magenta-600: #B11F73;
+  --zen-color-magenta-700: #8C175A;
+  --zen-color-magenta-800: #680F42;
+  --zen-color-magenta-900: #46092C;
+
+  /* ---- Brand accent — cream (palette #F2E2C9) ---------------------- */
+  --zen-color-cream-20: #FDFAF3;
+  --zen-color-cream-50: #FAF3E2;
+  --zen-color-cream-100: #F7ECD3;
+  --zen-color-cream-200: #F2E2C9;
+  --zen-color-cream-300: #EAD3AB;
+  --zen-color-cream-400: #DDBC85;
+  --zen-color-cream-500: #C99F5A;
+  --zen-color-cream-600: #A88040;
+  --zen-color-cream-700: #84612C;
+  --zen-color-cream-800: #5F451D;
+  --zen-color-cream-900: #3E2C12;
+
   /* ---- Surface & border (Shades + Neutrals) ------------------------ */
   --zen-color-background: #FFFFFF;
   --zen-color-foreground: var(--zen-color-neutral-500);
@@ -249,10 +274,16 @@
   --zen-status-away: var(--zen-color-warning-500);
   --zen-status-busy: var(--zen-color-error-500);
 
-  /* ---- Accents (kept for compatibility with default theme) --------- */
+  /* ---- Accents (named, for ad-hoc highlights / Badge tags etc.) ---- *
+   * Aliased to the new palette so existing utility classes like        *
+   * bg-zen-accent-orange / bg-zen-accent-purple resolve to brand hues. */
   --zen-color-accent-orange: var(--zen-color-warning-500);
-  --zen-color-accent-purple: #3A136D;
-  --zen-color-accent-light-blue: var(--zen-color-primary-200);
+  --zen-color-accent-purple: var(--zen-color-primary-500);
+  --zen-color-accent-magenta: var(--zen-color-magenta-500);
+  --zen-color-accent-cream: var(--zen-color-cream-200);
+  /* Kept for backwards compatibility with the default theme. Mapped to *
+   * cream because the new palette has no light-blue.                   */
+  --zen-color-accent-light-blue: var(--zen-color-cream-200);
 }
 
 /* ===================================================================== *
@@ -307,6 +338,8 @@
   --zen-color-accent-orange: #F2622E;
   --zen-color-accent-purple: #B19CD8;
   --zen-color-accent-light-blue: #B1C7D7;
+  --zen-color-accent-magenta: #E55BA8;
+  --zen-color-accent-cream: #3E2C12;
 }
 
 /* ===================================================================== *

@@ -59,6 +59,14 @@ export default defineConfig({
         'muted-fg': 'var(--zen-color-muted-fg)',
         border: 'var(--zen-color-border)',
         ring: 'var(--zen-color-ring)',
+        // Named accents — surface ad-hoc brand colours (badges, decorative
+        // highlights). Defined in tokens.css; alias here so utility classes
+        // like bg-zen-accent-magenta / text-zen-accent-purple resolve.
+        'accent-orange': 'var(--zen-color-accent-orange)',
+        'accent-purple': 'var(--zen-color-accent-purple)',
+        'accent-magenta': 'var(--zen-color-accent-magenta)',
+        'accent-cream': 'var(--zen-color-accent-cream)',
+        'accent-light-blue': 'var(--zen-color-accent-light-blue)',
       },
     },
     borderRadius: {

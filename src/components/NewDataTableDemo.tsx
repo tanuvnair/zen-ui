@@ -605,7 +605,36 @@ const handleOrderChange = (orderedIds: string[]) => {
       </section>
 
       <section className="demo-section">
-        <h2>19. Everything together</h2>
+        <h2>19. Inline cell editing</h2>
+        <CodeExample
+          title="meta.editable opts a column in; onCellEdit gets the commit"
+          description={`Double-click (or focus + Enter / Space) any editable cell. Text columns get an <Input>, number columns get <NumberField> (with ± steppers), select columns open the Select primitive. Enter or blur commits, Esc cancels. The caller owns the data array — onCellEdit returns the new value and you decide how to apply it.`}
+          code={`const [rows, setRows] = useState(makePeople(8));
+
+const columns = [
+  { accessorKey: "name",   header: "Name",   meta: { editable: true } },
+  { accessorKey: "email",  header: "Email",  meta: { editable: true } },
+  { accessorKey: "role",   header: "Role",
+    meta: { editable: true, editVariant: "select",
+            editOptions: ROLES.map(r => ({ label: r, value: r })) } },
+  { accessorKey: "salary", header: "Salary",
+    meta: { editable: true, editVariant: "number" } },
+];
+
+<DataTable
+  data={rows}
+  columns={columns}
+  onCellEdit={({ rowId, columnId, value }) =>
+    setRows(prev => prev.map(r =>
+      r.id === rowId ? { ...r, [columnId]: value } : r))}
+/>`}
+        >
+          <InlineEditDemo />
+        </CodeExample>
+      </section>
+
+      <section className="demo-section">
+        <h2>20. Everything together</h2>
         <CodeExample
           title="All toggles on, virtualization off (uses pagination instead)"
           code={`<DataTable
@@ -640,6 +669,71 @@ const handleOrderChange = (orderedIds: string[]) => {
         </CodeExample>
       </section>
     </div>
+  );
+};
+
+/* -------------------------- inline-edit demo ---------------------- */
+/**
+ * Owns its own data so onCellEdit can patch it. Stable IDs (Person.id)
+ * mean the editing-cell pointer survives re-renders even after a commit
+ * updates the row.
+ */
+const editColumns: ColumnDef<Person>[] = [
+  {
+    accessorKey: "name",
+    header: "Name",
+    meta: { editable: true },
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+    meta: { editable: true },
+  },
+  {
+    accessorKey: "role",
+    header: "Role",
+    meta: {
+      editable: true,
+      editVariant: "select",
+      editOptions: ROLES.map((r) => ({ label: r, value: r })),
+    },
+  },
+  {
+    accessorKey: "salary",
+    header: "Salary (₹)",
+    cell: ({ row }) =>
+      typeof row.original.salary === "number"
+        ? row.original.salary.toLocaleString("en-IN")
+        : row.original.salary,
+    meta: { editable: true, editVariant: "number" },
+  },
+  { accessorKey: "lastSeen", header: "Last seen" },
+];
+
+const InlineEditDemo: React.FC = () => {
+  const [rows, setRows] = useState<Person[]>(() => makePeople(8));
+  return (
+    <DataTable
+      data={rows}
+      columns={editColumns}
+      /* rowId defaults to the row's array index — for this static demo
+       * that's stable across cell-edit re-renders. For data that can
+       * also reorder, expose `getRowId` per row. */
+      onCellEdit={({ rowId, columnId, value }) => {
+        const idx = Number(rowId);
+        setRows((prev) =>
+          prev.map((r, i) =>
+            i === idx
+              ? {
+                  ...r,
+                  [columnId]:
+                    columnId === "salary" ? Number(value ?? 0) : value,
+                }
+              : r,
+          ),
+        );
+      }}
+    />
   );
 };
 

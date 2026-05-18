@@ -68,6 +68,11 @@ import {
   TableRow,
 } from "./table";
 import { FilterCell, filterFnByVariant, type FilterVariant } from "./filters";
+import {
+  EditableCell,
+  type CellEditPayload,
+  type EditingState,
+} from "./edit-cell";
 
 /**
  * DataTable — headless via @tanstack/react-table, optionally virtualized
@@ -162,6 +167,26 @@ export interface DataTableProps<TData, TValue = unknown> {
   enableRowOrdering?: boolean;
   onRowOrderChange?: (orderedIds: string[]) => void;
   /**
+   * Inline cell editing. Declare `meta.editable: true` (or a
+   * `(row) => boolean`) on any column to opt that column in. Double-click
+   * (or Enter when focused) swaps the cell content for the matching input
+   * — text by default, or `meta.editVariant: "number" | "select"`. Enter
+   * commits, Esc cancels, blur commits.
+   *
+   *   <DataTable
+   *     data={rows}
+   *     columns={cols}
+   *     onCellEdit={({ rowId, columnId, value }) =>
+   *       setRows(prev => prev.map(r =>
+   *         r.id === rowId ? { ...r, [columnId]: value } : r))}
+   *   />
+   *
+   * Pass `getRowId` on the table options (via column meta or a wrapper)
+   * so rowId is stable across re-renders.
+   */
+  onCellEdit?: (payload: CellEditPayload) => void;
+
+  /**
    * Pin the header row to the top of a scroll viewport. In virtualized mode
    * the header is already sticky and this prop is ignored. In non-virtualized
    * mode the body is wrapped in a `maxBodyHeight` scroll container so the
@@ -240,6 +265,7 @@ export function DataTable<TData, TValue = unknown>({
   columnPinning: columnPinningProp,
   initialColumnPinning,
   onColumnPinningChange,
+  onCellEdit,
 
   pageSize = 10,
   pageSizeOptions = [10, 20, 50, 100],
@@ -280,6 +306,24 @@ export function DataTable<TData, TValue = unknown>({
       initialColumnPinning ?? { left: [], right: [] },
     );
   const columnPinning = columnPinningProp ?? columnPinningInner;
+
+  /* Which cell is currently being edited. Single-cell editing only —
+   * starting a new edit auto-commits the previous one would be a nice
+   * upgrade later but for v1 we keep it simple. */
+  const [editingCell, setEditingCell] = React.useState<EditingState | null>(null);
+  const startEdit = React.useCallback(
+    (rowId: string, columnId: string) =>
+      setEditingCell({ rowId, columnId }),
+    [],
+  );
+  const commitEdit = React.useCallback(
+    (rowId: string, columnId: string, value: unknown) => {
+      setEditingCell(null);
+      onCellEdit?.({ rowId, columnId, value });
+    },
+    [onCellEdit],
+  );
+  const cancelEdit = React.useCallback(() => setEditingCell(null), []);
 
   const sorting = sortingProp ?? sortingInner;
   const filters = columnFiltersProp ?? filtersInner;
@@ -643,13 +687,24 @@ export function DataTable<TData, TValue = unknown>({
               >
                 {row.getVisibleCells().map((cell) => {
                   const pin = pinStyle(cell.column);
+                  const isEditing =
+                    editingCell?.rowId === row.id &&
+                    editingCell?.columnId === cell.column.id;
                   return (
                     <TableCell
                       key={cell.id}
                       className={sepCellClass}
                       style={pin}
                     >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      <EditableCell
+                        cell={cell}
+                        editing={isEditing}
+                        onStartEdit={() => startEdit(row.id, cell.column.id)}
+                        onCommit={(v) => commitEdit(row.id, cell.column.id, v)}
+                        onCancel={cancelEdit}
+                      >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </EditableCell>
                     </TableCell>
                   );
                 })}
@@ -661,13 +716,24 @@ export function DataTable<TData, TValue = unknown>({
               >
                 {row.getVisibleCells().map((cell) => {
                   const pin = pinStyle(cell.column);
+                  const isEditing =
+                    editingCell?.rowId === row.id &&
+                    editingCell?.columnId === cell.column.id;
                   return (
                     <TableCell
                       key={cell.id}
                       className={sepCellClass}
                       style={pin}
                     >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      <EditableCell
+                        cell={cell}
+                        editing={isEditing}
+                        onStartEdit={() => startEdit(row.id, cell.column.id)}
+                        onCommit={(v) => commitEdit(row.id, cell.column.id, v)}
+                        onCancel={cancelEdit}
+                      >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </EditableCell>
                     </TableCell>
                   );
                 })}
@@ -705,6 +771,10 @@ export function DataTable<TData, TValue = unknown>({
             emptyMessage={emptyMessage}
             loading={loading}
             enableColumnPinning={enableColumnPinning}
+            editingCell={editingCell}
+            onStartEdit={startEdit}
+            onCommitEdit={commitEdit}
+            onCancelEdit={cancelEdit}
           />
         ) : rowOrderingActive ? (
           <DndContext
@@ -1194,6 +1264,10 @@ function VirtualizedBody<TData>({
   emptyMessage,
   loading,
   enableColumnPinning,
+  editingCell,
+  onStartEdit,
+  onCommitEdit,
+  onCancelEdit,
 }: {
   table: TanStackTable<TData>;
   maxHeight: number;
@@ -1201,6 +1275,10 @@ function VirtualizedBody<TData>({
   emptyMessage: string;
   loading: boolean;
   enableColumnPinning?: boolean;
+  editingCell: EditingState | null;
+  onStartEdit: (rowId: string, columnId: string) => void;
+  onCommitEdit: (rowId: string, columnId: string, value: unknown) => void;
+  onCancelEdit: () => void;
 }) {
   /* Same pin-style algorithm as the HTML-table path. Sticky offsets read
    * from TanStack's column.getStart('left') / getAfter('right'). In
@@ -1376,6 +1454,9 @@ function VirtualizedBody<TData>({
               >
                 {row.getVisibleCells().map((cell) => {
                   const pin = pinStyle(cell.column);
+                  const isEditing =
+                    editingCell?.rowId === row.id &&
+                    editingCell?.columnId === cell.column.id;
                   return (
                     <div
                       key={cell.id}
@@ -1391,7 +1472,17 @@ function VirtualizedBody<TData>({
                         ...(pin ?? {}),
                       }}
                     >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      <EditableCell
+                        cell={cell}
+                        editing={isEditing}
+                        onStartEdit={() => onStartEdit(row.id, cell.column.id)}
+                        onCommit={(v) =>
+                          onCommitEdit(row.id, cell.column.id, v)
+                        }
+                        onCancel={onCancelEdit}
+                      >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </EditableCell>
                     </div>
                   );
                 })}

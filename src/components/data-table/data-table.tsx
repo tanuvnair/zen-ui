@@ -165,9 +165,9 @@ export interface DataTableProps<TData, TValue = unknown> {
    * a column / table option so each row has a permanent key (otherwise
    * TanStack uses row index, which changes after a reorder).
    *
-   * Not compatible with `enableVirtualization` in this release —
-   * absolute-positioned virtualized rows + dnd are non-trivial. The
-   * grip column is silently disabled when both are on.
+   * Forcibly disabled when `enableVirtualization` is on — the grip
+   * column is hidden and `onRowOrderChange` will never fire. A dev-mode
+   * `console.warn` flags the misconfig.
    */
   enableRowOrdering?: boolean;
   onRowOrderChange?: (orderedIds: string[]) => void;
@@ -191,8 +191,10 @@ export interface DataTableProps<TData, TValue = unknown> {
    * state can be controlled via `expanded` + `onExpandedChange` if you
    * need to drive it externally (e.g. expand-all from a button).
    *
-   * Not wired into virtualized mode in this release — sub-rows have
-   * variable height, which the fixed-size virtualizer doesn't model.
+   * Forcibly disabled when `enableVirtualization` is on — the expand
+   * toggle column is hidden and sub-rows won't render. A dev-mode
+   * `console.warn` flags the misconfig. Sub-rows have variable height
+   * which the fixed-size virtualizer doesn't model.
    */
   renderSubRow?: (row: Row<TData>) => React.ReactNode;
   expanded?: ExpandedState;
@@ -223,9 +225,13 @@ export interface DataTableProps<TData, TValue = unknown> {
    *     in each non-grouped column on the group-header row.
    *
    * Grouping forces expansion on under the hood, so renderSubRow and
-   * row grouping are mutually exclusive in the same table. Not wired
-   * into virtualized mode (variable sub-row count vs. fixed-size
-   * virtualizer).
+   * row grouping are mutually exclusive in the same table.
+   *
+   * **Forcibly disabled when `enableVirtualization` is on.** Mixing
+   * grouping with the fixed-size virtualizer would render group-header
+   * rows as plain data rows and mis-display aggregated values as
+   * scalars (data-integrity risk), so DataTable hard-gates the combo
+   * and emits a dev-mode `console.error`. Disable virt to use grouping.
    */
   enableGrouping?: boolean;
   grouping?: GroupingState;
@@ -494,8 +500,6 @@ export function DataTable<TData, TValue = unknown>({
     () => initialGrouping ?? [],
   );
   const grouping = groupingProp ?? groupingInner;
-  /* renderSubRow OR grouping — both rely on `getExpandedRowModel`. */
-  const expansionEnabled = !!renderSubRow || enableGrouping;
 
   /* Which cell is currently being edited. Single-cell editing only —
    * starting a new edit auto-commits the previous one would be a nice
@@ -521,10 +525,48 @@ export function DataTable<TData, TValue = unknown>({
   const visibility = columnVisibilityProp ?? visibilityInner;
   const globalFilter = globalFilterProp ?? globalFilterInner;
 
-  /* Row ordering is incompatible with virtualization here (absolute-
-   * positioned rows + dnd needs custom collision detection). Disable
-   * the grip column when both are on. */
+  /* Hard-gate three features against enableVirtualization. The
+   * virtualizer is fixed-size, so any feature that produces variable-
+   * height rows (renderSubRow), variable row counts (enableGrouping),
+   * or absolute-position-incompatible drag (enableRowOrdering) is
+   * silently disabled when virt is on. Dev-mode warnings below tell
+   * callers which combo was rejected. */
   const rowOrderingActive = enableRowOrdering && !enableVirtualization;
+  const groupingActive = enableGrouping && !enableVirtualization;
+  const subRowActive = !!renderSubRow && !enableVirtualization;
+  /* renderSubRow OR grouping — both rely on getExpandedRowModel.
+   * Both are already virt-gated above. */
+  const expansionEnabled = subRowActive || groupingActive;
+
+  /* One-shot dev-mode warning when an unsupported feature was paired
+   * with enableVirtualization. We deliberately log instead of throwing
+   * so production builds don't crash on a stale prop combo. */
+  React.useEffect(() => {
+    if (!enableVirtualization) return;
+    /* Vite + most bundlers replace import.meta.env.DEV statically at
+     * build time, so the warning block tree-shakes out of production. */
+    if (!import.meta.env?.DEV) return;
+    if (enableRowOrdering) {
+      console.warn(
+        "[DataTable] `enableRowOrdering` is not supported with `enableVirtualization`. " +
+          "The drag-handle column has been hidden.",
+      );
+    }
+    if (renderSubRow) {
+      console.warn(
+        "[DataTable] `renderSubRow` is not supported with `enableVirtualization`. " +
+          "The expand-toggle column has been hidden and sub-rows won't render.",
+      );
+    }
+    if (enableGrouping) {
+      console.error(
+        "[DataTable] `enableGrouping` is not supported with `enableVirtualization`. " +
+          "Grouping has been forcibly disabled to avoid the virtualized body " +
+          "rendering group-header rows as data rows (which would mis-display " +
+          "aggregated values as scalars). Disable virtualization to use grouping.",
+      );
+    }
+  }, [enableVirtualization, enableRowOrdering, renderSubRow, enableGrouping]);
 
   /* Prepend leading columns: drag-grip (if enabled) then select-checkbox
    * (if enabled). Both are opt-in. For user columns we also auto-attach
@@ -656,7 +698,7 @@ export function DataTable<TData, TValue = unknown>({
     enableColumnResizing,
     columnResizeMode: "onChange",
     enableColumnPinning,
-    enableGrouping,
+    enableGrouping: groupingActive,
     getRowId,
     manualPagination: !!manualPagination,
     manualSorting,
@@ -739,7 +781,10 @@ export function DataTable<TData, TValue = unknown>({
     getPaginationRowModel:
       enablePagination && !manualPagination ? getPaginationRowModel() : undefined,
     getExpandedRowModel: expansionEnabled ? getExpandedRowModel() : undefined,
-    getGroupedRowModel: enableGrouping ? getGroupedRowModel() : undefined,
+    /* groupingActive (not enableGrouping) — gated off when virtualized
+     * so getGroupedRowModel doesn't produce group rows that the virt
+     * body would render as misleading data rows. */
+    getGroupedRowModel: groupingActive ? getGroupedRowModel() : undefined,
   });
 
   const rows = table.getRowModel().rows;
@@ -1106,7 +1151,7 @@ export function DataTable<TData, TValue = unknown>({
         enableColumnFilters={enableColumnFilters}
         enableColumnVisibility={enableColumnVisibility}
         enableColumnPinning={enableColumnPinning}
-        enableGrouping={enableGrouping}
+        enableGrouping={groupingActive}
         enableExport={enableExport}
         exportFilename={exportFilename}
         exportOnlySelected={exportOnlySelected}

@@ -245,9 +245,29 @@ See the demo app `/builder/` for live examples.
 
 - **Form** — react-hook-form + Zod with FormField / FormItem / FormLabel
   / FormControl / FormDescription / FormMessage. `/form-new` demo.
-- **DataTable** — TanStack Table + Virtual. Toggleable sorting,
-  pagination, filter, row selection, column visibility, virtualization,
-  server-driven pagination. `/data-table` demo.
+- **DataTable** — TanStack Table + Virtual. Big primitive with ~30
+  opt-in capabilities (`/data-table` demo, 23 sections):
+  - **Layout**: sorting / multi-sort, client + server pagination,
+    column visibility / ordering / resizing / pinning (incl. virt),
+    column separators, sticky header, virtualization to ~2 000 rows.
+  - **Filtering**: global filter, per-column filter row with
+    `meta.filterVariant` (text / number / numberRange / select /
+    boolean) and operator menus, active-filter chips + clear-all,
+    `manualFiltering`.
+  - **Editing**: inline cell editing via `meta.editable` +
+    `onCellEdit`; text / number / select editors with Enter / Esc /
+    blur semantics.
+  - **Selection**: row selection, bulk-action bar with selected count
+    + dismiss + "Select all N matching" affordance.
+  - **Hierarchy**: expandable rows via `renderSubRow`, row grouping
+    with aggregations (`aggregationFn` + `aggregatedCell`).
+  - **Hooks**: `rowClassName` for per-row tinting, `getRowId` for
+    stable identity, `renderBulkActions`, `persistKey` for
+    localStorage snapshot of column state.
+  - **A11y**: aria-sort / aria-colcount / aria-busy / aria-live count.
+  - **Server-driven**: `manualPagination` / `manualSorting` /
+    `manualFiltering` all compose.
+  - **Export**: CSV / JSON, filtered or selected rows.
 - **Combobox** — cmdk-backed; sync (`options`) or async (`onSearch`).
   `/combobox` demo.
 - **VirtualizedItems** — drop-in windowing for huge option lists inside

@@ -78,15 +78,54 @@ a global concern.
    - [x] `stickyHeader` — pin the `<thead>` to the top of the scroll viewport
          in non-virtualized mode. Body wraps in a `maxBodyHeight` container so
          sticky has a real scroll context. Virtualized mode already does this.
-   - [ ] `enableRowGrouping` / expandable rows.
+   - [x] `enableGrouping` — group by one or more columns with built-in
+         sum/mean/count aggregations via `aggregationFn` +
+         `aggregatedCell`. Toolbar `Group by` menu lists every
+         groupable column. Hard-gated against `enableVirtualization`
+         (would mis-display aggregates as scalars) — emits a dev-mode
+         `console.error` when both are configured.
+   - [x] `renderSubRow` — caller-rendered detail panel beneath each
+         expanded row with a chevron toggle column. Hard-gated against
+         `enableVirtualization` (variable sub-row height).
    - [x] **Per-column filters** — `enablePerColumnFilters` renders an
          Input row under each filterable header; composes with the
-         global filter.
+         global filter. Now wired in virtualized mode too.
+   - [x] **Per-column filter operators** — `meta.filterVariant` picks
+         text / number / numberRange / select / boolean inputs and
+         auto-attaches the matching `filterFn`. Text/number variants
+         expose contains/equals/starts/ends + ≥/≤/etc. operator menus.
+   - [x] **Active filter chips + clear-all** — auto-shown above the
+         table when any filter is set; one chip per active filter with
+         ✕, plus a Clear-all button.
    - [x] **Multi-sort** — `enableMultiSort` prop; Shift-click adds a
          secondary sort. Header shows a small priority badge.
    - [x] **CSV / JSON export** — `enableExport` adds a toolbar menu;
          exports the filtered set (or `exportOnlySelected` for the
          checked rows). Utility columns (`__select`, `__drag`) excluded.
+   - [x] **Inline cell editing** — `meta.editable` on a column +
+         `onCellEdit` on the table. Double-click (or Enter when focused)
+         swaps the cell for the matching input (text / number / select).
+         Enter + blur commit, Esc cancels.
+   - [x] **Bulk-action bar** — `renderBulkActions` shows a contextual
+         toolbar when ≥ 1 row is selected, with built-in selected count,
+         dismiss ✕, and a "Select all N matching" affordance when the
+         filter has more matches than the current page.
+   - [x] **rowClassName hook** — per-row styling callback merged after
+         hover / selected classes. Status-based row tinting.
+   - [x] **getRowId** — exposed for stable row identity across re-renders
+         (row selection / reorder / inline edit all key by row.id).
+   - [x] **manualSorting / manualFiltering** — server-driven escape
+         hatches matching the existing `manualPagination`. All three
+         compose for a fully server-driven table.
+   - [x] **persistKey** — localStorage snapshot of column order /
+         sizing / visibility / pinning, versioned for shape-change
+         safety.
+   - [x] **a11y polish** — aria-sort on headers, aria-colcount on virt,
+         aria-busy on body during loading, aria-labelledby for "Rows
+         per page", aria-live count in the bulk-action bar.
+   - [ ] **Excel / PDF export** — would pull in `xlsx` / `jspdf` deps;
+         CSV + JSON cover most needs today.
+   - [ ] **Tests** — none of the DataTable behaviors are unit-covered.
 
 2. [x] **Lazy-loaded options for Select + DropdownMenu** —
        `<VirtualizedItems>` helper shipped under

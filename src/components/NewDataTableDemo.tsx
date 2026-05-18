@@ -128,6 +128,36 @@ const variantColumns: ColumnDef<Person>[] = [
   },
 ];
 
+/* Grouped columns — Role is the group key, Salary aggregates as a sum
+ * (Σ), Status as a count. Other columns are passthrough so when a group
+ * is expanded the sub-rows look like a normal slice of the table. */
+const groupedColumns: ColumnDef<Person>[] = [
+  { accessorKey: "role", header: "Role" },
+  { accessorKey: "name", header: "Name" },
+  { accessorKey: "email", header: "Email" },
+  {
+    accessorKey: "salary",
+    header: "Salary (₹)",
+    aggregationFn: "sum",
+    cell: ({ row }) => row.original.salary.toLocaleString("en-IN"),
+    aggregatedCell: ({ getValue }) => (
+      <strong>Σ {(getValue() as number).toLocaleString("en-IN")}</strong>
+    ),
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => (
+      <Badge variant="soft" color={statusBadgeColor(row.original.status)}>
+        {row.original.status}
+      </Badge>
+    ),
+    aggregationFn: "count",
+    aggregatedCell: ({ getValue }) =>
+      `${getValue() as number} row${(getValue() as number) === 1 ? "" : "s"}`,
+  },
+];
+
 /* Sized columns — every leaf has an explicit `size`, so the virtualized
  * grid (which uses px widths when given) emits a row wider than the
  * viewport. That horizontal overflow is what column pinning pins against.
@@ -770,7 +800,44 @@ const columns = [
       </section>
 
       <section className="demo-section">
-        <h2>23. Everything together</h2>
+        <h2>23. Row grouping</h2>
+        <CodeExample
+          title="enableGrouping + initialGrouping — group by one or more columns"
+          description={`Rows that share the grouped column's value are nested under a "▶ value (N)" header row; clicking it expands/collapses. Other columns can declare an aggregationFn ("sum" / "mean" / "count" / etc.) and an aggregatedCell render fn — those values appear in the header row. The toolbar "Group by" menu adds / removes columns; multi-grouping is supported.`}
+          code={`const cols = [
+  { accessorKey: "role",   header: "Role" },
+  { accessorKey: "name",   header: "Name" },
+  { accessorKey: "salary", header: "Salary (₹)",
+    aggregationFn: "sum",
+    cell: (info) => info.getValue<number>().toLocaleString("en-IN"),
+    aggregatedCell: (info) => (
+      <strong>Σ {info.getValue<number>().toLocaleString("en-IN")}</strong>
+    ) },
+  { accessorKey: "status", header: "Status",
+    aggregationFn: "count",
+    aggregatedCell: (info) => \`\${info.getValue()} rows\` },
+];
+
+<DataTable
+  data={medium}
+  columns={cols}
+  enableGrouping
+  enableColumnVisibility   // shows the Group-by trigger in the toolbar
+  initialGrouping={["role"]}
+/>`}
+        >
+          <DataTable
+            data={MEDIUM}
+            columns={groupedColumns}
+            enableGrouping
+            enableColumnVisibility
+            initialGrouping={["role"]}
+          />
+        </CodeExample>
+      </section>
+
+      <section className="demo-section">
+        <h2>24. Everything together</h2>
         <CodeExample
           title="All toggles on, virtualization off (uses pagination instead)"
           code={`<DataTable

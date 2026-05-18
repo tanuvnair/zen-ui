@@ -4,6 +4,7 @@ import {
   getCoreRowModel,
   getExpandedRowModel,
   getFilteredRowModel,
+  getGroupedRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
@@ -15,6 +16,7 @@ import {
   type ColumnSizingState,
   type ExpandedState,
   type FilterFn,
+  type GroupingState,
   type PaginationState,
   type Row,
   type RowSelectionState,
@@ -195,6 +197,40 @@ export interface DataTableProps<TData, TValue = unknown> {
   renderSubRow?: (row: Row<TData>) => React.ReactNode;
   expanded?: ExpandedState;
   onExpandedChange?: (state: ExpandedState) => void;
+
+  /**
+   * Row grouping. Set `enableGrouping` and pass one or more column ids
+   * via `grouping` / `initialGrouping`. Rows that share the same value
+   * in a grouped column are nested under a group-header row showing
+   * "▶ <value> (N)"; clicking the toggle expands/collapses the group.
+   *
+   *   <DataTable
+   *     enableGrouping
+   *     initialGrouping={["role"]}
+   *     columns={[
+   *       { accessorKey: "role",   header: "Role" },
+   *       { accessorKey: "salary", header: "Salary",
+   *         aggregationFn: "sum",
+   *         aggregatedCell: (info) => `Σ ${info.getValue<number>().toLocaleString()}` },
+   *       ...
+   *     ]}
+   *   />
+   *
+   * Per-column control:
+   *   - `enableGrouping: false` on a column def excludes it from the
+   *     GroupBy menu (the user can't group by it).
+   *   - `aggregationFn` + `aggregatedCell` produce the value rendered
+   *     in each non-grouped column on the group-header row.
+   *
+   * Grouping forces expansion on under the hood, so renderSubRow and
+   * row grouping are mutually exclusive in the same table. Not wired
+   * into virtualized mode (variable sub-row count vs. fixed-size
+   * virtualizer).
+   */
+  enableGrouping?: boolean;
+  grouping?: GroupingState;
+  initialGrouping?: GroupingState;
+  onGroupingChange?: (state: GroupingState) => void;
   /**
    * Per-row className hook. Called for each rendered body row; the
    * returned string is merged into the row's className (after the
@@ -375,6 +411,10 @@ export function DataTable<TData, TValue = unknown>({
   renderSubRow,
   expanded: expandedProp,
   onExpandedChange,
+  enableGrouping = false,
+  grouping: groupingProp,
+  initialGrouping,
+  onGroupingChange,
   enableColumnOrdering = false,
   onColumnOrderChange,
   enableColumnResizing = false,
@@ -413,6 +453,15 @@ export function DataTable<TData, TValue = unknown>({
   globalFilter: globalFilterProp,
   onGlobalFilterChange,
 }: DataTableProps<TData, TValue>) {
+  /* Read the persisted snapshot once at mount. Each piece (order /
+   * sizing / visibility / pinning) seeds the corresponding useState
+   * initializer below. Must come BEFORE any useState that references
+   * it — JS lexical TDZ would otherwise blow up on first render. */
+  const persisted = React.useMemo(
+    () => loadPersistedState(persistKey),
+    [persistKey],
+  );
+
   /* internal state — used when the corresponding prop isn't supplied */
   const [sortingInner, setSortingInner] = React.useState<SortingState>([]);
   const [filtersInner, setFiltersInner] = React.useState<ColumnFiltersState>([]);
@@ -425,13 +474,6 @@ export function DataTable<TData, TValue = unknown>({
     pageIndex: 0,
     pageSize,
   });
-  /* Read the persisted snapshot once at mount. Each piece (order /
-   * sizing / visibility / pinning) seeds the corresponding useState
-   * initializer. Failures swallow back to defaults. */
-  const persisted = React.useMemo(
-    () => loadPersistedState(persistKey),
-    [persistKey],
-  );
 
   const [columnOrder, setColumnOrder] = React.useState<ColumnOrderState>(
     () => persisted?.columnOrder ?? [],
@@ -448,7 +490,12 @@ export function DataTable<TData, TValue = unknown>({
   const columnPinning = columnPinningProp ?? columnPinningInner;
   const [expandedInner, setExpandedInner] = React.useState<ExpandedState>({});
   const expanded = expandedProp ?? expandedInner;
-  const expansionEnabled = !!renderSubRow;
+  const [groupingInner, setGroupingInner] = React.useState<GroupingState>(
+    () => initialGrouping ?? [],
+  );
+  const grouping = groupingProp ?? groupingInner;
+  /* renderSubRow OR grouping — both rely on `getExpandedRowModel`. */
+  const expansionEnabled = !!renderSubRow || enableGrouping;
 
   /* Which cell is currently being edited. Single-cell editing only —
    * starting a new edit auto-commits the previous one would be a nice
@@ -590,6 +637,7 @@ export function DataTable<TData, TValue = unknown>({
       columnSizing,
       columnPinning,
       expanded,
+      grouping,
       ...(manualPagination
         ? {
             pagination: {
@@ -608,6 +656,7 @@ export function DataTable<TData, TValue = unknown>({
     enableColumnResizing,
     columnResizeMode: "onChange",
     enableColumnPinning,
+    enableGrouping,
     getRowId,
     manualPagination: !!manualPagination,
     manualSorting,
@@ -631,6 +680,12 @@ export function DataTable<TData, TValue = unknown>({
         typeof updater === "function" ? updater(expanded) : updater;
       if (expandedProp === undefined) setExpandedInner(next);
       onExpandedChange?.(next);
+    },
+    onGroupingChange: (updater) => {
+      const next =
+        typeof updater === "function" ? updater(grouping) : updater;
+      if (groupingProp === undefined) setGroupingInner(next);
+      onGroupingChange?.(next);
     },
     onSortingChange: (updater) => {
       const next = typeof updater === "function" ? updater(sorting) : updater;
@@ -684,9 +739,76 @@ export function DataTable<TData, TValue = unknown>({
     getPaginationRowModel:
       enablePagination && !manualPagination ? getPaginationRowModel() : undefined,
     getExpandedRowModel: expansionEnabled ? getExpandedRowModel() : undefined,
+    getGroupedRowModel: enableGrouping ? getGroupedRowModel() : undefined,
   });
 
   const rows = table.getRowModel().rows;
+
+  /* Cell-content renderer that handles the four TanStack cell modes
+   *   - grouped:     this column is the group-by key on a group-header
+   *                  row → render toggle + value + sub-row count
+   *   - aggregated:  this column has an aggregationFn and we're on a
+   *                  group-header row → render aggregatedCell or the
+   *                  default cell with the aggregated value
+   *   - placeholder: the grouped column on a leaf sub-row → leave empty
+   *                  (the value is shown by the group header above)
+   *   - default:     regular cell, flexRender as usual
+   */
+  const renderCell = React.useCallback(
+    (cell: import("@tanstack/react-table").Cell<TData, unknown>) => {
+      if (cell.getIsGrouped()) {
+        const row = cell.row;
+        return (
+          <div className="inline-flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={row.getToggleExpandedHandler()}
+              aria-expanded={row.getIsExpanded()}
+              aria-label={
+                row.getIsExpanded() ? "Collapse group" : "Expand group"
+              }
+              className={cn(
+                "inline-flex items-center justify-center h-5 w-5 rounded-zen-sm",
+                "bg-transparent border-0 cursor-pointer transition-transform",
+                "text-zen-muted-fg hover:text-zen-foreground hover:bg-zen-muted",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zen-ring",
+                row.getIsExpanded() && "rotate-90",
+              )}
+            >
+              <svg
+                width="10"
+                height="10"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden
+              >
+                <polyline points="9 6 15 12 9 18" />
+              </svg>
+            </button>
+            <span className="font-medium">
+              {flexRender(cell.column.columnDef.cell, cell.getContext())}
+            </span>
+            <span className="text-xs text-zen-muted-fg">
+              ({row.subRows.length})
+            </span>
+          </div>
+        );
+      }
+      if (cell.getIsAggregated()) {
+        return flexRender(
+          cell.column.columnDef.aggregatedCell ?? cell.column.columnDef.cell,
+          cell.getContext(),
+        );
+      }
+      if (cell.getIsPlaceholder()) return null;
+      return flexRender(cell.column.columnDef.cell, cell.getContext());
+    },
+    [],
+  );
 
   /* Write the persistable snapshot back to localStorage whenever any
    * piece changes. Throttled to a microtask via useEffect; storage
@@ -905,7 +1027,7 @@ export function DataTable<TData, TValue = unknown>({
                         onCommit={(v) => commitEdit(row.id, cell.column.id, v)}
                         onCancel={cancelEdit}
                       >
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        {renderCell(cell)}
                       </EditableCell>
                     </TableCell>
                   );
@@ -915,28 +1037,44 @@ export function DataTable<TData, TValue = unknown>({
               <React.Fragment key={row.id}>
                 <TableRow
                   data-state={row.getIsSelected() ? "selected" : undefined}
-                  className={rowClassName?.(row)}
+                  data-grouped={row.getIsGrouped() ? "true" : undefined}
+                  className={cn(
+                    row.getIsGrouped() && "bg-zen-muted/40 font-medium",
+                    rowClassName?.(row),
+                  )}
                 >
                   {row.getVisibleCells().map((cell) => {
                     const pin = pinStyle(cell.column);
                     const isEditing =
                       editingCell?.rowId === row.id &&
                       editingCell?.columnId === cell.column.id;
+                    /* Disable inline-edit for group-header and
+                     * aggregated cells — the rendered value isn't a
+                     * single row's field. */
+                    const isInteractive =
+                      !cell.getIsGrouped() &&
+                      !cell.getIsAggregated() &&
+                      !cell.getIsPlaceholder();
+                    const content = renderCell(cell);
                     return (
                       <TableCell
                         key={cell.id}
                         className={sepCellClass}
                         style={pin}
                       >
-                        <EditableCell
-                          cell={cell}
-                          editing={isEditing}
-                          onStartEdit={() => startEdit(row.id, cell.column.id)}
-                          onCommit={(v) => commitEdit(row.id, cell.column.id, v)}
-                          onCancel={cancelEdit}
-                        >
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </EditableCell>
+                        {isInteractive ? (
+                          <EditableCell
+                            cell={cell}
+                            editing={isEditing}
+                            onStartEdit={() => startEdit(row.id, cell.column.id)}
+                            onCommit={(v) => commitEdit(row.id, cell.column.id, v)}
+                            onCancel={cancelEdit}
+                          >
+                            {content}
+                          </EditableCell>
+                        ) : (
+                          content
+                        )}
                       </TableCell>
                     );
                   })}
@@ -968,6 +1106,7 @@ export function DataTable<TData, TValue = unknown>({
         enableColumnFilters={enableColumnFilters}
         enableColumnVisibility={enableColumnVisibility}
         enableColumnPinning={enableColumnPinning}
+        enableGrouping={enableGrouping}
         enableExport={enableExport}
         exportFilename={exportFilename}
         exportOnlySelected={exportOnlySelected}
@@ -1034,6 +1173,7 @@ function Toolbar<TData>({
   enableColumnFilters,
   enableColumnVisibility,
   enableColumnPinning,
+  enableGrouping,
   enableExport,
   exportFilename,
   exportOnlySelected,
@@ -1045,6 +1185,7 @@ function Toolbar<TData>({
   enableColumnFilters: boolean;
   enableColumnVisibility: boolean;
   enableColumnPinning: boolean;
+  enableGrouping: boolean;
   enableExport: boolean;
   exportFilename: string;
   exportOnlySelected: boolean;
@@ -1055,6 +1196,7 @@ function Toolbar<TData>({
   if (
     !enableColumnFilters &&
     !enableColumnVisibility &&
+    !enableGrouping &&
     !enableExport
   )
     return null;
@@ -1076,11 +1218,56 @@ function Toolbar<TData>({
             onlySelected={exportOnlySelected}
           />
         )}
+        {enableGrouping && <GroupByMenu table={table} />}
         {enableColumnVisibility && (
           <ColumnsMenu table={table} enableColumnPinning={enableColumnPinning} />
         )}
       </div>
     </div>
+  );
+}
+
+/* ----------------------------- Group-by menu ------------------------- */
+/**
+ * Dropdown listing every column that can be grouped (`column.getCanGroup()` —
+ * true unless the column def says `enableGrouping: false`). Each item is a
+ * checkbox toggling whether the column participates in the active grouping.
+ * Multi-grouping is supported by the underlying model; clicks compose.
+ *
+ * The trigger label is "Group by" by default and switches to "Group by (N)"
+ * once one or more columns are active so it's clear at a glance.
+ */
+function GroupByMenu<TData>({ table }: { table: TanStackTable<TData> }) {
+  const groupable = table.getAllColumns().filter((c) => c.getCanGroup());
+  if (groupable.length === 0) return null;
+  const activeCount = table.getState().grouping.length;
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" color="neutral" size="sm">
+          {activeCount ? `Group by (${activeCount})` : "Group by"}
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="min-w-44">
+        <DropdownMenuLabel>Group rows by</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        {groupable.map((column) => {
+          const label =
+            (typeof column.columnDef.header === "string" &&
+              column.columnDef.header) ||
+            column.id;
+          return (
+            <DropdownMenuCheckboxItem
+              key={column.id}
+              checked={column.getIsGrouped()}
+              onCheckedChange={() => column.toggleGrouping()}
+            >
+              {label}
+            </DropdownMenuCheckboxItem>
+          );
+        })}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 

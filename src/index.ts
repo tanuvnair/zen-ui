@@ -67,6 +67,13 @@ export type {
   QRScannerScan,
 } from "./components/qr-scanner/qr-scanner";
 
+// NotificationsInbox — bell + popover panel, grouped by day, read/unread
+export { NotificationsInbox } from "./components/notifications-inbox/notifications-inbox";
+export type {
+  NotificationsInboxProps,
+  Notification,
+} from "./components/notifications-inbox/notifications-inbox";
+
 // UI Components - Popover (Radix-backed; standalone primitive)
 export {
   Popover,

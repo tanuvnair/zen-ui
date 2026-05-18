@@ -479,8 +479,12 @@ slot work into the right tier of the library.
       status per stage. ERP / workflow staple.
 - [ ] **AuditTrail** — who-changed-what diff list. Shaped like Timeline
       but rows are `{ field, oldValue, newValue, by, at }`.
-- [ ] **NotificationsInbox** — bell + dropdown panel with read/unread,
-      grouping by day, action buttons inline.
+- [x] **NotificationsInbox** — bell + dropdown panel with read/unread,
+      grouping by day, action buttons inline. _Shipped: Popover-backed
+      panel, auto unread-count badge with `99+` cap and override,
+      day-grouped sections (Today / Yesterday / weekday / date),
+      per-row actions slot, controlled open, `onItemSelect` +
+      `onMarkAllRead` + optional `onViewAll` footer link._
 - [ ] **UserMenu / WorkspaceSwitcher** — top-right account chip + org
       switcher. Universal across CRM/ERP/SaaS.
 

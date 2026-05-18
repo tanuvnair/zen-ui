@@ -51,6 +51,7 @@ import NewLikertDemo from "./components/NewLikertDemo";
 import NewTimePickerDemo from "./components/NewTimePickerDemo";
 import NewDateTimePickerDemo from "./components/NewDateTimePickerDemo";
 import NewQRScannerDemo from "./components/NewQRScannerDemo";
+import NewNotificationsInboxDemo from "./components/NewNotificationsInboxDemo";
 import { Toaster } from "./components/toast/toaster";
 
 /**
@@ -114,6 +115,7 @@ const NAV: NavGroup[] = [
       { to: "/time-picker", label: "TimePicker" },
       { to: "/date-time-picker", label: "DateTimePicker" },
       { to: "/qr-scanner", label: "QRScanner" },
+      { to: "/notifications-inbox", label: "NotificationsInbox" },
     ],
   },
 ];
@@ -265,6 +267,7 @@ const App: React.FC = () => {
             <Route path="/time-picker" element={<NewTimePickerDemo />} />
             <Route path="/date-time-picker" element={<NewDateTimePickerDemo />} />
             <Route path="/qr-scanner" element={<NewQRScannerDemo />} />
+            <Route path="/notifications-inbox" element={<NewNotificationsInboxDemo />} />
           </Routes>
         </main>
       </div>

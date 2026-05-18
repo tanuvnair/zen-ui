@@ -44,6 +44,7 @@ const COMPONENTS = [
   { to: "/time-picker", name: "TimePicker", description: "Segmented HH:MM(:SS) input, 12h / 24h, AM/PM, auto-advance + arrow stepping" },
   { to: "/date-time-picker", name: "DateTimePicker", description: "Calendar + TimePicker in one Popover; preserves time-of-day on day changes" },
   { to: "/qr-scanner", name: "QRScanner", description: "Camera-based QR / barcode scanner; native BarcodeDetector + custom-decoder escape hatch" },
+  { to: "/notifications-inbox", name: "NotificationsInbox", description: "Bell icon + popover panel; day-grouped feed with unread badge + per-row actions" },
 ];
 
 const Welcome = () => {

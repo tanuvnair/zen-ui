@@ -300,8 +300,9 @@ UX research (Baymard, Stripe Elements, NNG, *Form Design Patterns*).
 - [ ] **Drawer / Sheet** — slide-in side panel for filters, edit
       forms, KYC document review. Different from Dialog (doesn't fully
       dim the journey context).
-- [ ] **Empty State** — onboarding shows tons of these ("Add your first
-      business"). Compound primitive: icon / title / body / action.
+- [x] **Empty State** — compound API (Icon / Title / Description /
+      Actions). `size` sm/md/lg, optional `bordered` dashed-frame for
+      drop-zones / placeholder regions. Demo at `/empty-state`.
 - [x] **Banner** — compound API mirroring Alert (Icon / Content / Title
       / Description / Actions / Close); spans container width, optional
       `sticky` pin to viewport top. 6 color tokens. Demo at `/banner`.

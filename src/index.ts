@@ -261,6 +261,17 @@ export type {
   ToastInput,
 } from "./components/toast/use-toast";
 
+// UI Components - EmptyState (first-run / no-data surface; compound API)
+export {
+  EmptyState,
+  EmptyStateIcon,
+  EmptyStateTitle,
+  EmptyStateDescription,
+  EmptyStateActions,
+  emptyStateVariants,
+} from "./components/empty-state/empty-state";
+export type { EmptyStateProps } from "./components/empty-state/empty-state";
+
 // UI Components - Banner (page-top persistent callout; compound API)
 export {
   Banner,

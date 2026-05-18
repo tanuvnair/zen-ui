@@ -30,6 +30,7 @@ const COMPONENTS = [
   { to: "/fab-new", name: "FAB", description: "Fixed-position Button wrapper + DropdownMenu for speed-dial" },
   { to: "/stepper", name: "Stepper", description: "Multi-step wizard for onboarding + journey apps (horizontal / vertical, linear / non-linear)" },
   { to: "/banner", name: "Banner", description: "Page-top persistent callout — verification reminders, maintenance windows, impersonation" },
+  { to: "/empty-state", name: "EmptyState", description: "First-run / no-data / no-results surface; icon + title + description + actions" },
 ];
 
 const Welcome = () => {

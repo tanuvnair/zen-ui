@@ -37,6 +37,7 @@ import NewFileUploadDemo from "./components/NewFileUploadDemo";
 import NewBoundFieldsDemo from "./components/NewBoundFieldsDemo";
 import NewStepperDemo from "./components/NewStepperDemo";
 import NewBannerDemo from "./components/NewBannerDemo";
+import NewEmptyStateDemo from "./components/NewEmptyStateDemo";
 import { Toaster } from "./components/toast/toaster";
 
 /**
@@ -86,6 +87,7 @@ const NAV: NavGroup[] = [
       { to: "/form-bound", label: "Bound* fields" },
       { to: "/stepper", label: "Stepper" },
       { to: "/banner", label: "Banner" },
+      { to: "/empty-state", label: "EmptyState" },
     ],
   },
 ];
@@ -223,6 +225,7 @@ const App: React.FC = () => {
             <Route path="/form-bound" element={<NewBoundFieldsDemo />} />
             <Route path="/stepper" element={<NewStepperDemo />} />
             <Route path="/banner" element={<NewBannerDemo />} />
+            <Route path="/empty-state" element={<NewEmptyStateDemo />} />
           </Routes>
         </main>
       </div>

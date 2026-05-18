@@ -270,3 +270,125 @@ Current progress (auto-updated by reviewing the branch):
 **Migration complete.** Every legacy component is preserved as `Legacy*`
 for back-compat; demo routes pair `(legacy)` and `(new)` side by side.
 Next priorities live in this file's Phase 2 sections.
+
+---
+
+## Roadmap — onboarding + data-collection journey apps
+
+Components to add to make this library a strong primary toolkit for
+customer onboarding flows, KYC journeys, surveys, and form-heavy
+application apps. Prioritized by ROI based on modern form / onboarding
+UX research (Baymard, Stripe Elements, NNG, *Form Design Patterns*).
+
+### Tier 1 — high-impact essentials (build first)
+
+- [ ] **Stepper / Wizard** — multi-step forms reduce abandonment 20-30%
+      vs. single-page (Baymard). Per-step validation, linear /
+      non-linear flows, back / continue / save-exit, controlled
+      progress. Composes with `<Form>` so each step is an RHF subtree.
+- [ ] **Tabs** — section navigation (Personal / Address / Identity /
+      Review) when steps are too heavy.
+- [ ] **Accordion / Collapsible** — review screens, "show details"
+      sections, FAQ during onboarding.
+- [ ] **Card (selection variant)** — choice cards beat radio lists for
+      "What are you here for?" / plan picker / goal picker. Compound
+      API with image / title / body / footer + clickable as-radio.
+- [ ] **Drawer / Sheet** — slide-in side panel for filters, edit
+      forms, KYC document review. Different from Dialog (doesn't fully
+      dim the journey context).
+- [ ] **Empty State** — onboarding shows tons of these ("Add your first
+      business"). Compound primitive: icon / title / body / action.
+- [ ] **Banner** — persistent page-top callout ("Verify your email
+      before continuing"). Different from Toast (transient) and Alert
+      (inline).
+- [ ] **Stepper-progress visualization** — numbered-dot horizontal bar
+      separate from the wizard itself + "Step 2 of 5" label. Distinct
+      from `<Progress>` which is a `<progress>`-style bar.
+
+### Tier 2 — journey-specific (KYC, surveys, signups)
+
+- [ ] **Signature pad** — canvas-based drawing → SVG / data URL. Loan
+      disclosure, T&Cs, healthcare consent.
+- [ ] **Camera capture / Selfie** — `getUserMedia` wrapper with
+      front/rear toggle, capture, retake. KYC liveness + profile photo.
+- [ ] **ID document upload** — specialized FileUpload variant with
+      front + back slots, edge detection / glare warnings, crop,
+      file-type lock.
+- [ ] **Image cropper** — after upload or capture. Circle / rect modes,
+      zoom, rotate. Pairs with Camera capture + Avatar uploader.
+- [ ] **Address autocomplete** — Combobox + provider adapter
+      (Google Places / Mapbox / OS). Single biggest checkout-time
+      reducer (~30 % per Baymard).
+- [ ] **Rating** (5-star) — feedback collection.
+- [ ] **NPS** (0-10 strip with promoter / detractor labels) — survey
+      primitive distinct from rating.
+- [ ] **Likert scale** (5-point agree/disagree) — also distinct from
+      rating; semantically a single-choice question with fixed labels.
+- [ ] **Range slider** (two-handle) — budget / age / price / tenure
+      ranges. Radix Slider already supports range; wire a dual-thumb
+      variant.
+- [ ] **Date-range picker** — two-month calendar with start + end.
+      Stays / appointments / loan tenure.
+- [ ] **Tag / chip input** — type + Enter to add. Skills, interests,
+      tags. Underrated for collecting structured-but-open lists.
+- [ ] **Multi-select Combobox** — today's Combobox is single-select.
+      Multi with a selected-chip row above the list.
+
+### Tier 3 — friction reducers (move the needle on completion)
+
+- [ ] **Inline help / hint icon** — small `?` next to a field label;
+      tooltip on hover, popover on tap. Reduces support tickets.
+- [ ] **AutoSaveIndicator** — "Saved 2 s ago" / "Saving…" badge.
+      Auto-save is table-stakes for any form ≥ 2 minutes long.
+- [ ] **RestoreDraftPrompt** — "We found unsaved work from yesterday.
+      Restore?". Pairs with `useAutoSave` hook below.
+- [ ] **Onboarding tour / coachmarks** — spotlight + tooltip sequence
+      (Shepherd / Driver.js patterns) for post-signup product tours.
+- [ ] **Confirmation-with-typing AlertDialog** — "Type DELETE to
+      confirm". Variant of existing AlertDialog.
+- [ ] **Field error / success border state** — auto red/green ring
+      after blur tied to RHF state. Visual sibling of FormMessage.
+
+### Tier 4 — specialized but high-leverage in the right vertical
+
+- [ ] **Currency input** — NumberField + locale-aware formatting +
+      symbol prefix + thousand separators (₹1,00,000 vs $100,000).
+- [ ] **Time picker** + **DateTime picker** — scheduling /
+      appointments.
+- [ ] **Country picker** — specialized Combobox with flag + ISO + dial
+      code. Often paired with PhoneInput.
+- [ ] **QR scanner** — `getUserMedia` + jsQR. Payments, doc handoff,
+      device pairing.
+- [ ] **Command palette** — `cmdk` already a dep via Combobox; surface
+      as `<CommandPalette open shortcut="cmd+k">` for power-user apps.
+- [ ] **Map / geolocation picker** — pluggable Leaflet / Mapbox;
+      pick-a-pin or "near me" for service apps.
+
+### Cross-cutting (patterns / hooks, not components)
+
+- [ ] **Conditional fields** as a Form-builder pattern
+      (`<BoundField visibleWhen={…}>`). Critical in journey apps where
+      Q3 only appears if Q2 = X.
+- [ ] **`useAutoSave(form, fn)`** — debounced save with a small state
+      machine (idle / saving / saved / error). Powers
+      AutoSaveIndicator + RestoreDraftPrompt.
+- [ ] **`useFormFlow` / step-graph** — non-linear stepper navigation
+      where the next step depends on previous answers.
+- [ ] **RTL + locale audit** — token system already covers the visual
+      half; verify `dir="rtl"` works through every primitive (Radix
+      handles most, but DataTable / DropdownMenu position calcs may
+      need a pass).
+
+### Recommended initial cut
+
+If we're optimizing for "we can build a real onboarding flow tomorrow",
+the smallest shipable set is:
+
+1. Stepper / Wizard
+2. Card (selection variant)
+3. Drawer / Sheet
+4. Address autocomplete (with a swappable provider adapter)
+5. Signature pad
+
+That covers ~70 % of a typical fintech / KYC onboarding without
+dropping into custom code.

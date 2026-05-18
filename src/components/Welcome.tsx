@@ -41,6 +41,7 @@ const COMPONENTS = [
   { to: "/rating", name: "Rating", description: "5-star rating input; hover preview, arrow-key nav, sm / md / lg, customizable max" },
   { to: "/nps", name: "NPS", description: "Net Promoter Score 0-10 strip with detractor / passive / promoter color buckets" },
   { to: "/likert", name: "Likert", description: "n-point attitudinal scale; segmented + stacked layouts, custom option sets" },
+  { to: "/time-picker", name: "TimePicker", description: "Segmented HH:MM(:SS) input, 12h / 24h, AM/PM, auto-advance + arrow stepping" },
 ];
 
 const Welcome = () => {

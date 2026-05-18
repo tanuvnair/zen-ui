@@ -52,6 +52,10 @@ export type {
   DateRange,
 } from "./components/form/date-picker/date-range-picker";
 
+// Form Components - TimePicker (segmented HH:MM[:SS] input, 12h/24h)
+export { TimePicker } from "./components/form/time-picker/time-picker";
+export type { TimePickerProps } from "./components/form/time-picker/time-picker";
+
 // UI Components - Popover (Radix-backed; standalone primitive)
 export {
   Popover,

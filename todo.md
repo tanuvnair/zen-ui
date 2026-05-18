@@ -431,6 +431,3 @@ the smallest shipable set is:
 3. Drawer / Sheet
 4. Address autocomplete (with a swappable provider adapter)
 5. Signature pad
-
-That covers ~70 % of a typical fintech / KYC onboarding without
-dropping into custom code.

@@ -48,6 +48,7 @@ import NewMultiComboboxDemo from "./components/NewMultiComboboxDemo";
 import NewRatingDemo from "./components/NewRatingDemo";
 import NewNpsDemo from "./components/NewNpsDemo";
 import NewLikertDemo from "./components/NewLikertDemo";
+import NewTimePickerDemo from "./components/NewTimePickerDemo";
 import { Toaster } from "./components/toast/toaster";
 
 /**
@@ -108,6 +109,7 @@ const NAV: NavGroup[] = [
       { to: "/rating", label: "Rating" },
       { to: "/nps", label: "NPS" },
       { to: "/likert", label: "Likert" },
+      { to: "/time-picker", label: "TimePicker" },
     ],
   },
 ];
@@ -256,6 +258,7 @@ const App: React.FC = () => {
             <Route path="/rating" element={<NewRatingDemo />} />
             <Route path="/nps" element={<NewNpsDemo />} />
             <Route path="/likert" element={<NewLikertDemo />} />
+            <Route path="/time-picker" element={<NewTimePickerDemo />} />
           </Routes>
         </main>
       </div>

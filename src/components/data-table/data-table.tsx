@@ -265,6 +265,20 @@ export interface DataTableProps<TData, TValue = unknown> {
 
   /* server-driven pagination */
   manualPagination?: DataTableManualPagination;
+  /**
+   * Skip the client-side sort row model. The data array is taken as
+   * already-sorted by the caller; sort header clicks fire
+   * `onSortingChange` (or update the controlled `sorting` state) so the
+   * consumer can re-fetch with the new order.
+   */
+  manualSorting?: boolean;
+  /**
+   * Skip the client-side filter row model. The data array is taken as
+   * already-filtered. Filter inputs still drive `onColumnFiltersChange`
+   * / `onGlobalFilterChange` so the consumer can re-fetch with the new
+   * predicate.
+   */
+  manualFiltering?: boolean;
 
   /* controlled state (all optional) */
   sorting?: SortingState;
@@ -319,6 +333,8 @@ export function DataTable<TData, TValue = unknown>({
   className,
 
   manualPagination,
+  manualSorting = false,
+  manualFiltering = false,
 
   sorting: sortingProp,
   onSortingChange,
@@ -476,6 +492,8 @@ export function DataTable<TData, TValue = unknown>({
     enableColumnPinning,
     getRowId,
     manualPagination: !!manualPagination,
+    manualSorting,
+    manualFiltering,
     pageCount: manualPagination?.pageCount,
     onColumnOrderChange: (updater) => {
       const next =
@@ -531,9 +549,12 @@ export function DataTable<TData, TValue = unknown>({
           setPaginationInner(next);
         },
     getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: enableSorting ? getSortedRowModel() : undefined,
+    /* Skip the row-model functions when their corresponding manual flag
+     * is set — TanStack will then trust the source data array as-is. */
+    getSortedRowModel:
+      enableSorting && !manualSorting ? getSortedRowModel() : undefined,
     getFilteredRowModel:
-      enableColumnFilters || enablePerColumnFilters
+      (enableColumnFilters || enablePerColumnFilters) && !manualFiltering
         ? getFilteredRowModel()
         : undefined,
     getPaginationRowModel:

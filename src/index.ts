@@ -261,6 +261,23 @@ export type {
   ToastInput,
 } from "./components/toast/use-toast";
 
+// UI Components - Card (generic surface + SelectableCard for "pick one")
+export {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+  cardVariants,
+} from "./components/card/card";
+export type { CardProps } from "./components/card/card";
+export {
+  SelectableCard,
+  SelectableCardGroup,
+} from "./components/card/card.selectable";
+export type { SelectableCardProps } from "./components/card/card.selectable";
+
 // UI Components - Accordion (Radix-backed collapsible-section list)
 export {
   Accordion,

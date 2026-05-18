@@ -307,9 +307,11 @@ UX research (Baymard, Stripe Elements, NNG, *Form Design Patterns*).
       onboarding "pick one" pattern (goal picker, plan picker) with
       icon / title / description / badge slots and a check indicator
       when selected. Demo at `/card`.
-- [ ] **Drawer / Sheet** — slide-in side panel for filters, edit
-      forms, KYC document review. Different from Dialog (doesn't fully
-      dim the journey context).
+- [x] **Drawer / Sheet** — Radix Dialog with slide-from-edge animation.
+      `side` prop: right (default) / left / top / bottom. Compound API
+      (Sheet / SheetTrigger / SheetContent / SheetHeader / SheetTitle
+      / SheetDescription / SheetFooter / SheetClose). Built-in ✕
+      (toggleable via `showCloseButton={false}`). Demo at `/sheet`.
 - [x] **Empty State** — compound API (Icon / Title / Description /
       Actions). `size` sm/md/lg, optional `bordered` dashed-frame for
       drop-zones / placeholder regions. Demo at `/empty-state`.

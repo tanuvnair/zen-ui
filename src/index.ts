@@ -261,6 +261,22 @@ export type {
   ToastInput,
 } from "./components/toast/use-toast";
 
+// UI Components - Sheet / Drawer (Radix Dialog with slide-from-edge animation)
+export {
+  Sheet,
+  SheetTrigger,
+  SheetClose,
+  SheetPortal,
+  SheetOverlay,
+  SheetContent,
+  SheetHeader,
+  SheetFooter,
+  SheetTitle,
+  SheetDescription,
+  sheetContentVariants,
+} from "./components/sheet/sheet";
+export type { SheetContentProps } from "./components/sheet/sheet";
+
 // UI Components - Card (generic surface + SelectableCard for "pick one")
 export {
   Card,

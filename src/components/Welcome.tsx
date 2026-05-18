@@ -34,6 +34,7 @@ const COMPONENTS = [
   { to: "/tabs", name: "Tabs", description: "Radix-backed tabbed navigation; underline + pills variants, horizontal / vertical" },
   { to: "/accordion", name: "Accordion", description: "Radix-backed collapsible sections; single + multiple expand modes" },
   { to: "/card", name: "Card", description: "Surface primitive + SelectableCard variant for goal pickers / plan selectors" },
+  { to: "/sheet", name: "Sheet / Drawer", description: "Slide-in side panel on Radix Dialog; right / left / top / bottom" },
 ];
 
 const Welcome = () => {

@@ -62,6 +62,26 @@ const columns: ColumnDef<Person>[] = [
   { accessorKey: "lastSeen", header: "Last seen" },
 ];
 
+/* Sized columns — every leaf has an explicit `size`, so the virtualized
+ * grid (which uses px widths when given) emits a row wider than the
+ * viewport. That horizontal overflow is what column pinning pins against. */
+const sizedColumns: ColumnDef<Person>[] = [
+  { accessorKey: "name", header: "Name", size: 200 },
+  { accessorKey: "email", header: "Email", size: 280 },
+  { accessorKey: "role", header: "Role", size: 140 },
+  {
+    accessorKey: "status",
+    header: "Status",
+    size: 140,
+    cell: ({ row }) => (
+      <Badge variant="soft" color={statusBadgeColor(row.original.status)}>
+        {row.original.status}
+      </Badge>
+    ),
+  },
+  { accessorKey: "lastSeen", header: "Last seen", size: 160 },
+];
+
 /* -------------------------- demo ----------------------------------- */
 const NewDataTableDemo: React.FC = () => {
   const [serverPage, setServerPage] = useState(0);
@@ -446,7 +466,32 @@ const handleOrderChange = (orderedIds: string[]) => {
       </section>
 
       <section className="demo-section">
-        <h2>17. Everything together</h2>
+        <h2>17. Column pinning + virtualization</h2>
+        <CodeExample
+          title="Pinning works in the virtualized grid too"
+          description={`Requires explicit \`size\` on each column so the row overflows horizontally — that's what pinning pins against. Sticky-header in virtualized mode is unconditional, so this gives you a full 2-D freeze on 2 000 rows.`}
+          code={`<DataTable
+  data={large}
+  columns={sizedColumns}    // each column has \`size: <px>\`
+  enableVirtualization
+  enableColumnPinning
+  initialColumnPinning={{ left: ["name"], right: ["lastSeen"] }}
+  maxBodyHeight={360}
+/>`}
+        >
+          <DataTable
+            data={LARGE}
+            columns={sizedColumns}
+            enableVirtualization
+            enableColumnPinning
+            initialColumnPinning={{ left: ["name"], right: ["lastSeen"] }}
+            maxBodyHeight={360}
+          />
+        </CodeExample>
+      </section>
+
+      <section className="demo-section">
+        <h2>18. Everything together</h2>
         <CodeExample
           title="All toggles on, virtualization off (uses pagination instead)"
           code={`<DataTable

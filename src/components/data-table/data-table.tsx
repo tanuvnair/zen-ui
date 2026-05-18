@@ -177,7 +177,9 @@ export interface DataTableProps<TData, TValue = unknown> {
    *   />
    *
    * Pass `columnPinning` + `onColumnPinningChange` for controlled mode.
-   * Not supported alongside `enableVirtualization` in this release.
+   * Works in both regular and virtualized modes; in virtualized mode the
+   * pinned columns should have explicit `size` on their column def so
+   * the horizontal-scroll offsets are stable.
    */
   enableColumnPinning?: boolean;
   columnPinning?: ColumnPinningState;
@@ -690,6 +692,7 @@ export function DataTable<TData, TValue = unknown>({
             estimatedRowHeight={rowEstimatedHeight}
             emptyMessage={emptyMessage}
             loading={loading}
+            enableColumnPinning={enableColumnPinning}
           />
         ) : rowOrderingActive ? (
           <DndContext
@@ -1178,13 +1181,42 @@ function VirtualizedBody<TData>({
   estimatedRowHeight,
   emptyMessage,
   loading,
+  enableColumnPinning,
 }: {
   table: TanStackTable<TData>;
   maxHeight: number;
   estimatedRowHeight: number;
   emptyMessage: string;
   loading: boolean;
+  enableColumnPinning?: boolean;
 }) {
+  /* Same pin-style algorithm as the HTML-table path. Sticky offsets read
+   * from TanStack's column.getStart('left') / getAfter('right'). In
+   * virtualized mode the absolute-positioned row is also the sticky
+   * containing block; `position: sticky` on its children still resolves
+   * scroll offsets against the parentRef (the scrollable ancestor). */
+  const pinStyle = React.useCallback(
+    (column: Column<TData, unknown>): React.CSSProperties | undefined => {
+      if (!enableColumnPinning) return undefined;
+      const pin = column.getIsPinned();
+      if (!pin) return undefined;
+      const isLastLeft = pin === "left" && column.getIsLastColumn("left");
+      const isFirstRight = pin === "right" && column.getIsFirstColumn("right");
+      return {
+        position: "sticky",
+        left: pin === "left" ? `${column.getStart("left")}px` : undefined,
+        right: pin === "right" ? `${column.getAfter("right")}px` : undefined,
+        background: "var(--zen-color-background)",
+        zIndex: 1,
+        boxShadow: isLastLeft
+          ? "inset -1px 0 0 var(--zen-color-border), 4px 0 6px -4px rgba(0,0,0,0.12)"
+          : isFirstRight
+          ? "inset 1px 0 0 var(--zen-color-border), -4px 0 6px -4px rgba(0,0,0,0.12)"
+          : undefined,
+      };
+    },
+    [enableColumnPinning],
+  );
   const parentRef = React.useRef<HTMLDivElement>(null);
   const rows = table.getRowModel().rows;
   const virtualizer = useVirtualizer({
@@ -1208,7 +1240,10 @@ function VirtualizedBody<TData>({
   return (
     <div
       ref={parentRef}
-      style={{ maxHeight, overflowY: "auto" }}
+      /* overflow: auto (not just overflowY) so column pinning can pin
+       * against a horizontal scroll axis when columns are wider than the
+       * viewport. */
+      style={{ maxHeight, overflow: "auto" }}
       role="table"
       aria-rowcount={rows.length + 1}
     >
@@ -1230,6 +1265,7 @@ function VirtualizedBody<TData>({
           {hg.headers.map((header) => {
             const canSort = header.column.getCanSort();
             const sorted = header.column.getIsSorted();
+            const pin = pinStyle(header.column);
             return (
               <div
                 key={header.id}
@@ -1247,7 +1283,14 @@ function VirtualizedBody<TData>({
                   canSort && "hover:bg-zen-muted",
                   "data-[active=true]:bg-zen-primary-soft data-[active=true]:text-zen-primary-soft-fg",
                 )}
-                style={{ minWidth: 0 }}
+                style={{
+                  minWidth: 0,
+                  ...(pin ?? {}),
+                  /* Header row is already sticky vertically with z=1; lift
+                   * pinned header cells to z=2 so the corner stacks above
+                   * both non-pinned header cells and pinned body cells. */
+                  ...(pin ? { zIndex: 2 } : {}),
+                }}
               >
                 {header.isPlaceholder ? null : canSort ? (
                   <button
@@ -1319,23 +1362,27 @@ function VirtualizedBody<TData>({
                     "bg-zen-primary-soft shadow-zen-sm outline outline-1 -outline-offset-1 outline-zen-primary",
                 )}
               >
-                {row.getVisibleCells().map((cell) => (
-                  <div
-                    key={cell.id}
-                    role="cell"
-                    style={{
-                      padding: "0.75rem 0.5rem",
-                      display: "flex",
-                      alignItems: "center",
-                      minWidth: 0,
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </div>
-                ))}
+                {row.getVisibleCells().map((cell) => {
+                  const pin = pinStyle(cell.column);
+                  return (
+                    <div
+                      key={cell.id}
+                      role="cell"
+                      style={{
+                        padding: "0.75rem 0.5rem",
+                        display: "flex",
+                        alignItems: "center",
+                        minWidth: 0,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        ...(pin ?? {}),
+                      }}
+                    >
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </div>
+                  );
+                })}
               </div>
             );
           })

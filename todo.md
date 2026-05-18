@@ -73,7 +73,8 @@ a global concern.
          `initialColumnPinning={{ left, right }}` for the common static case;
          `columnPinning` + `onColumnPinningChange` for controlled. Pinned cells
          get sticky offsets + a soft inner-edge shadow. Combines with
-         `stickyHeader` for a 2-D freeze. Not wired into virtualized mode.
+         `stickyHeader` for a 2-D freeze. Works in virtualized mode too
+         when pinned columns have explicit `size` on the column def.
    - [x] `stickyHeader` — pin the `<thead>` to the top of the scroll viewport
          in non-virtualized mode. Body wraps in a `maxBodyHeight` container so
          sticky has a real scroll context. Virtualized mode already does this.

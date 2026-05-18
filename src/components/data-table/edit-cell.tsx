@@ -249,6 +249,8 @@ export function EditableCell<TData>({
     }
   }
 
+  const colHeader = cell.column.columnDef.header;
+  const columnName = typeof colHeader === "string" ? colHeader : cell.column.id;
   return (
     <div
       onDoubleClick={onStartEdit}
@@ -260,7 +262,7 @@ export function EditableCell<TData>({
       }}
       tabIndex={0}
       role="button"
-      aria-label="Double-click or press Enter to edit"
+      aria-label={`Edit ${columnName}`}
       className={cn(
         "w-full h-full inline-flex items-center cursor-text",
         "rounded-zen-sm",

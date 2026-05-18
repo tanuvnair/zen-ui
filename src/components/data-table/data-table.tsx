@@ -809,7 +809,10 @@ export function DataTable<TData, TValue = unknown>({
 
       <ActiveFilterChips table={table} />
 
-      <div className="rounded-zen-md border border-zen-border">
+      <div
+        className="rounded-zen-md border border-zen-border"
+        aria-busy={loading || undefined}
+      >
         {enableVirtualization ? (
           <VirtualizedBody
             table={table}
@@ -960,7 +963,11 @@ function BulkActionBar<TData>({
       role="toolbar"
       aria-label="Bulk actions for selected rows"
     >
-      <span className="text-sm font-medium">
+      <span
+        className="text-sm font-medium"
+        aria-live="polite"
+        aria-atomic="true"
+      >
         {selectedCount} selected
       </span>
       {showCrossPage ? (
@@ -1622,6 +1629,7 @@ function VirtualizedBody<TData>({
       style={{ maxHeight, overflow: "auto" }}
       role="table"
       aria-rowcount={rows.length + 1}
+      aria-colcount={colCount}
     >
       {/* Sticky header row — same grid template as body rows so columns align */}
       {table.getHeaderGroups().map((hg) => (
@@ -1799,6 +1807,9 @@ function PaginationBar<TData>({
   const pageCount = table.getPageCount();
   const selectedCount = table.getSelectedRowModel().rows.length;
   const totalCount = table.getFilteredRowModel().rows.length;
+  /* Unique ids so multiple <DataTable>s on the same page don't collide
+   * on the "Rows per page" label association. */
+  const pageSizeLabelId = React.useId();
 
   return (
     <div className="flex items-center justify-between gap-3 text-sm">
@@ -1816,13 +1827,15 @@ function PaginationBar<TData>({
       <div className="flex items-center gap-3">
         {!manual && (
           <div className="flex items-center gap-2">
-            <span className="text-zen-muted-fg">Rows per page</span>
+            <span id={pageSizeLabelId} className="text-zen-muted-fg">
+              Rows per page
+            </span>
             <div style={{ width: 88 }}>
               <Select
                 value={String(pageSize)}
                 onValueChange={(v) => table.setPageSize(Number(v))}
               >
-                <SelectTrigger>
+                <SelectTrigger aria-labelledby={pageSizeLabelId}>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>

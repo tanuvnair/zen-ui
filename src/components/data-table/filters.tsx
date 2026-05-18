@@ -1,4 +1,12 @@
 import type { Column, FilterFn } from "@tanstack/react-table";
+
+/** Pick the human-readable header label off a column, falling back to id when
+ *  the header is a function / JSX node. Used to build accessible names like
+ *  "Filter Status" instead of "Filter status". */
+const headerLabel = (column: Column<unknown, unknown>): string => {
+  const h = column.columnDef.header;
+  return typeof h === "string" ? h : column.id;
+};
 import { cn } from "../../lib/cn";
 import { Input } from "../form/input/input";
 import { NumberField } from "../form/number-field/number-field";
@@ -201,13 +209,13 @@ function TextFilter({ column }: { column: Column<unknown> }) {
         value={op}
         onChange={(o) => setNext({ op: o })}
         options={TEXT_OPS}
-        ariaLabel={`${column.id} filter operator`}
+        ariaLabel={`${headerLabel(column)} filter operator`}
       />
       <Input
         value={value}
         onChange={(e) => setNext({ value: e.target.value })}
         placeholder="Filter…"
-        aria-label={`Filter ${column.id}`}
+        aria-label={`Filter ${headerLabel(column)}`}
         className="h-7 text-xs flex-1 min-w-0"
       />
     </div>
@@ -226,7 +234,7 @@ function NumberFilter({ column }: { column: Column<unknown> }) {
           column.setFilterValue({ op: o, value } satisfies NumberFilterValue)
         }
         options={NUMBER_OPS}
-        ariaLabel={`${column.id} filter operator`}
+        ariaLabel={`${headerLabel(column)} filter operator`}
       />
       <NumberField
         value={value ?? undefined}
@@ -237,7 +245,7 @@ function NumberFilter({ column }: { column: Column<unknown> }) {
           } satisfies NumberFilterValue)
         }
         placeholder="…"
-        aria-label={`Filter ${column.id}`}
+        aria-label={`Filter ${headerLabel(column)}`}
         className="h-7 text-xs flex-1 min-w-0"
       />
     </div>
@@ -257,7 +265,7 @@ function NumberRangeFilter({ column }: { column: Column<unknown> }) {
           column.setFilterValue([v ?? null, max] satisfies NumberRangeFilterValue)
         }
         placeholder="min"
-        aria-label={`${column.id} min`}
+        aria-label={`${headerLabel(column)} minimum`}
         className="h-7 text-xs min-w-0 flex-1"
       />
       <span className="text-zen-muted-fg text-xs" aria-hidden>
@@ -269,7 +277,7 @@ function NumberRangeFilter({ column }: { column: Column<unknown> }) {
           column.setFilterValue([min, v ?? null] satisfies NumberRangeFilterValue)
         }
         placeholder="max"
-        aria-label={`${column.id} max`}
+        aria-label={`${headerLabel(column)} maximum`}
         className="h-7 text-xs min-w-0 flex-1"
       />
     </div>
@@ -292,7 +300,7 @@ function SelectFilter({
       }
     >
       <SelectTrigger
-        aria-label={`Filter ${column.id}`}
+        aria-label={`Filter ${headerLabel(column)}`}
         className="h-7 text-xs"
       >
         <SelectValue placeholder="All" />
@@ -324,7 +332,7 @@ function BooleanFilter({ column }: { column: Column<unknown> }) {
         const v = e.target.value;
         column.setFilterValue(v === "any" ? undefined : v === "true");
       }}
-      aria-label={`Filter ${column.id}`}
+      aria-label={`Filter ${headerLabel(column)}`}
       className={cn(
         "h-7 w-full rounded-zen-sm border border-zen-border bg-zen-background",
         "px-2 text-xs cursor-pointer",

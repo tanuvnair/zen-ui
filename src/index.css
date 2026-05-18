@@ -13,16 +13,6 @@ body,
 
 :root {
   --font-family: "Plus Jakarta Sans", sans-serif, "Lato";
-  --amplify-fonts-default-variable: var(--font-family);
-  --recapture-color: #dd8901;
-  
-  /* Slider CSS Variables */
-  --slider-foreground-color: #ecedee;
-  --slider-primary-color: #006fee;
-  --slider-secondary-color: #9353d3;
-  --slider-success-color: #17c964;
-  --slider-warning-color: #f5a524;
-  --slider-danger-color: #f31260;
 }
 
 body {

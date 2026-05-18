@@ -294,8 +294,12 @@ UX research (Baymard, Stripe Elements, NNG, *Form Design Patterns*).
       TabsContent). `underline` (default) + `pills` variants, both
       with horizontal + vertical orientation. Disabled triggers,
       controlled + uncontrolled. Demo at `/tabs`.
-- [ ] **Accordion / Collapsible** — review screens, "show details"
-      sections, FAQ during onboarding.
+- [x] **Accordion / Collapsible** — Radix-backed (Accordion /
+      AccordionItem / AccordionTrigger / AccordionContent). `single`
+      + `multiple` expand modes; `single collapsible` for closeable
+      one-at-a-time. Animated height transition via Radix's
+      `--radix-accordion-content-height` + keyframes in tokens.css.
+      Demo at `/accordion`.
 - [ ] **Card (selection variant)** — choice cards beat radio lists for
       "What are you here for?" / plan picker / goal picker. Compound
       API with image / title / body / footer + clickable as-radio.

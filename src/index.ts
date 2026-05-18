@@ -261,6 +261,14 @@ export type {
   ToastInput,
 } from "./components/toast/use-toast";
 
+// UI Components - Accordion (Radix-backed collapsible-section list)
+export {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "./components/accordion/accordion";
+
 // UI Components - Tabs (Radix-backed; underline + pills variants)
 export {
   Tabs,

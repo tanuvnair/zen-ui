@@ -39,6 +39,7 @@ import NewStepperDemo from "./components/NewStepperDemo";
 import NewBannerDemo from "./components/NewBannerDemo";
 import NewEmptyStateDemo from "./components/NewEmptyStateDemo";
 import NewTabsDemo from "./components/NewTabsDemo";
+import NewAccordionDemo from "./components/NewAccordionDemo";
 import { Toaster } from "./components/toast/toaster";
 
 /**
@@ -90,6 +91,7 @@ const NAV: NavGroup[] = [
       { to: "/banner", label: "Banner" },
       { to: "/empty-state", label: "EmptyState" },
       { to: "/tabs", label: "Tabs" },
+      { to: "/accordion", label: "Accordion" },
     ],
   },
 ];
@@ -229,6 +231,7 @@ const App: React.FC = () => {
             <Route path="/banner" element={<NewBannerDemo />} />
             <Route path="/empty-state" element={<NewEmptyStateDemo />} />
             <Route path="/tabs" element={<NewTabsDemo />} />
+            <Route path="/accordion" element={<NewAccordionDemo />} />
           </Routes>
         </main>
       </div>

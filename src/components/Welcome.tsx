@@ -32,6 +32,7 @@ const COMPONENTS = [
   { to: "/banner", name: "Banner", description: "Page-top persistent callout — verification reminders, maintenance windows, impersonation" },
   { to: "/empty-state", name: "EmptyState", description: "First-run / no-data / no-results surface; icon + title + description + actions" },
   { to: "/tabs", name: "Tabs", description: "Radix-backed tabbed navigation; underline + pills variants, horizontal / vertical" },
+  { to: "/accordion", name: "Accordion", description: "Radix-backed collapsible sections; single + multiple expand modes" },
 ];
 
 const Welcome = () => {

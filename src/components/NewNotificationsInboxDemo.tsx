@@ -152,13 +152,17 @@ const NewNotificationsInboxDemo: React.FC = () => {
         <h2>2. Controlled open</h2>
         <CodeExample
           title="open + onOpenChange"
-          description="Drive the panel from anywhere — keyboard shortcut, deep link, parent menu state."
+          description={
+            "Drive the panel from anywhere — keyboard shortcut, deep link, parent menu state. Use explicit Open / Close buttons rather than a toggle so the external action doesn't race with Radix's outside-click dismissal."
+          }
           code={`const [open, setOpen] = useState(false);
 <NotificationsInbox
   open={open}
   onOpenChange={setOpen}
   notifications={feed}
-/>`}
+/>
+<Button onClick={() => setOpen(true)} disabled={open}>Open</Button>
+<Button onClick={() => setOpen(false)} disabled={!open} variant="outline">Close</Button>`}
         >
           <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
             <NotificationsInbox
@@ -166,9 +170,22 @@ const NewNotificationsInboxDemo: React.FC = () => {
               open={controlledOpen}
               onOpenChange={setControlledOpen}
             />
-            <Button onClick={() => setControlledOpen((o) => !o)}>
-              {controlledOpen ? "Close panel" : "Open panel"}
+            <Button
+              onClick={() => setControlledOpen(true)}
+              disabled={controlledOpen}
+            >
+              Open panel
             </Button>
+            <Button
+              variant="outline"
+              onClick={() => setControlledOpen(false)}
+              disabled={!controlledOpen}
+            >
+              Close panel
+            </Button>
+            <span style={{ fontSize: "1.2rem", color: "var(--zen-color-muted-fg)" }}>
+              open: <code>{String(controlledOpen)}</code>
+            </span>
           </div>
         </CodeExample>
       </section>

@@ -341,9 +341,10 @@ UX research (Baymard, Stripe Elements, NNG, *Form Design Patterns*).
       primitive distinct from rating.
 - [ ] **Likert scale** (5-point agree/disagree) — also distinct from
       rating; semantically a single-choice question with fixed labels.
-- [ ] **Range slider** (two-handle) — budget / age / price / tenure
-      ranges. Radix Slider already supports range; wire a dual-thumb
-      variant.
+- [x] **Range slider** (two-handle) — already shipped. The existing
+      `<Slider>` auto-renders one Radix Thumb per value in the array
+      (`defaultValue={[20, 80]}`), so range is just an array-shaped
+      value. Demo at `/slider-new` section 3.
 - [ ] **Date-range picker** — two-month calendar with start + end.
       Stays / appointments / loan tenure.
 - [ ] **Tag / chip input** — type + Enter to add. Skills, interests,

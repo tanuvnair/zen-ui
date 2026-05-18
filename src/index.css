@@ -1,0 +1,47 @@
+/* Global base styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+:root {
+  --font-family: "Plus Jakarta Sans", sans-serif, "Lato";
+  --amplify-fonts-default-variable: var(--font-family);
+  --recapture-color: #dd8901;
+  
+  /* Slider CSS Variables */
+  --slider-foreground-color: #ecedee;
+  --slider-primary-color: #006fee;
+  --slider-secondary-color: #9353d3;
+  --slider-success-color: #17c964;
+  --slider-warning-color: #f5a524;
+  --slider-danger-color: #f31260;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family, "Plus Jakarta Sans", "Lato", sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Set base font-size so 1rem = 10px (assuming browser default 16px) */
+html {
+  font-size: 62.5%;
+  overflow-x: hidden;
+}
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}

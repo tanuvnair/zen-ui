@@ -1,0 +1,310 @@
+/**
+ * Design tokens for @algorisys/zen-ui.
+ *
+ * Themes are layered with `:root[data-theme="<name>"]` selectors. The base
+ * `:root` block is the "default" theme. Consumers can either:
+ *   - keep `data-theme` unset / set to "default" → uses the Algorisys brand palette
+ *   - set `data-theme="zen-theme"` on <html> → switches to the Algorisys Zen palette
+ *   - set `data-theme="dark"` on <html> → switches to a dark variant
+ *   - override individual --zen-* vars at any ancestor for ad-hoc themes
+ *
+ * The demo app's ThemeSwitcher (src/components/theme-switcher.tsx) toggles
+ * the `data-theme` attribute on <html> and persists the choice in
+ * localStorage.
+ *
+ * Default — Algorisys brand palette:
+ *   Primary  — Red #CE1010, Blue #1C43B9
+ *   Neutrals — #FFFFFF, #F5F5F5, #D5D5D5, #606060, #343434, #000000
+ *   Accents  — Light Blue #B1C7D7, Navy #254977, Purple #3A136D,
+ *              Gold #F2BB13, Orange #F2622E
+ */
+
+/* ===================================================================== *
+ * DEFAULT — Algorisys brand                                             *
+ * ===================================================================== */
+:root,
+:root[data-theme="default"] {
+  --zen-color-primary: #1C43B9;
+  --zen-color-primary-fg: #ffffff;
+  --zen-color-primary-soft: #EEF2FB;
+  --zen-color-primary-soft-fg: #1C43B9;
+
+  --zen-color-neutral: #343434;
+  --zen-color-neutral-fg: #ffffff;
+  --zen-color-neutral-soft: #F5F5F5;
+  --zen-color-neutral-soft-fg: #343434;
+
+  --zen-color-info: #254977;
+  --zen-color-info-fg: #ffffff;
+  --zen-color-info-soft: #EAEFF6;
+  --zen-color-info-soft-fg: #254977;
+
+  --zen-color-success: #1A7A1E;
+  --zen-color-success-fg: #ffffff;
+  --zen-color-success-soft: #EBF6EC;
+  --zen-color-success-soft-fg: #1A7A1E;
+
+  --zen-color-warning: #F2BB13;
+  --zen-color-warning-fg: #343434;
+  --zen-color-warning-soft: #FEF6DA;
+  --zen-color-warning-soft-fg: #876804;
+
+  --zen-color-error: #CE1010;
+  --zen-color-error-fg: #ffffff;
+  --zen-color-error-soft: #FDE7E7;
+  --zen-color-error-soft-fg: #CE1010;
+
+  --zen-color-background: #ffffff;
+  --zen-color-foreground: #343434;
+  --zen-color-muted: #F5F5F5;
+  --zen-color-muted-fg: #606060;
+  --zen-color-border: #D5D5D5;
+  --zen-color-ring: #1C43B9;
+
+  --zen-status-online: #1A7A1E;
+  --zen-status-offline: #606060;
+  --zen-status-away: #F2BB13;
+  --zen-status-busy: #CE1010;
+
+  --zen-color-accent-orange: #F2622E;
+  --zen-color-accent-purple: #3A136D;
+  --zen-color-accent-light-blue: #B1C7D7;
+
+  --zen-radius-sm: 4px;
+  --zen-radius-md: 6px;
+  --zen-radius-lg: 8px;
+  --zen-radius-full: 9999px;
+
+  --zen-border-width: 1px;
+
+  /* --------------------------------------------------------------------- *
+   * Elevation / shadows — sourced from Zen theme shadows-blur spec.       *
+   * Spec colour is Neutral/500 (#131A25); we apply conventional alpha so  *
+   * shadows render subtly. xxlarge uses pure black per spec.              *
+   * --------------------------------------------------------------------- */
+  --zen-shadow-xs:  0 1px 4px 0 rgba(19, 26, 37, 0.08);
+  --zen-shadow-sm:  0 4px 8px 0 rgba(19, 26, 37, 0.10);
+  --zen-shadow-md:  0 6px 8px 2px rgba(19, 26, 37, 0.10);
+  --zen-shadow-lg:  0 8px 12px 0 rgba(19, 26, 37, 0.12);
+  --zen-shadow-xl:  0 12px 24px 0 rgba(19, 26, 37, 0.14);
+  --zen-shadow-2xl: 0 20px 40px 0 rgba(0, 0, 0, 0.20);
+
+  /* --------------------------------------------------------------------- *
+   * Spacing scale — 4-px grid, derived from values used in the Zen theme  *
+   * table and alert layout specs (4 / 8 / 12 / 16 / 24 / 48 etc.).        *
+   * --------------------------------------------------------------------- */
+  --zen-space-0: 0;
+  --zen-space-1: 4px;
+  --zen-space-2: 8px;
+  --zen-space-3: 12px;
+  --zen-space-4: 16px;
+  --zen-space-5: 20px;
+  --zen-space-6: 24px;
+  --zen-space-8: 32px;
+  --zen-space-10: 40px;
+  --zen-space-12: 48px;
+  --zen-space-16: 64px;
+}
+
+/* ===================================================================== *
+ * ZEN THEME — Algorisys Zen palette                                     *
+ *                                                                       *
+ * Full 10-step shade scales for every role exposed as                   *
+ * --zen-color-<role>-<step> tokens; the role-based aliases              *
+ * (--zen-color-<role>, -soft, -soft-fg, -fg) map to specific steps so   *
+ * the existing components continue to work unchanged.                   *
+ *                                                                       *
+ *   Primary  blue:        500 = #214698                                 *
+ *   Neutral  dark grey:   500 = #131A25                                 *
+ *   Success  green:       500 = #1A7A1E                                 *
+ *   Info     teal:        500 = #007FAD                                 *
+ *   Warning  orange:      500 = #ED8E00                                 *
+ *   Destructive red:      500 = #E23318                                 *
+ *                                                                       *
+ * Convention: -soft = step 20, -soft-fg = step 700, on white surface.   *
+ * ===================================================================== */
+:root[data-theme="zen-theme"] {
+  /* ---- Primary (blue) scale ----------------------------------------- */
+  --zen-color-primary-20: #DBE9FA;
+  --zen-color-primary-50: #DBE9FA;
+  --zen-color-primary-100: #A8C7F4;
+  --zen-color-primary-200: #A8C7F4;
+  --zen-color-primary-300: #769EE0;
+  --zen-color-primary-400: #4F76C1;
+  --zen-color-primary-500: #214698;
+  --zen-color-primary-600: #183582;
+  --zen-color-primary-700: #10276D;
+  --zen-color-primary-800: #0F2046;
+  --zen-color-primary-900: #09132A;
+
+  --zen-color-primary: var(--zen-color-primary-500);
+  --zen-color-primary-fg: #ffffff;
+  --zen-color-primary-soft: var(--zen-color-primary-20);
+  --zen-color-primary-soft-fg: var(--zen-color-primary-700);
+
+  /* ---- Neutral / greys --------------------------------------------- */
+  --zen-color-neutral-10: #FAFAFB;
+  --zen-color-neutral-30: #F3F3F4;
+  --zen-color-neutral-40: #ECEDED;
+  --zen-color-neutral-50: #E7E8E9;
+  --zen-color-neutral-100: #BFC2C4;
+  --zen-color-neutral-200: #7D8187;
+  --zen-color-neutral-300: #484E56;
+  --zen-color-neutral-400: #131A25;
+  --zen-color-neutral-500: #131A25;
+  --zen-color-neutral-600: #0E141C;
+  --zen-color-neutral-700: #0A0D13;
+  --zen-color-neutral-800: #050709;
+  --zen-color-neutral-900: #000000;
+
+  --zen-color-neutral: var(--zen-color-neutral-500);
+  --zen-color-neutral-fg: #ffffff;
+  --zen-color-neutral-soft: var(--zen-color-neutral-30);
+  --zen-color-neutral-soft-fg: var(--zen-color-neutral-500);
+
+  /* ---- Success (green) --------------------------------------------- */
+  --zen-color-success-20: #E9FCE5;
+  --zen-color-success-50: #E0F9D6;
+  --zen-color-success-100: #DDF8D1;
+  --zen-color-success-200: #B6F1A5;
+  --zen-color-success-300: #7FD771;
+  --zen-color-success-400: #4CAF47;
+  --zen-color-success-500: #1A7A1E;
+  --zen-color-success-600: #13681E;
+  --zen-color-success-700: #0D571D;
+  --zen-color-success-800: #08461B;
+  --zen-color-success-900: #043A1A;
+
+  --zen-color-success: var(--zen-color-success-500);
+  --zen-color-success-fg: #ffffff;
+  --zen-color-success-soft: var(--zen-color-success-20);
+  --zen-color-success-soft-fg: var(--zen-color-success-700);
+
+  /* ---- Info (teal / cyan) ------------------------------------------ */
+  --zen-color-info-20: #EBFEFE;
+  --zen-color-info-50: #E0FCFD;
+  --zen-color-info-100: #C8FAFA;
+  --zen-color-info-200: #94F1F6;
+  --zen-color-info-300: #5CD4E6;
+  --zen-color-info-400: #33AFCD;
+  --zen-color-info-500: #007FAD;
+  --zen-color-info-600: #006294;
+  --zen-color-info-700: #004A7C;
+  --zen-color-info-800: #003464;
+  --zen-color-info-900: #002553;
+
+  --zen-color-info: var(--zen-color-info-500);
+  --zen-color-info-fg: #ffffff;
+  --zen-color-info-soft: var(--zen-color-info-20);
+  --zen-color-info-soft-fg: var(--zen-color-info-700);
+
+  /* ---- Warning (orange) -------------------------------------------- */
+  --zen-color-warning-20: #FFF8E7;
+  --zen-color-warning-50: #FFF2D1;
+  --zen-color-warning-100: #FEF2CB;
+  --zen-color-warning-200: #FDE097;
+  --zen-color-warning-300: #F9C963;
+  --zen-color-warning-400: #F4B23D;
+  --zen-color-warning-500: #ED8E00;
+  --zen-color-warning-600: #CB7100;
+  --zen-color-warning-700: #AA5800;
+  --zen-color-warning-800: #894100;
+  --zen-color-warning-900: #713100;
+
+  --zen-color-warning: var(--zen-color-warning-500);
+  /* Warning solid bg is bright orange — dark text gives WCAG AA contrast */
+  --zen-color-warning-fg: var(--zen-color-neutral-500);
+  --zen-color-warning-soft: var(--zen-color-warning-20);
+  --zen-color-warning-soft-fg: var(--zen-color-warning-800);
+
+  /* ---- Destructive / error (red) ----------------------------------- */
+  --zen-color-error-20: #FFF1EA;
+  --zen-color-error-50: #FFE1D1;
+  --zen-color-error-100: #FDE4D0;
+  --zen-color-error-200: #FCC3A1;
+  --zen-color-error-300: #F69872;
+  --zen-color-error-400: #ED704E;
+  --zen-color-error-500: #E23318;
+  --zen-color-error-600: #C21B11;
+  --zen-color-error-700: #A20C0F;
+  --zen-color-error-800: #830714;
+  --zen-color-error-900: #6C0417;
+
+  --zen-color-error: var(--zen-color-error-500);
+  --zen-color-error-fg: #ffffff;
+  --zen-color-error-soft: var(--zen-color-error-20);
+  --zen-color-error-soft-fg: var(--zen-color-error-700);
+
+  /* ---- Surface & border (Shades + Neutrals) ------------------------ */
+  --zen-color-background: #FFFFFF;
+  --zen-color-foreground: var(--zen-color-neutral-500);
+  --zen-color-muted: var(--zen-color-neutral-30);
+  --zen-color-muted-fg: var(--zen-color-neutral-300);
+  --zen-color-border: var(--zen-color-neutral-50);
+  --zen-color-ring: var(--zen-color-primary-500);
+
+  /* ---- Status indicators ------------------------------------------- */
+  --zen-status-online: var(--zen-color-success-500);
+  --zen-status-offline: var(--zen-color-neutral-200);
+  --zen-status-away: var(--zen-color-warning-500);
+  --zen-status-busy: var(--zen-color-error-500);
+
+  /* ---- Accents (kept for compatibility with default theme) --------- */
+  --zen-color-accent-orange: var(--zen-color-warning-500);
+  --zen-color-accent-purple: #3A136D;
+  --zen-color-accent-light-blue: var(--zen-color-primary-200);
+}
+
+/* ===================================================================== *
+ * DARK — surface-inverted variant of default                            *
+ *                                                                       *
+ * Shipped for free since it falls out of the same token mechanism. Set *
+ * data-theme="dark" on <html> to enable.                                *
+ * ===================================================================== */
+:root[data-theme="dark"] {
+  --zen-color-primary: #6B8FE8;
+  --zen-color-primary-fg: #0B1228;
+  --zen-color-primary-soft: #1C2A4F;
+  --zen-color-primary-soft-fg: #B6C8F0;
+
+  --zen-color-neutral: #E5E7EB;
+  --zen-color-neutral-fg: #0B1228;
+  --zen-color-neutral-soft: #1F2937;
+  --zen-color-neutral-soft-fg: #E5E7EB;
+
+  --zen-color-info: #5B92C0;
+  --zen-color-info-fg: #0B1228;
+  --zen-color-info-soft: #1B2A38;
+  --zen-color-info-soft-fg: #98C4E6;
+
+  --zen-color-success: #4CB95A;
+  --zen-color-success-fg: #0B1228;
+  --zen-color-success-soft: #1B2D1E;
+  --zen-color-success-soft-fg: #8FE69C;
+
+  --zen-color-warning: #F2BB13;
+  --zen-color-warning-fg: #0B1228;
+  --zen-color-warning-soft: #322710;
+  --zen-color-warning-soft-fg: #F5D470;
+
+  --zen-color-error: #F26464;
+  --zen-color-error-fg: #0B1228;
+  --zen-color-error-soft: #341818;
+  --zen-color-error-soft-fg: #F5A0A0;
+
+  --zen-color-background: #0F172A;
+  --zen-color-foreground: #E5E7EB;
+  --zen-color-muted: #1F2937;
+  --zen-color-muted-fg: #94A3B8;
+  --zen-color-border: #334155;
+  --zen-color-ring: #6B8FE8;
+
+  --zen-status-online: #4CB95A;
+  --zen-status-offline: #64748B;
+  --zen-status-away: #F2BB13;
+  --zen-status-busy: #F26464;
+
+  --zen-color-accent-orange: #F2622E;
+  --zen-color-accent-purple: #B19CD8;
+  --zen-color-accent-light-blue: #B1C7D7;
+}

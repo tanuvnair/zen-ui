@@ -1,0 +1,27 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    // Enable declaration file generation
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": false,
+    "noEmit": false,
+    // Output directory for compiled files and declarations
+    "outDir": "./dist",
+    // Preserve module structure for better tree-shaking
+    "preserveWatchOutput": true,
+    // Relax unused variable checks for library build
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/**/*.spec.ts",
+    "src/**/*.spec.tsx",
+    "src/**/*Demo.tsx",
+    "src/App.tsx",
+    "src/main.tsx"
+  ]
+}

@@ -1,0 +1,71 @@
+import * as React from "react";
+import * as ProgressPrimitive from "@radix-ui/react-progress";
+import { cn } from "../../lib/cn";
+
+/**
+ * Progress — built on @radix-ui/react-progress.
+ *
+ *   <Progress value={67} />              // determinate
+ *   <Progress value={null} />            // indeterminate
+ *
+ * Radix supplies the correct ARIA (role="progressbar", aria-valuenow,
+ * aria-valuemax) and a data-state attribute we can target for styling.
+ */
+
+export type ProgressSize = "sm" | "md" | "lg";
+export type ProgressColor =
+  | "primary"
+  | "neutral"
+  | "info"
+  | "success"
+  | "warning"
+  | "error";
+
+export interface ProgressProps
+  extends React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> {
+  size?: ProgressSize;
+  color?: ProgressColor;
+}
+
+const TRACK_HEIGHT: Record<ProgressSize, string> = {
+  sm: "h-1",
+  md: "h-2",
+  lg: "h-3",
+};
+const FILL_BG: Record<ProgressColor, string> = {
+  primary: "bg-zen-primary",
+  neutral: "bg-zen-neutral",
+  info: "bg-zen-info",
+  success: "bg-zen-success",
+  warning: "bg-zen-warning",
+  error: "bg-zen-error",
+};
+
+const Progress = React.forwardRef<
+  React.ElementRef<typeof ProgressPrimitive.Root>,
+  ProgressProps
+>(({ className, value, size = "md", color = "primary", ...props }, ref) => (
+  <ProgressPrimitive.Root
+    ref={ref}
+    value={value}
+    className={cn(
+      "relative w-full overflow-hidden rounded-zen-full bg-zen-muted",
+      TRACK_HEIGHT[size],
+      className,
+    )}
+    {...props}
+  >
+    <ProgressPrimitive.Indicator
+      className={cn(
+        "h-full w-full flex-1 transition-transform",
+        FILL_BG[color],
+      )}
+      style={{
+        transform: `translateX(-${100 - (value ?? 0)}%)`,
+      }}
+    />
+  </ProgressPrimitive.Root>
+));
+Progress.displayName = ProgressPrimitive.Root.displayName;
+
+export { Progress };

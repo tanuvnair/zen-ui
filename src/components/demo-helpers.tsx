@@ -10,7 +10,12 @@ export interface CodeExampleProps {
   title: string;
   description?: string;
   code: string;
-  children: ReactNode;
+  /**
+   * Live preview rendered above the code block. Optional — omit for
+   * code-only doc snippets (e.g. when illustrating a polyfill the
+   * library doesn't bundle).
+   */
+  children?: ReactNode;
   /** Override the preview area's layout (e.g. to use grid). */
   previewStyle?: React.CSSProperties;
 }
@@ -49,9 +54,11 @@ export function CodeExample({
           {copied ? "✓ Copied" : "Copy Code"}
         </button>
       </div>
-      <div className="example-preview" style={previewStyle}>
-        {children}
-      </div>
+      {children !== undefined && (
+        <div className="example-preview" style={previewStyle}>
+          {children}
+        </div>
+      )}
       <pre className="example-code">
         <code>{code}</code>
       </pre>

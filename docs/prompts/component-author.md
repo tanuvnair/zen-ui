@@ -197,10 +197,16 @@ readonly/disabled, etc.).
 Run these three in order. Don't claim "done" until all pass:
 
 ```bash
-npx tsc --noEmit                                # 1. type-check
+npx tsc -b                                      # 1. type-check (project refs)
 npm run build:lib                               # 2. library build
 npx vite build --config vite.config.demo.ts     # 3. demo build
 ```
+
+> ⚠️ Use `tsc -b`, **not** `tsc --noEmit`. The root `tsconfig.json` has
+> `"files": []` and delegates to project references, so plain `tsc
+> --noEmit` from the repo root type-checks nothing. `tsc -b` walks the
+> references and actually compiles each project — that's the one that
+> catches real errors in demo files.
 
 For UI changes, also visit the demo route in a browser (or headless
 Chrome) and exercise:
@@ -301,7 +307,7 @@ say so explicitly and wait for confirmation.
 
 ## Final checklist before declaring done
 
-- [ ] `tsc --noEmit` passes
+- [ ] `tsc -b` passes (uses project references; plain `--noEmit` is a no-op here)
 - [ ] `npm run build:lib` passes
 - [ ] `npx vite build --config vite.config.demo.ts` passes
 - [ ] Demo route renders without console errors

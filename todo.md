@@ -341,8 +341,11 @@ UX research (Baymard, Stripe Elements, NNG, *Form Design Patterns*).
       `allowClear` toggle on the active star, read-only display mode,
       optional hidden input for native form submission. Demo at
       `/rating`.
-- [ ] **NPS** (0-10 strip with promoter / detractor labels) — survey
-      primitive distinct from rating.
+- [x] **NPS** — `<NPS>` 0–10 strip with standard detractor (0–6) /
+      passive (7–8) / promoter (9–10) buckets color-coded via existing
+      error/warning/success tokens. Selected score gets the saturated
+      bucket fill. Anchor labels customizable, optional bucket caption
+      below ("8 · Promoter"). Demo at `/nps`.
 - [ ] **Likert scale** (5-point agree/disagree) — also distinct from
       rating; semantically a single-choice question with fixed labels.
 - [x] **Range slider** (two-handle) — already shipped. The existing

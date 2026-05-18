@@ -33,6 +33,10 @@ export type {
 export { Rating } from "./components/survey/rating";
 export type { RatingProps } from "./components/survey/rating";
 
+// Survey primitives - NPS (Net Promoter Score 0-10 strip)
+export { NPS } from "./components/survey/nps";
+export type { NPSProps } from "./components/survey/nps";
+
 // Form Components - TagInput (type + Enter chip input)
 export { TagInput } from "./components/form/tag-input/tag-input";
 export type { TagInputProps } from "./components/form/tag-input/tag-input";

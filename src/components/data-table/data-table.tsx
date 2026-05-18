@@ -196,6 +196,23 @@ export interface DataTableProps<TData, TValue = unknown> {
   expanded?: ExpandedState;
   onExpandedChange?: (state: ExpandedState) => void;
   /**
+   * Persist user-tweaked column state to localStorage under
+   * `zen-dt:${persistKey}`. The persisted snapshot covers `columnOrder`,
+   * `columnSizing`, `columnVisibility`, and `columnPinning` — anything
+   * the user can manipulate via drag / resize / Columns menu. Filters,
+   * sorting, selection, and pagination are deliberately left out (too
+   * volatile, usually app-state not user-state).
+   *
+   *   <DataTable persistKey="people-table" … />
+   *
+   * The hydrated snapshot only applies to uncontrolled state — if you
+   * also pass `columnPinning` (etc.) as a controlled prop, that wins.
+   * No-op when omitted; localStorage failures (quota, private mode)
+   * are swallowed.
+   */
+  persistKey?: string;
+
+  /**
    * Stable row-id resolver. Defaults to the row's array index, which is
    * fine for static lists but breaks identity-tracking features the
    * moment rows reorder or get inserted: row selection by id, row
@@ -336,6 +353,7 @@ export function DataTable<TData, TValue = unknown>({
   enableRowOrdering = false,
   onRowOrderChange,
   getRowId,
+  persistKey,
   renderBulkActions,
   renderSubRow,
   expanded: expandedProp,
@@ -382,17 +400,33 @@ export function DataTable<TData, TValue = unknown>({
   const [sortingInner, setSortingInner] = React.useState<SortingState>([]);
   const [filtersInner, setFiltersInner] = React.useState<ColumnFiltersState>([]);
   const [selectionInner, setSelectionInner] = React.useState<RowSelectionState>({});
-  const [visibilityInner, setVisibilityInner] = React.useState<VisibilityState>({});
+  const [visibilityInner, setVisibilityInner] = React.useState<VisibilityState>(
+    () => persisted?.columnVisibility ?? {},
+  );
   const [globalFilterInner, setGlobalFilterInner] = React.useState("");
   const [paginationInner, setPaginationInner] = React.useState<PaginationState>({
     pageIndex: 0,
     pageSize,
   });
-  const [columnOrder, setColumnOrder] = React.useState<ColumnOrderState>([]);
-  const [columnSizing, setColumnSizing] = React.useState<ColumnSizingState>({});
+  /* Read the persisted snapshot once at mount. Each piece (order /
+   * sizing / visibility / pinning) seeds the corresponding useState
+   * initializer. Failures swallow back to defaults. */
+  const persisted = React.useMemo(
+    () => loadPersistedState(persistKey),
+    [persistKey],
+  );
+
+  const [columnOrder, setColumnOrder] = React.useState<ColumnOrderState>(
+    () => persisted?.columnOrder ?? [],
+  );
+  const [columnSizing, setColumnSizing] = React.useState<ColumnSizingState>(
+    () => persisted?.columnSizing ?? {},
+  );
   const [columnPinningInner, setColumnPinningInner] =
     React.useState<ColumnPinningState>(
-      initialColumnPinning ?? { left: [], right: [] },
+      () =>
+        persisted?.columnPinning ??
+        initialColumnPinning ?? { left: [], right: [] },
     );
   const columnPinning = columnPinningProp ?? columnPinningInner;
   const [expandedInner, setExpandedInner] = React.useState<ExpandedState>({});
@@ -636,6 +670,18 @@ export function DataTable<TData, TValue = unknown>({
   });
 
   const rows = table.getRowModel().rows;
+
+  /* Write the persistable snapshot back to localStorage whenever any
+   * piece changes. Throttled to a microtask via useEffect; storage
+   * failures are swallowed. */
+  React.useEffect(() => {
+    savePersistedState(persistKey, {
+      columnOrder,
+      columnSizing,
+      columnVisibility: visibility,
+      columnPinning,
+    });
+  }, [persistKey, columnOrder, columnSizing, visibility, columnPinning]);
 
   /* drag-and-drop wiring for row reordering */
   const sensors = useSensors(
@@ -1363,6 +1409,49 @@ const downloadBlob = (blob: Blob, filename: string) => {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 };
+
+/* ----------------------------- Persisted state ----------------------- */
+/**
+ * Shape of the on-disk snapshot. Versioned so future shape changes can
+ * invalidate stale data rather than crash on a bad shape.
+ */
+interface PersistedState {
+  v: 1;
+  columnOrder?: ColumnOrderState;
+  columnSizing?: ColumnSizingState;
+  columnVisibility?: VisibilityState;
+  columnPinning?: ColumnPinningState;
+}
+
+const persistKeyPrefix = "zen-dt:";
+
+function loadPersistedState(key: string | undefined): PersistedState | null {
+  if (!key || typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(persistKeyPrefix + key);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as PersistedState;
+    if (parsed && parsed.v === 1) return parsed;
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+function savePersistedState(
+  key: string | undefined,
+  snapshot: Omit<PersistedState, "v">,
+): void {
+  if (!key || typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(
+      persistKeyPrefix + key,
+      JSON.stringify({ v: 1, ...snapshot } satisfies PersistedState),
+    );
+  } catch {
+    // ignore quota / private-mode errors
+  }
+}
 
 /* ----------------------------- Drag handle + sortable row ------------ */
 function DragHandle({ id }: { id: string }) {

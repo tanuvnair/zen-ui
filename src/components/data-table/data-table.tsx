@@ -196,6 +196,22 @@ export interface DataTableProps<TData, TValue = unknown> {
   expanded?: ExpandedState;
   onExpandedChange?: (state: ExpandedState) => void;
   /**
+   * Per-row className hook. Called for each rendered body row; the
+   * returned string is merged into the row's className (after the
+   * built-in classes that handle hover / selected / borders). Useful
+   * for status-based row tinting:
+   *
+   *   <DataTable
+   *     rowClassName={(row) =>
+   *       row.original.status === "suspended" ? "bg-zen-error-soft/50" : ""
+   *     }
+   *   />
+   *
+   * Works in regular, row-reorder, and virtualized render paths.
+   */
+  rowClassName?: (row: Row<TData>) => string | undefined;
+
+  /**
    * Persist user-tweaked column state to localStorage under
    * `zen-dt:${persistKey}`. The persisted snapshot covers `columnOrder`,
    * `columnSizing`, `columnVisibility`, and `columnPinning` — anything
@@ -354,6 +370,7 @@ export function DataTable<TData, TValue = unknown>({
   onRowOrderChange,
   getRowId,
   persistKey,
+  rowClassName,
   renderBulkActions,
   renderSubRow,
   expanded: expandedProp,
@@ -868,6 +885,7 @@ export function DataTable<TData, TValue = unknown>({
                 id={row.id}
                 selected={row.getIsSelected()}
                 cellClassName={sepCellClass}
+                className={rowClassName?.(row)}
               >
                 {row.getVisibleCells().map((cell) => {
                   const pin = pinStyle(cell.column);
@@ -897,6 +915,7 @@ export function DataTable<TData, TValue = unknown>({
               <React.Fragment key={row.id}>
                 <TableRow
                   data-state={row.getIsSelected() ? "selected" : undefined}
+                  className={rowClassName?.(row)}
                 >
                   {row.getVisibleCells().map((cell) => {
                     const pin = pinStyle(cell.column);
@@ -980,6 +999,7 @@ export function DataTable<TData, TValue = unknown>({
             onStartEdit={startEdit}
             onCommitEdit={commitEdit}
             onCancelEdit={cancelEdit}
+            rowClassName={rowClassName}
           />
         ) : rowOrderingActive ? (
           <DndContext
@@ -1485,11 +1505,13 @@ function DragHandle({ id }: { id: string }) {
 function SortableRow({
   id,
   selected,
+  className,
   children,
 }: {
   id: string;
   selected: boolean;
   cellClassName: string;
+  className?: string;
   children: React.ReactNode;
 }) {
   const {
@@ -1503,6 +1525,7 @@ function SortableRow({
     <TableRow
       ref={setNodeRef}
       data-state={selected ? "selected" : undefined}
+      className={className}
       style={{
         transform: CSS.Transform.toString(transform),
         transition,
@@ -1857,6 +1880,7 @@ function VirtualizedBody<TData>({
   onStartEdit,
   onCommitEdit,
   onCancelEdit,
+  rowClassName,
 }: {
   table: TanStackTable<TData>;
   maxHeight: number;
@@ -1868,6 +1892,7 @@ function VirtualizedBody<TData>({
   onStartEdit: (rowId: string, columnId: string) => void;
   onCommitEdit: (rowId: string, columnId: string, value: unknown) => void;
   onCancelEdit: () => void;
+  rowClassName?: (row: Row<TData>) => string | undefined;
 }) {
   /* Same pin-style algorithm as the HTML-table path. Sticky offsets read
    * from TanStack's column.getStart('left') / getAfter('right'). In
@@ -2040,6 +2065,7 @@ function VirtualizedBody<TData>({
                   // selected — bg + sm shadow + 1px primary inside outline (Zen theme spec)
                   row.getIsSelected() &&
                     "bg-zen-primary-soft shadow-zen-sm outline outline-1 -outline-offset-1 outline-zen-primary",
+                  rowClassName?.(row),
                 )}
               >
                 {row.getVisibleCells().map((cell) => {

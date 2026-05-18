@@ -741,7 +741,36 @@ const columns = [
       </section>
 
       <section className="demo-section">
-        <h2>22. Everything together</h2>
+        <h2>22. rowClassName — per-row styling</h2>
+        <CodeExample
+          title="Tint rows based on data — e.g. suspended users get a red wash"
+          description={`The hook is called once per rendered body row. The returned string is merged after the built-in classes, so it composes with hover / selected styling instead of replacing it.`}
+          code={`<DataTable
+  data={small}
+  columns={columns}
+  rowClassName={(row) =>
+    row.original.status === "suspended" ? "bg-zen-error-soft/40"
+    : row.original.status === "invited" ? "bg-zen-info-soft/30"
+    : undefined
+  }
+/>`}
+        >
+          <DataTable
+            data={SMALL}
+            columns={columns}
+            rowClassName={(row) =>
+              row.original.status === "suspended"
+                ? "bg-zen-error-soft/40"
+                : row.original.status === "invited"
+                ? "bg-zen-info-soft/30"
+                : undefined
+            }
+          />
+        </CodeExample>
+      </section>
+
+      <section className="demo-section">
+        <h2>23. Everything together</h2>
         <CodeExample
           title="All toggles on, virtualization off (uses pagination instead)"
           code={`<DataTable

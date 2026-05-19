@@ -107,3 +107,170 @@ export type { NPSProps } from "./components/survey/nps";
 
 export { Likert } from "./components/survey/likert";
 export type { LikertProps, LikertOption } from "./components/survey/likert";
+
+// ---------------------------------------------------------------------------
+// Tier 2 — Kobalte-backed components
+// ---------------------------------------------------------------------------
+
+export {
+  Avatar,
+  AvatarImage,
+  AvatarFallback,
+  AvatarGroup,
+} from "./components/avatar/avatar";
+export type {
+  AvatarProps,
+  AvatarImageProps,
+  AvatarGroupProps,
+  AvatarSize,
+} from "./components/avatar/avatar";
+
+export { Progress } from "./components/progress/progress";
+export type {
+  ProgressProps,
+  ProgressSize,
+  ProgressColor,
+} from "./components/progress/progress";
+
+export { Switch } from "./components/form/switch/switch";
+export type { SwitchProps, SwitchSize } from "./components/form/switch/switch";
+
+export { Checkbox } from "./components/form/checkbox/checkbox";
+export type {
+  CheckboxProps,
+  CheckboxSize,
+} from "./components/form/checkbox/checkbox";
+
+export {
+  RadioGroup,
+  RadioGroupItem,
+} from "./components/form/radio/radio-group";
+export type {
+  RadioGroupProps,
+  RadioGroupItemProps,
+  RadioSize,
+} from "./components/form/radio/radio-group";
+
+export {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipPortal,
+} from "./components/tooltip/tooltip";
+export type { TooltipContentProps } from "./components/tooltip/tooltip";
+
+export {
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+  tabsListVariants,
+  tabsTriggerVariants,
+} from "./components/tabs/tabs";
+export type {
+  TabsProps,
+  TabsListProps,
+  TabsTriggerProps,
+  TabsContentProps,
+} from "./components/tabs/tabs";
+
+export {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "./components/accordion/accordion";
+export type {
+  AccordionProps,
+  AccordionItemProps,
+  AccordionTriggerProps,
+  AccordionContentProps,
+} from "./components/accordion/accordion";
+
+export { Slider } from "./components/form/slider/slider";
+export type { SliderProps } from "./components/form/slider/slider";
+
+export {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverAnchor,
+  PopoverClose,
+  PopoverPortal,
+} from "./components/popover/popover";
+export type { PopoverContentProps } from "./components/popover/popover";
+
+export {
+  Dialog,
+  DialogTrigger,
+  DialogPortal,
+  DialogClose,
+  DialogOverlay,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+} from "./components/dialog/dialog";
+export type { DialogContentProps } from "./components/dialog/dialog";
+
+export {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogPortal,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from "./components/dialog/alert-dialog";
+export type { AlertDialogContentProps } from "./components/dialog/alert-dialog";
+
+export {
+  Sheet,
+  SheetTrigger,
+  SheetClose,
+  SheetPortal,
+  SheetOverlay,
+  SheetContent,
+  SheetHeader,
+  SheetFooter,
+  SheetTitle,
+  SheetDescription,
+  sheetContentVariants,
+} from "./components/sheet/sheet";
+export type { SheetContentProps } from "./components/sheet/sheet";
+
+export {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuCheckboxItem,
+  DropdownMenuRadioItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuGroup,
+  DropdownMenuPortal,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuRadioGroup,
+} from "./components/dropdown-menu/dropdown-menu";
+export type {
+  DropdownMenuItemProps,
+  DropdownMenuCheckboxItemProps,
+  DropdownMenuRadioItemProps,
+} from "./components/dropdown-menu/dropdown-menu";
+
+export { Select } from "./components/form/select/select";
+export type { SelectProps, SelectOption } from "./components/form/select/select";
+
+export { ScrollArea, ScrollBar } from "./components/scroll-area/scroll-area";
+export type { ScrollAreaProps } from "./components/scroll-area/scroll-area";
+
+export { Toaster, toast } from "./components/toast/toaster";

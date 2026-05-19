@@ -28,6 +28,22 @@ import NewStepperDemo from "./components/NewStepperDemo";
 import NewRatingDemo from "./components/NewRatingDemo";
 import NewNpsDemo from "./components/NewNpsDemo";
 import NewLikertDemo from "./components/NewLikertDemo";
+import NewAvatarDemo from "./components/NewAvatarDemo";
+import NewProgressDemo from "./components/NewProgressDemo";
+import NewSwitchDemo from "./components/NewSwitchDemo";
+import NewCheckboxDemo from "./components/NewCheckboxDemo";
+import NewRadioGroupDemo from "./components/NewRadioGroupDemo";
+import NewTooltipDemo from "./components/NewTooltipDemo";
+import NewTabsDemo from "./components/NewTabsDemo";
+import NewAccordionDemo from "./components/NewAccordionDemo";
+import NewSliderDemo from "./components/NewSliderDemo";
+import NewPopoverDemo from "./components/NewPopoverDemo";
+import NewDialogDemo from "./components/NewDialogDemo";
+import NewSheetDemo from "./components/NewSheetDemo";
+import NewDropdownMenuDemo from "./components/NewDropdownMenuDemo";
+import NewSelectDemo from "./components/NewSelectDemo";
+import NewScrollAreaDemo from "./components/NewScrollAreaDemo";
+import NewToastDemo from "./components/NewToastDemo";
 
 applyTheme(getInitialTheme());
 
@@ -52,6 +68,22 @@ render(
       <Route path="/rating" component={NewRatingDemo} />
       <Route path="/nps" component={NewNpsDemo} />
       <Route path="/likert" component={NewLikertDemo} />
+      <Route path="/avatar" component={NewAvatarDemo} />
+      <Route path="/progress" component={NewProgressDemo} />
+      <Route path="/switch" component={NewSwitchDemo} />
+      <Route path="/checkbox" component={NewCheckboxDemo} />
+      <Route path="/radio-group" component={NewRadioGroupDemo} />
+      <Route path="/tooltip" component={NewTooltipDemo} />
+      <Route path="/tabs" component={NewTabsDemo} />
+      <Route path="/accordion" component={NewAccordionDemo} />
+      <Route path="/slider" component={NewSliderDemo} />
+      <Route path="/popover" component={NewPopoverDemo} />
+      <Route path="/dialog" component={NewDialogDemo} />
+      <Route path="/sheet" component={NewSheetDemo} />
+      <Route path="/dropdown-menu" component={NewDropdownMenuDemo} />
+      <Route path="/select" component={NewSelectDemo} />
+      <Route path="/scroll-area" component={NewScrollAreaDemo} />
+      <Route path="/toast" component={NewToastDemo} />
     </Router>
   ),
   root,

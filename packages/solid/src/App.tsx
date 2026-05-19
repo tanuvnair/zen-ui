@@ -50,6 +50,47 @@ const NAV: NavGroup[] = [
       { label: "Likert", path: "/likert" },
     ],
   },
+  {
+    group: "Display (Kobalte)",
+    items: [
+      { label: "Avatar", path: "/avatar" },
+      { label: "Progress", path: "/progress" },
+      { label: "Tooltip", path: "/tooltip" },
+    ],
+  },
+  {
+    group: "Form (Kobalte)",
+    items: [
+      { label: "Switch", path: "/switch" },
+      { label: "Checkbox", path: "/checkbox" },
+      { label: "RadioGroup", path: "/radio-group" },
+      { label: "Slider", path: "/slider" },
+      { label: "Select", path: "/select" },
+    ],
+  },
+  {
+    group: "Disclosure (Kobalte)",
+    items: [
+      { label: "Tabs", path: "/tabs" },
+      { label: "Accordion", path: "/accordion" },
+    ],
+  },
+  {
+    group: "Overlays (Kobalte)",
+    items: [
+      { label: "Popover", path: "/popover" },
+      { label: "Dialog", path: "/dialog" },
+      { label: "Sheet", path: "/sheet" },
+      { label: "DropdownMenu", path: "/dropdown-menu" },
+      { label: "Toast", path: "/toast" },
+    ],
+  },
+  {
+    group: "Layout",
+    items: [
+      { label: "ScrollArea", path: "/scroll-area" },
+    ],
+  },
 ];
 
 const App: Component<ParentProps> = (props) => {

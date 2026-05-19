@@ -11,6 +11,11 @@
     "build": "bun --filter @algorisys/zen-ui-react build",
     "build:lib": "bun --filter @algorisys/zen-ui-react build:lib",
     "lint": "bun --filter @algorisys/zen-ui-react lint",
-    "preview": "bun --filter @algorisys/zen-ui-react preview"
+    "preview": "bun --filter @algorisys/zen-ui-react preview",
+    "dev:solid": "bun --filter @algorisys/zen-ui-solid dev",
+    "build:solid": "bun --filter @algorisys/zen-ui-solid build",
+    "build:lib:solid": "bun --filter @algorisys/zen-ui-solid build:lib",
+    "lint:solid": "bun --filter @algorisys/zen-ui-solid lint",
+    "preview:solid": "bun --filter @algorisys/zen-ui-solid preview"
   }
 }

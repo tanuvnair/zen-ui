@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "apps/*"
   ],
   "scripts": {
     "dev": "bun --filter @algorisys/zen-ui-react dev",
@@ -16,6 +17,8 @@
     "build:solid": "bun --filter @algorisys/zen-ui-solid build",
     "build:lib:solid": "bun --filter @algorisys/zen-ui-solid build:lib",
     "lint:solid": "bun --filter @algorisys/zen-ui-solid lint",
-    "preview:solid": "bun --filter @algorisys/zen-ui-solid preview"
+    "preview:solid": "bun --filter @algorisys/zen-ui-solid preview",
+    "dev:landing": "bun --filter @algorisys/zen-ui-landing dev",
+    "build:landing": "bun --filter @algorisys/zen-ui-landing build"
   }
 }

@@ -1,0 +1,30 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+:root {
+  --font-family: "Plus Jakarta Sans", sans-serif, "Lato";
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family, "Plus Jakarta Sans", sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+button {
+  font-family: inherit;
+}

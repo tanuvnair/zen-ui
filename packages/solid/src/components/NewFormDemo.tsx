@@ -34,8 +34,10 @@ type SignUpValues = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const NewFormDemo = () => {
   const [submitted, setSubmitted] = createSignal<SignUpValues | null>(null);
+  // Capture the form store (first tuple element) — Bound* needs it to
+  // call setValue() for Kobalte primitives that don't drive a native input.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [, { Form: MForm, Field }] = createForm<any>();
+  const [form, { Form: MForm, Field }] = createForm<any>();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [form2, { Form: MForm2, Field: Field2 }] = createForm<any>();
 
@@ -50,7 +52,7 @@ const NewFormDemo = () => {
             onSubmit={(values) => setSubmitted(values as SignUpValues)}
           >
             <BoundInput
-              of={undefined as never}
+              of={form}
               Field={Field}
               name="name"
               label="Name"
@@ -58,7 +60,7 @@ const NewFormDemo = () => {
               placeholder="Ada Lovelace"
             />
             <BoundInput
-              of={undefined as never}
+              of={form}
               Field={Field}
               name="email"
               label="Email"
@@ -67,7 +69,7 @@ const NewFormDemo = () => {
               placeholder="ada@algorisys.com"
             />
             <BoundTextarea
-              of={undefined as never}
+              of={form}
               Field={Field}
               name="bio"
               label="Bio"
@@ -75,7 +77,7 @@ const NewFormDemo = () => {
               rows={3}
             />
             <BoundSelect
-              of={undefined as never}
+              of={form}
               Field={Field}
               name="plan"
               label="Plan"
@@ -88,7 +90,7 @@ const NewFormDemo = () => {
               placeholder="Choose"
             />
             <BoundRadioGroup
-              of={undefined as never}
+              of={form}
               Field={Field}
               name="preferred"
               label="Preferred contact"
@@ -101,13 +103,13 @@ const NewFormDemo = () => {
               ]}
             />
             <BoundCheckbox
-              of={undefined as never}
+              of={form}
               Field={Field}
               name="newsletter"
               inlineLabel="Subscribe to the newsletter"
             />
             <BoundSwitch
-              of={undefined as never}
+              of={form}
               Field={Field}
               name="marketing"
               inlineLabel="Receive marketing updates"

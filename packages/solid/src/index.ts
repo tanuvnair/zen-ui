@@ -274,3 +274,30 @@ export { ScrollArea, ScrollBar } from "./components/scroll-area/scroll-area";
 export type { ScrollAreaProps } from "./components/scroll-area/scroll-area";
 
 export { Toaster, toast } from "./components/toast/toaster";
+
+// ---------------------------------------------------------------------------
+// Tier 3 — special-lib + custom components
+// ---------------------------------------------------------------------------
+
+export { Input, Textarea } from "./components/form/input/input";
+export type { InputProps, TextareaProps } from "./components/form/input/input";
+
+export { NumberField } from "./components/form/number-field/number-field";
+export type { NumberFieldProps } from "./components/form/number-field/number-field";
+
+export { TagInput } from "./components/form/tag-input/tag-input";
+export type { TagInputProps } from "./components/form/tag-input/tag-input";
+
+export { PhoneInput, COUNTRY_CODES, COUNTRY_NAMES } from "./components/form/phone-input/phone-input";
+export type { PhoneInputProps, PhoneValue } from "./components/form/phone-input/phone-input";
+
+export {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+  InputOTPSeparator,
+} from "./components/form/otp/otp";
+export type { InputOTPProps } from "./components/form/otp/otp";
+
+export { FileUpload } from "./components/file-upload/file-upload";
+export type { FileUploadProps, FileRejection } from "./components/file-upload/file-upload";

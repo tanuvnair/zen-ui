@@ -91,6 +91,17 @@ const NAV: NavGroup[] = [
       { label: "ScrollArea", path: "/scroll-area" },
     ],
   },
+  {
+    group: "Form (custom)",
+    items: [
+      { label: "Input", path: "/input" },
+      { label: "NumberField", path: "/number-field" },
+      { label: "TagInput", path: "/tag-input" },
+      { label: "PhoneInput", path: "/phone-input" },
+      { label: "InputOTP", path: "/otp" },
+      { label: "FileUpload", path: "/file-upload" },
+    ],
+  },
 ];
 
 const App: Component<ParentProps> = (props) => {

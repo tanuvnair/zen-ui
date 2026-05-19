@@ -44,6 +44,12 @@ import NewDropdownMenuDemo from "./components/NewDropdownMenuDemo";
 import NewSelectDemo from "./components/NewSelectDemo";
 import NewScrollAreaDemo from "./components/NewScrollAreaDemo";
 import NewToastDemo from "./components/NewToastDemo";
+import NewInputDemo from "./components/NewInputDemo";
+import NewNumberFieldDemo from "./components/NewNumberFieldDemo";
+import NewTagInputDemo from "./components/NewTagInputDemo";
+import NewPhoneInputDemo from "./components/NewPhoneInputDemo";
+import NewOTPDemo from "./components/NewOTPDemo";
+import NewFileUploadDemo from "./components/NewFileUploadDemo";
 
 applyTheme(getInitialTheme());
 
@@ -84,6 +90,12 @@ render(
       <Route path="/select" component={NewSelectDemo} />
       <Route path="/scroll-area" component={NewScrollAreaDemo} />
       <Route path="/toast" component={NewToastDemo} />
+      <Route path="/input" component={NewInputDemo} />
+      <Route path="/number-field" component={NewNumberFieldDemo} />
+      <Route path="/tag-input" component={NewTagInputDemo} />
+      <Route path="/phone-input" component={NewPhoneInputDemo} />
+      <Route path="/otp" component={NewOTPDemo} />
+      <Route path="/file-upload" component={NewFileUploadDemo} />
     </Router>
   ),
   root,

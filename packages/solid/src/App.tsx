@@ -1,33 +1,71 @@
-import type { Component } from "solid-js";
+import type { Component, ParentProps } from "solid-js";
 import { For } from "solid-js";
+import { A } from "@solidjs/router";
 import { useTheme } from "./lib/theme";
 
 /**
- * Bootstrap demo for @algorisys/zen-ui-solid.
- * Verifies that:
- *   - solid-js + vite-plugin-solid + UnoCSS toolchain works,
- *   - core's tokens.css / preflight.css load and resolve --zen-* vars,
- *   - the useTheme signal-based hook switches data-theme on <html>,
- *   - shared design tokens render identically to the React binding.
- *
- * Components are added below as they are ported (Tier 1 → Tier 2 → Tier 3).
+ * App shell — sidebar nav + a slot for the active route. Mirrors the
+ * packages/react demo layout so the two bindings can be compared
+ * side-by-side. New components are added by editing NAV below and
+ * registering the corresponding <Route> in main.tsx.
  */
-const App: Component = () => {
-  const { theme, setTheme, themes } = useTheme();
 
+type NavGroup = {
+  group: string;
+  items: { label: string; path: string }[];
+};
+
+const NAV: NavGroup[] = [
+  {
+    group: "Primitives",
+    items: [
+      { label: "Button", path: "/button" },
+      { label: "Badge", path: "/badge" },
+      { label: "Card", path: "/card" },
+      { label: "Skeleton", path: "/skeleton" },
+      { label: "Loading", path: "/loading" },
+      { label: "FAB", path: "/fab" },
+      { label: "Separator", path: "/separator" },
+    ],
+  },
+  {
+    group: "Surfaces",
+    items: [
+      { label: "Alert", path: "/alert" },
+      { label: "Banner", path: "/banner" },
+      { label: "EmptyState", path: "/empty-state" },
+    ],
+  },
+  {
+    group: "Flows",
+    items: [
+      { label: "Stepper", path: "/stepper" },
+    ],
+  },
+  {
+    group: "Survey",
+    items: [
+      { label: "Rating", path: "/rating" },
+      { label: "NPS", path: "/nps" },
+      { label: "Likert", path: "/likert" },
+    ],
+  },
+];
+
+const App: Component<ParentProps> = (props) => {
+  const { theme, setTheme, themes } = useTheme();
   return (
-    <div class="min-h-full p-8 bg-zen-background text-zen-foreground">
-      <header class="flex items-baseline justify-between mb-6 pb-4 border-b border-zen-border">
+    <div class="min-h-full flex bg-zen-background text-zen-foreground">
+      <aside class="w-60 shrink-0 border-r border-zen-border p-4 flex flex-col gap-4">
         <div>
-          <h1 class="text-2xl font-semibold m-0">Zen UI · Solid</h1>
-          <p class="text-zen-muted-fg text-sm mt-1">
-            Bootstrap demo. Components arrive as they are ported.
-          </p>
+          <div class="text-lg font-semibold">Zen UI · Solid</div>
+          <div class="text-xs text-zen-muted-fg">@algorisys/zen-ui-solid</div>
         </div>
-        <label class="text-sm flex items-center gap-2">
-          Theme
+
+        <label class="text-xs flex flex-col gap-1">
+          <span class="text-zen-muted-fg">Theme</span>
           <select
-            class="rounded-zen-md border border-zen-border px-2 py-1 bg-zen-background"
+            class="rounded-zen-md border border-zen-border px-2 py-1 text-sm bg-zen-background"
             value={theme()}
             onChange={(e) => setTheme(e.currentTarget.value as never)}
           >
@@ -36,37 +74,37 @@ const App: Component = () => {
             </For>
           </select>
         </label>
-      </header>
 
-      <section class="grid grid-cols-3 gap-4 max-w-3xl">
-        <For each={themes}>
-          {(t) => (
-            <div
-              class="rounded-zen-md border border-zen-border p-3 shadow-zen-sm"
-              data-theme={t.name}
-            >
-              <div class="text-xs uppercase tracking-wide text-zen-muted-fg mb-2">
-                {t.name}
+        <nav class="flex flex-col gap-4 mt-2">
+          <For each={NAV}>
+            {(group) => (
+              <div>
+                <div class="text-xs uppercase tracking-wide text-zen-muted-fg mb-1">
+                  {group.group}
+                </div>
+                <ul class="flex flex-col gap-0.5">
+                  <For each={group.items}>
+                    {(item) => (
+                      <li>
+                        <A
+                          href={item.path}
+                          class="block px-2 py-1.5 rounded-zen-sm text-sm text-zen-foreground hover:bg-zen-muted"
+                          activeClass="bg-zen-primary-soft text-zen-primary-soft-fg"
+                          end
+                        >
+                          {item.label}
+                        </A>
+                      </li>
+                    )}
+                  </For>
+                </ul>
               </div>
-              <div class="flex gap-2 mb-2">
-                <span
-                  class="w-6 h-6 rounded-zen-full"
-                  style={{ "background-color": t.preview[0] }}
-                />
-                <span
-                  class="w-6 h-6 rounded-zen-full"
-                  style={{ "background-color": t.preview[1] }}
-                />
-                <span
-                  class="w-6 h-6 rounded-zen-full"
-                  style={{ "background-color": t.preview[2] }}
-                />
-              </div>
-              <div class="text-sm">{t.description}</div>
-            </div>
-          )}
-        </For>
-      </section>
+            )}
+          </For>
+        </nav>
+      </aside>
+
+      <main class="flex-1 p-8 overflow-x-hidden">{props.children}</main>
     </div>
   );
 };

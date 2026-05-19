@@ -54,6 +54,14 @@ import NewDataTableDemo from "./components/NewDataTableDemo";
 import NewComboboxDemo from "./components/NewComboboxDemo";
 import NewMultiComboboxDemo from "./components/NewMultiComboboxDemo";
 import NewLazyOptionsDemo from "./components/NewLazyOptionsDemo";
+import NewFormDemo from "./components/NewFormDemo";
+import NewBoundFieldsDemo from "./components/NewBoundFieldsDemo";
+import NewDatePickerDemo from "./components/NewDatePickerDemo";
+import NewDateRangePickerDemo from "./components/NewDateRangePickerDemo";
+import NewTimePickerDemo from "./components/NewTimePickerDemo";
+import NewDateTimePickerDemo from "./components/NewDateTimePickerDemo";
+import NewQRScannerDemo from "./components/NewQRScannerDemo";
+import NewNotificationsInboxDemo from "./components/NewNotificationsInboxDemo";
 
 applyTheme(getInitialTheme());
 
@@ -104,6 +112,14 @@ render(
       <Route path="/combobox" component={NewComboboxDemo} />
       <Route path="/multi-combobox" component={NewMultiComboboxDemo} />
       <Route path="/lazy-options" component={NewLazyOptionsDemo} />
+      <Route path="/form-new" component={NewFormDemo} />
+      <Route path="/bound-fields" component={NewBoundFieldsDemo} />
+      <Route path="/date-picker" component={NewDatePickerDemo} />
+      <Route path="/date-range-picker" component={NewDateRangePickerDemo} />
+      <Route path="/time-picker" component={NewTimePickerDemo} />
+      <Route path="/date-time-picker" component={NewDateTimePickerDemo} />
+      <Route path="/qr-scanner" component={NewQRScannerDemo} />
+      <Route path="/notifications-inbox" component={NewNotificationsInboxDemo} />
     </Router>
   ),
   root,

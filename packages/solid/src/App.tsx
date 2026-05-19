@@ -111,6 +111,29 @@ const NAV: NavGroup[] = [
       { label: "VirtualizedItems", path: "/lazy-options" },
     ],
   },
+  {
+    group: "Forms",
+    items: [
+      { label: "Form", path: "/form-new" },
+      { label: "BoundFields", path: "/bound-fields" },
+    ],
+  },
+  {
+    group: "Date & time",
+    items: [
+      { label: "DatePicker", path: "/date-picker" },
+      { label: "DateRangePicker", path: "/date-range-picker" },
+      { label: "TimePicker", path: "/time-picker" },
+      { label: "DateTimePicker", path: "/date-time-picker" },
+    ],
+  },
+  {
+    group: "Composite",
+    items: [
+      { label: "QRScanner", path: "/qr-scanner" },
+      { label: "NotificationsInbox", path: "/notifications-inbox" },
+    ],
+  },
 ];
 
 const App: Component<ParentProps> = (props) => {

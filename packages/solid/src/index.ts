@@ -340,3 +340,57 @@ export { Combobox } from "./components/combobox/combobox";
 export type { ComboboxProps, ComboboxOption } from "./components/combobox/combobox";
 export { MultiCombobox } from "./components/combobox/multi-combobox";
 export type { MultiComboboxProps } from "./components/combobox/multi-combobox";
+
+// Tier 3 batch C — Form + BoundFields
+export {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormMessage,
+  useFormField,
+} from "./components/form-builder/form";
+export {
+  BoundInput,
+  BoundTextarea,
+  BoundSelect,
+  BoundCheckbox,
+  BoundSwitch,
+  BoundRadioGroup,
+  BoundSlider,
+} from "./components/form-builder/bound-fields";
+export type {
+  BoundInputProps,
+  BoundTextareaProps,
+  BoundSelectProps,
+  BoundCheckboxProps,
+  BoundSwitchProps,
+  BoundRadioGroupProps,
+  BoundSliderProps,
+  BoundSelectOption,
+} from "./components/form-builder/bound-fields";
+
+// Tier 3 batch D — Date / Time pickers
+export { Calendar, DatePicker } from "./components/form/date-picker/date-picker";
+export type {
+  CalendarProps,
+  DatePickerProps,
+  DateRange,
+} from "./components/form/date-picker/date-picker";
+export { DateRangePicker } from "./components/form/date-picker/date-range-picker";
+export type { DateRangePickerProps } from "./components/form/date-picker/date-range-picker";
+export { TimePicker } from "./components/form/time-picker/time-picker";
+export type { TimePickerProps } from "./components/form/time-picker/time-picker";
+export { DateTimePicker } from "./components/form/date-picker/date-time-picker";
+export type { DateTimePickerProps } from "./components/form/date-picker/date-time-picker";
+
+// Tier 3 batch E — device + composite
+export { QRScanner } from "./components/qr-scanner/qr-scanner";
+export type { QRScannerProps, QRScannerScan } from "./components/qr-scanner/qr-scanner";
+export { NotificationsInbox } from "./components/notifications-inbox/notifications-inbox";
+export type {
+  NotificationsInboxProps,
+  Notification,
+} from "./components/notifications-inbox/notifications-inbox";

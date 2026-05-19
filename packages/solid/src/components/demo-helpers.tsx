@@ -1,52 +1,72 @@
-import type { JSX, ParentProps } from "solid-js";
+import { type JSX, type ParentProps, createSignal, Show } from "solid-js";
+import "./demo-helpers.css";
 
 /**
- * Tiny shared shells used by NewXxxDemo.tsx pages. Mirrors the structure
- * of packages/react/src/components/demo-helpers.tsx without trying to
- * be feature-complete.
+ * Shared chrome for the shadcn-style demo pages — Solid port of the
+ * React binding's demo-helpers.tsx. Uses the same `.demo-page`,
+ * `.demo-section`, `.example` class names (see demo-helpers.css,
+ * copied verbatim from the React side) so the two demos render
+ * visually identically.
  */
 
-export const DemoPage = (
-  props: ParentProps<{ title: string; description?: string }>,
-) => (
-  <div>
-    <header class="mb-6">
-      <h1 class="text-2xl font-semibold m-0">{props.title}</h1>
-      {props.description ? (
-        <p class="text-zen-muted-fg mt-1 max-w-2xl">{props.description}</p>
-      ) : null}
-    </header>
-    <div class="flex flex-col gap-8">{props.children}</div>
+export const DemoPage = (props: ParentProps<{ title: string; description?: string }>) => (
+  <div class="demo-page">
+    <h1>{props.title}</h1>
+    <Show when={props.description}>
+      <p class="lede">{props.description}</p>
+    </Show>
+    {props.children}
   </div>
 );
 
 export const DemoSection = (
   props: ParentProps<{ title: string; description?: string }>,
 ) => (
-  <section>
-    <div class="text-xs uppercase tracking-wide text-zen-muted-fg mb-1">
-      {props.title}
-    </div>
-    {props.description ? (
-      <div class="text-sm text-zen-muted-fg mb-3 max-w-2xl">
+  <section class="demo-section">
+    <h2>{props.title}</h2>
+    <Show when={props.description}>
+      <p
+        style={{
+          "font-size": "1.4rem",
+          color: "var(--zen-color-muted-fg)",
+          margin: "0 0 1.2rem",
+        }}
+      >
         {props.description}
-      </div>
-    ) : null}
-    <div class="flex flex-wrap gap-3 items-center">{props.children}</div>
+      </p>
+    </Show>
+    <div
+      style={{
+        display: "flex",
+        "flex-wrap": "wrap",
+        gap: "0.8rem",
+        "align-items": "center",
+      }}
+    >
+      {props.children}
+    </div>
   </section>
 );
 
 export const Row = (props: { children: JSX.Element }) => (
-  <div class="flex flex-wrap gap-3 items-center">{props.children}</div>
+  <div
+    style={{
+      display: "flex",
+      "flex-wrap": "wrap",
+      gap: "0.8rem",
+      "align-items": "center",
+    }}
+  >
+    {props.children}
+  </div>
 );
 
 /**
- * CodeExample — card showing a live preview + the code that produced it,
- * with a copy-to-clipboard button. Mirrors the React binding's
- * CodeExample so the Solid demos read identically.
+ * CodeExample — card showing a live preview + the code that produced
+ * it, with a copy-to-clipboard button. Matches the React binding's
+ * CodeExample one-for-one (.example / .example-head / .example-preview
+ * / .example-code).
  */
-import { createSignal } from "solid-js";
-
 export const CodeExample = (props: {
   title: string;
   description?: string;
@@ -64,33 +84,30 @@ export const CodeExample = (props: {
       })
       .catch(() => {});
   };
+
   return (
-    <div class="rounded-zen-md border border-zen-border overflow-hidden">
-      <div class="flex items-start justify-between gap-3 px-4 py-3 border-b border-zen-border bg-zen-muted/30">
+    <div class="example">
+      <div class="example-head">
         <div>
-          <h3 class="m-0 text-sm font-semibold">{props.title}</h3>
-          {props.description ? (
-            <p class="m-0 mt-1 text-xs text-zen-muted-fg max-w-2xl">
-              {props.description}
-            </p>
-          ) : null}
+          <h3>{props.title}</h3>
+          <Show when={props.description}>
+            <p>{props.description}</p>
+          </Show>
         </div>
         <button
           type="button"
+          class={`example-copy${copied() ? " copied" : ""}`}
           onClick={handleCopy}
-          class={`text-xs px-2 py-1 rounded-zen-sm border border-zen-border bg-zen-background hover:bg-zen-muted cursor-pointer ${
-            copied() ? "text-zen-success" : ""
-          }`}
         >
           {copied() ? "✓ Copied" : "Copy Code"}
         </button>
       </div>
-      {props.children ? (
-        <div class="p-4 bg-zen-background" style={props.previewStyle}>
+      <Show when={props.children}>
+        <div class="example-preview" style={props.previewStyle}>
           {props.children}
         </div>
-      ) : null}
-      <pre class="m-0 px-4 py-3 text-xs bg-zen-muted/40 overflow-x-auto leading-relaxed border-t border-zen-border">
+      </Show>
+      <pre class="example-code">
         <code>{props.code}</code>
       </pre>
     </div>

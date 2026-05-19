@@ -1,13 +1,17 @@
-import type { Component, ParentProps } from "solid-js";
-import { For } from "solid-js";
+import { type Component, type ParentProps, ErrorBoundary, For, createSignal } from "solid-js";
 import { A } from "@solidjs/router";
 import { useTheme } from "./lib/theme";
+import "./App.css";
 
 /**
- * App shell — sidebar nav + a slot for the active route. Mirrors the
- * packages/react demo layout so the two bindings can be compared
- * side-by-side. New components are added by editing NAV below and
- * registering the corresponding <Route> in main.tsx.
+ * App shell — sticky header + collapsible sidebar + content area.
+ * Mirrors the React demo's structure and CSS classes (see App.css,
+ * copied verbatim from packages/react/src/App.css) so the two demos
+ * read identically.
+ *
+ * Routes render inside an ErrorBoundary so a render-time crash in one
+ * demo surfaces inline instead of silently leaving the content area
+ * blank.
  */
 
 type NavGroup = {
@@ -38,9 +42,7 @@ const NAV: NavGroup[] = [
   },
   {
     group: "Flows",
-    items: [
-      { label: "Stepper", path: "/stepper" },
-    ],
+    items: [{ label: "Stepper", path: "/stepper" }],
   },
   {
     group: "Survey",
@@ -87,9 +89,7 @@ const NAV: NavGroup[] = [
   },
   {
     group: "Layout",
-    items: [
-      { label: "ScrollArea", path: "/scroll-area" },
-    ],
+    items: [{ label: "ScrollArea", path: "/scroll-area" }],
   },
   {
     group: "Form (custom)",
@@ -136,59 +136,139 @@ const NAV: NavGroup[] = [
   },
 ];
 
+const MenuIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden>
+    <line x1="3" y1="12" x2="21" y2="12" />
+    <line x1="3" y1="6" x2="21" y2="6" />
+    <line x1="3" y1="18" x2="21" y2="18" />
+  </svg>
+);
+
+const RouteError = (props: { err: unknown; reset: () => void }) => (
+  <div style={{ padding: "2.4rem", "max-width": "80rem", margin: "0 auto" }}>
+    <div
+      style={{
+        background: "var(--zen-color-error-soft)",
+        color: "var(--zen-color-error-soft-fg)",
+        border: "1px solid var(--zen-color-error)",
+        "border-radius": "0.6rem",
+        padding: "1.6rem",
+      }}
+    >
+      <h2 style={{ margin: "0 0 0.8rem", "font-size": "1.6rem" }}>
+        Demo failed to render
+      </h2>
+      <p style={{ margin: "0 0 1rem", "font-size": "1.3rem" }}>
+        {props.err instanceof Error ? props.err.message : String(props.err)}
+      </p>
+      <button
+        onClick={props.reset}
+        style={{
+          padding: "0.6rem 1.2rem",
+          "border-radius": "0.4rem",
+          border: "1px solid var(--zen-color-error)",
+          background: "transparent",
+          color: "inherit",
+          cursor: "pointer",
+          "font-size": "1.3rem",
+        }}
+      >
+        Retry
+      </button>
+      <details style={{ "margin-top": "1rem", "font-size": "1.2rem" }}>
+        <summary style={{ cursor: "pointer" }}>Stack</summary>
+        <pre style={{ overflow: "auto", "font-size": "1.1rem", "white-space": "pre-wrap" }}>
+          {props.err instanceof Error ? props.err.stack : ""}
+        </pre>
+      </details>
+    </div>
+  </div>
+);
+
 const App: Component<ParentProps> = (props) => {
   const { theme, setTheme, themes } = useTheme();
+  const [collapsed, setCollapsed] = createSignal(false);
+
   return (
-    <div class="min-h-full flex bg-zen-background text-zen-foreground">
-      <aside class="w-60 shrink-0 border-r border-zen-border p-4 flex flex-col gap-4">
-        <div>
-          <div class="text-lg font-semibold">Zen UI · Solid</div>
-          <div class="text-xs text-zen-muted-fg">@algorisys/zen-ui-solid</div>
-        </div>
-
-        <label class="text-xs flex flex-col gap-1">
-          <span class="text-zen-muted-fg">Theme</span>
-          <select
-            class="rounded-zen-md border border-zen-border px-2 py-1 text-sm bg-zen-background"
-            value={theme()}
-            onChange={(e) => setTheme(e.currentTarget.value as never)}
+    <div class="app-shell">
+      <header class="app-header">
+        <div class="app-header-left">
+          <button
+            type="button"
+            class="sidebar-toggle"
+            onClick={() => setCollapsed((v) => !v)}
+            aria-label={collapsed() ? "Open sidebar" : "Close sidebar"}
           >
-            <For each={themes}>
-              {(t) => <option value={t.name}>{t.label}</option>}
-            </For>
-          </select>
-        </label>
+            <MenuIcon />
+          </button>
+          <div class="app-header-text">
+            <h1 class="app-title">Zen UI · Solid</h1>
+            <p class="app-subtitle">@algorisys/zen-ui-solid · component demo</p>
+          </div>
+        </div>
+        <div class="app-header-actions">
+          <label style={{
+            display: "inline-flex",
+            "align-items": "center",
+            gap: "0.8rem",
+            "font-size": "1.3rem",
+            color: "var(--zen-color-muted-fg)",
+          }}>
+            Theme
+            <select
+              value={theme()}
+              onChange={(e) => setTheme(e.currentTarget.value as never)}
+              style={{
+                padding: "0.5rem 0.8rem",
+                "border-radius": "0.4rem",
+                border: "1px solid var(--zen-color-border)",
+                background: "var(--zen-color-background)",
+                color: "var(--zen-color-foreground)",
+                "font-size": "1.3rem",
+                cursor: "pointer",
+              }}
+            >
+              <For each={themes}>{(t) => <option value={t.name}>{t.label}</option>}</For>
+            </select>
+          </label>
+        </div>
+      </header>
 
-        <nav class="flex flex-col gap-4 mt-2">
-          <For each={NAV}>
-            {(group) => (
-              <div>
-                <div class="text-xs uppercase tracking-wide text-zen-muted-fg mb-1">
-                  {group.group}
+      <div class="app-body">
+        <aside class={`sidebar ${collapsed() ? "is-collapsed" : ""}`}>
+          <nav>
+            <For each={NAV}>
+              {(group) => (
+                <div class="sidebar-group">
+                  <h3 class="sidebar-group-title">{group.group}</h3>
+                  <ul class="sidebar-list">
+                    <For each={group.items}>
+                      {(item) => (
+                        <li>
+                          <A
+                            href={item.path}
+                            class="sidebar-link sidebar-link-inactive"
+                            activeClass="sidebar-link sidebar-link-active"
+                            inactiveClass="sidebar-link-inactive"
+                            end
+                          >
+                            {item.label}
+                          </A>
+                        </li>
+                      )}
+                    </For>
+                  </ul>
                 </div>
-                <ul class="flex flex-col gap-0.5">
-                  <For each={group.items}>
-                    {(item) => (
-                      <li>
-                        <A
-                          href={item.path}
-                          class="block px-2 py-1.5 rounded-zen-sm text-sm text-zen-foreground hover:bg-zen-muted"
-                          activeClass="bg-zen-primary-soft text-zen-primary-soft-fg"
-                          end
-                        >
-                          {item.label}
-                        </A>
-                      </li>
-                    )}
-                  </For>
-                </ul>
-              </div>
-            )}
-          </For>
-        </nav>
-      </aside>
-
-      <main class="flex-1 p-8 overflow-x-hidden">{props.children}</main>
+              )}
+            </For>
+          </nav>
+        </aside>
+        <main class="app-content">
+          <ErrorBoundary fallback={(err, reset) => <RouteError err={err} reset={reset} />}>
+            {props.children}
+          </ErrorBoundary>
+        </main>
+      </div>
     </div>
   );
 };

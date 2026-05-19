@@ -1,0 +1,139 @@
+/* Shared chrome for the shadcn-style demo pages (NewButtonDemo, NewTooltipDemo, ...).
+ * Colours read from --zen-* tokens so the demo recolours when the theme switcher
+ * toggles default / zen-theme / dark. */
+
+.demo-page {
+  padding: 2.4rem;
+  max-width: 110rem;
+  margin: 0 auto;
+}
+
+.demo-page > h1 {
+  font-size: 2.4rem;
+  margin: 0 0 0.4rem 0;
+  color: var(--zen-color-foreground);
+}
+
+.demo-page > p.lede {
+  color: var(--zen-color-muted-fg);
+  margin: 0 0 2.4rem 0;
+  font-size: 1.5rem;
+  line-height: 1.6;
+}
+
+.demo-page code {
+  background: var(--zen-color-muted);
+  color: var(--zen-color-foreground);
+  padding: 0 0.3rem;
+  border-radius: 4px;
+  font-size: 0.95em;
+}
+
+.demo-section {
+  margin-bottom: 3.2rem;
+}
+
+.demo-section > h2 {
+  font-size: 1.8rem;
+  margin: 0 0 1.2rem 0;
+  color: var(--zen-color-foreground);
+  border-bottom: 2px solid var(--zen-color-border);
+  padding-bottom: 0.5rem;
+}
+
+/* Example card: title row + live preview + code block + copy button */
+.example {
+  margin-bottom: 2rem;
+  background: var(--zen-color-background);
+  border: 1px solid var(--zen-color-border);
+  border-radius: 0.8rem;
+  overflow: hidden;
+}
+
+.example-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.6rem;
+  padding: 1.2rem 1.6rem;
+  background: var(--zen-color-muted);
+  border-bottom: 1px solid var(--zen-color-border);
+}
+
+.example-head h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--zen-color-foreground);
+  margin: 0;
+}
+
+.example-head p {
+  font-size: 1.3rem;
+  color: var(--zen-color-muted-fg);
+  margin: 0.3rem 0 0 0;
+  line-height: 1.5;
+}
+
+.example-copy {
+  padding: 0.6rem 1.2rem;
+  background-color: var(--zen-color-neutral);
+  color: var(--zen-color-neutral-fg);
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  font-size: 1.3rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+.example-copy:hover {
+  opacity: 0.9;
+}
+
+.example-copy.copied {
+  background-color: var(--zen-color-success);
+  color: var(--zen-color-success-fg);
+}
+
+.example-preview {
+  padding: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  align-items: center;
+  background: var(--zen-color-background);
+}
+
+/* Code block — always dark for readability, but uses theme-aware accent
+ * for code-text colour so syntax stays legible across light + dark themes. */
+.example-code {
+  background-color: #1f2937;
+  color: #f3f4f6;
+  padding: 1.6rem;
+  overflow: auto;
+  font-size: 1.3rem;
+  line-height: 1.6;
+  margin: 0;
+  border-top: 1px solid #111827;
+}
+
+.example-code code {
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", "Consolas", "source-code-pro",
+    monospace;
+  font-size: 1.3rem;
+  white-space: pre;
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .example-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .example-copy {
+    width: 100%;
+  }
+}

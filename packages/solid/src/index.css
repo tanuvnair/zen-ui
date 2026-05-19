@@ -1,0 +1,39 @@
+/* Global base styles (mirrors packages/react/src/index.css) */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+:root {
+  --font-family: "Plus Jakarta Sans", sans-serif, "Lato";
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family, "Plus Jakarta Sans", "Lato", sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* 1rem = 10px so legacy SCSS values keep working; the UnoCSS preset in
+ * @algorisys/zen-ui-core compensates rem-based utilities by 1.6×. */
+html {
+  font-size: 62.5%;
+  overflow-x: hidden;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}

@@ -1,0 +1,117 @@
+import { type JSX, splitProps } from "solid-js";
+import { RadioGroup as KRadioGroup } from "@kobalte/core/radio-group";
+import { cn } from "../../../lib/cn";
+
+/**
+ * RadioGroup + RadioGroupItem — Solid port built on Kobalte's
+ * RadioGroup primitive.
+ *
+ *   <RadioGroup value={x()} onChange={setX}>
+ *     <RadioGroupItem value="a">A</RadioGroupItem>
+ *     <RadioGroupItem value="b">B</RadioGroupItem>
+ *   </RadioGroup>
+ *
+ * Kobalte supplies roving tabindex, arrow-key nav, keyboard activation,
+ * ARIA, and form submission (name + value). Themed via --zen-* tokens.
+ */
+
+export type RadioSize = "sm" | "md" | "lg";
+
+export type RadioGroupProps = {
+  value?: string;
+  defaultValue?: string;
+  onChange?: (value: string) => void;
+  name?: string;
+  disabled?: boolean;
+  required?: boolean;
+  orientation?: "horizontal" | "vertical";
+  class?: string;
+  children?: JSX.Element;
+};
+
+export const RadioGroup = (props: RadioGroupProps) => {
+  const [local] = splitProps(props, [
+    "class",
+    "value",
+    "defaultValue",
+    "onChange",
+    "name",
+    "disabled",
+    "required",
+    "orientation",
+    "children",
+  ]);
+  return (
+    <KRadioGroup
+      value={local.value}
+      defaultValue={local.defaultValue}
+      onChange={local.onChange}
+      name={local.name}
+      disabled={local.disabled}
+      required={local.required}
+      orientation={local.orientation}
+      class={cn(
+        local.orientation === "horizontal" ? "flex gap-3" : "grid gap-2",
+        local.class,
+      )}
+    >
+      {local.children}
+    </KRadioGroup>
+  );
+};
+
+const ITEM_SIZES: Record<RadioSize, string> = {
+  sm: "h-3.5 w-3.5",
+  md: "h-4 w-4",
+  lg: "h-5 w-5",
+};
+const DOT_SIZES: Record<RadioSize, string> = {
+  sm: "h-1.5 w-1.5",
+  md: "h-2 w-2",
+  lg: "h-2.5 w-2.5",
+};
+
+export type RadioGroupItemProps = {
+  value: string;
+  disabled?: boolean;
+  size?: RadioSize;
+  class?: string;
+  children?: JSX.Element;
+};
+
+export const RadioGroupItem = (props: RadioGroupItemProps) => {
+  const [local] = splitProps(props, [
+    "class",
+    "value",
+    "disabled",
+    "size",
+    "children",
+  ]);
+  const size = () => local.size ?? "md";
+  return (
+    <KRadioGroup.Item
+      value={local.value}
+      disabled={local.disabled}
+      class={cn("inline-flex items-center gap-2", local.class)}
+    >
+      <KRadioGroup.ItemInput />
+      <KRadioGroup.ItemControl
+        class={cn(
+          "aspect-square rounded-zen-full border border-zen-border text-zen-primary bg-zen-background",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zen-ring focus-visible:ring-offset-2",
+          "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50",
+          "data-[checked]:border-zen-primary",
+          "flex items-center justify-center",
+          ITEM_SIZES[size()],
+        )}
+      >
+        <KRadioGroup.ItemIndicator>
+          <span class={cn("block rounded-zen-full bg-zen-primary", DOT_SIZES[size()])} />
+        </KRadioGroup.ItemIndicator>
+      </KRadioGroup.ItemControl>
+      {local.children ? (
+        <KRadioGroup.ItemLabel class="text-sm">{local.children}</KRadioGroup.ItemLabel>
+      ) : null}
+    </KRadioGroup.Item>
+  );
+};

@@ -1,0 +1,24 @@
+{
+  "name": "@algorisys/zen-ui-landing",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@algorisys/zen-ui-core": "workspace:*",
+    "@solidjs/router": "^0.15.0",
+    "solid-js": "^1.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.6.0",
+    "@unocss/preset-uno": "^66.5.4",
+    "typescript": "~5.9.3",
+    "unocss": "^66.5.4",
+    "vite": "^7.1.7",
+    "vite-plugin-solid": "^2.11.0"
+  }
+}

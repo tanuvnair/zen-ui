@@ -17,6 +17,9 @@ dist-demo
 
 dist-demo
 
+# TypeScript incremental build state
+*.tsbuildinfo
+
 
 # Editor directories and files
 .vscode/*

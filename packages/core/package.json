@@ -1,0 +1,23 @@
+{
+  "name": "@algorisys/zen-ui-core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Framework-agnostic core for @algorisys/zen-ui-* bindings: design tokens, UnoCSS preset, cn helper, theme primitives.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./cn": "./src/cn.ts",
+    "./theme": "./src/theme.ts",
+    "./uno-preset": "./src/uno-preset.ts",
+    "./tokens.css": "./styles/tokens.css",
+    "./preflight.css": "./styles/preflight.css"
+  },
+  "files": [
+    "src",
+    "styles"
+  ],
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.6.0"
+  }
+}

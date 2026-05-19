@@ -1,2 +1,2 @@
 // Type declaration for CSS styles side-effect import
-declare module "@algorisys/zen-ui/styles";
+declare module "@algorisys/zen-ui-react/styles";

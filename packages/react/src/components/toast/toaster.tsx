@@ -21,7 +21,7 @@ import { useToast } from "./use-toast";
  *   </App>
  *
  *   // anywhere in the tree
- *   import { toast } from "@algorisys/zen-ui";
+ *   import { toast } from "@algorisys/zen-ui-react";
  *   toast({ title: "Saved" });
  */
 

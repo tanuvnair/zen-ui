@@ -1,5 +1,5 @@
 /**
- * Design tokens for @algorisys/zen-ui.
+ * Design tokens for @algorisys/zen-ui-react.
  *
  * Themes are layered with `:root[data-theme="<name>"]` selectors. The base
  * `:root` block is the "default" theme. Consumers can either:

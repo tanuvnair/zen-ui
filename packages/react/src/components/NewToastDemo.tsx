@@ -21,7 +21,7 @@ const NewToastDemo: React.FC = () => (
       <h2>1. Basic</h2>
       <CodeExample
         title="toast({ title, description })"
-        code={`import { toast } from "@algorisys/zen-ui";
+        code={`import { toast } from "@algorisys/zen-ui-react";
 
 toast({
   title: "Saved",

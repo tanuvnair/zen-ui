@@ -18,7 +18,7 @@ import { useTheme, type ThemeName } from "../lib/theme";
  * Persists choice via useTheme (localStorage `zen-theme`). Used in App.tsx
  * header. Consumers integrating the library elsewhere can ignore this and
  * either set `data-theme` on <html> themselves or import { useTheme }
- * from "@algorisys/zen-ui" once we export it.
+ * from "@algorisys/zen-ui-react" once we export it.
  */
 
 const ThemeSwitcher: React.FC = () => {

@@ -1,4 +1,4 @@
-# @algorisys/zen-ui
+# @algorisys/zen-ui-react
 
 A React component library shipping **shadcn-style primitives on top of
 Radix UI**, themed via CSS custom properties. Every component forwards
@@ -6,7 +6,7 @@ a ref, supports `asChild` where it makes sense, and exposes a flat
 React-idiomatic prop API.
 
 ```bash
-npm install @algorisys/zen-ui
+npm install @algorisys/zen-ui-react
 ```
 
 ```tsx
@@ -16,12 +16,51 @@ import {
   DataTable,
   Combobox,
   Form, FormField, FormItem, FormLabel, FormControl, FormMessage,
-} from "@algorisys/zen-ui";
+} from "@algorisys/zen-ui-react";
 
-import "@algorisys/zen-ui/styles";   // tokens + utility classes
+import "@algorisys/zen-ui-react/styles";   // tokens + utility classes
 ```
 
 See the demo at `/builder/` for live examples of every component.
+
+---
+
+## Repository layout
+
+This repo is a [bun workspaces](https://bun.sh/docs/install/workspaces)
+monorepo. Each framework binding lives in its own publishable package
+under `packages/`:
+
+```
+zen-ui/
+├── package.json            # workspace root (private)
+├── bun.lock
+├── packages/
+│   ├── core/               # @algorisys/zen-ui-core (framework-agnostic)
+│   │   ├── package.json
+│   │   ├── src/            # cn, theme primitives, UnoCSS preset
+│   │   └── styles/         # tokens.css, preflight.css
+│   └── react/              # @algorisys/zen-ui-react
+│       ├── package.json
+│       ├── src/
+│       ├── vite.config.lib.ts
+│       ├── vite.config.demo.ts
+│       └── uno.config.ts
+├── docs/
+├── README.md
+└── todo.md
+```
+
+`@algorisys/zen-ui-core` holds everything that is genuinely
+framework-agnostic — design tokens (`tokens.css`), the preflight
+reset, the `cn` helper, the UnoCSS theme + rem-rescale postprocess,
+and the pure DOM-level theme primitives (`THEMES`, `applyTheme`,
+`getInitialTheme`). The React binding depends on it via
+`workspace:*` and layers the `useTheme` hook on top.
+
+A SolidJS binding (`packages/solid` → `@algorisys/zen-ui-solid`) is
+planned and will reuse the same core, keeping both bindings visually
+identical.
 
 ---
 
@@ -45,7 +84,7 @@ release housekeeping, etc.).
 
 All visual properties — colours, radii, shadows, spacing — are CSS
 custom properties prefixed `--zen-*`, declared in
-[`src/styles/tokens.css`](./src/styles/tokens.css). Components reference
+[`packages/core/styles/tokens.css`](./packages/core/styles/tokens.css). Components reference
 the tokens via UnoCSS utility classes like `bg-zen-primary`,
 `rounded-zen-md`, `shadow-zen-sm`.
 
@@ -60,7 +99,7 @@ the tokens via UnoCSS utility classes like `bg-zen-primary`,
 Switch the active theme at runtime:
 
 ```tsx
-import { useTheme } from "@algorisys/zen-ui";
+import { useTheme } from "@algorisys/zen-ui-react";
 
 function MyHeader() {
   const { theme, setTheme, themes } = useTheme();
@@ -86,7 +125,7 @@ renders:
 
 ```tsx
 // main.tsx
-import { applyTheme, getInitialTheme } from "@algorisys/zen-ui";
+import { applyTheme, getInitialTheme } from "@algorisys/zen-ui-react";
 applyTheme(getInitialTheme());
 
 createRoot(document.getElementById("root")!).render(<App />);
@@ -109,7 +148,7 @@ my-new      /* good */
 "Pretty"    /* avoid spaces and capitals */
 ```
 
-#### Step 2 — add a CSS block to `src/styles/tokens.css`
+#### Step 2 — add a CSS block to `packages/core/styles/tokens.css`
 
 Copy the structure of an existing theme (default or zen-theme) and override
 every token. The full token list:
@@ -168,10 +207,12 @@ every token. The full token list:
 }
 ```
 
-#### Step 3 — register the theme in `src/lib/theme.ts`
+#### Step 3 — register the theme in `packages/core/src/theme.ts`
 
 Add an entry to the `THEMES` array so it appears in the switcher and
-becomes a valid value for `ThemeName`:
+becomes a valid value for `ThemeName`. The React binding's
+`packages/react/src/lib/theme.ts` re-exports these, so every binding
+picks up the new theme automatically:
 
 ```ts
 export type ThemeName = "default" | "zen-theme" | "dark" | "sapphire";
@@ -294,18 +335,20 @@ Pick the channel that matches the stage of adoption:
 | Two repos open side-by-side, live reload      | [`npm link`](#4-local-dev-cross-project) |
 
 The package is already configured to publish to the GitHub Packages
-registry under the `@algorisys` scope (`package.json` →
+registry under the `@algorisys` scope (`packages/react/package.json` →
 `publishConfig`). `"files": ["dist"]` means the published tarball
-contains only the built output, not source.
+contains only the built output, not source. All publishing / packing
+commands below run from inside `packages/react/`.
 
 ### 1. Tarball
 
 Fastest way to share with one team without registry plumbing.
 
 ```bash
-npm run build:lib
+cd packages/react
+bun run build:lib
 npm pack
-# → algorisys-zen-ui-2.1.1.tgz in the repo root
+# → algorisys-zen-ui-2.1.1.tgz in packages/react/
 ```
 
 Share the `.tgz` (Slack, internal artifact store, a GitHub release
@@ -320,8 +363,8 @@ npm install https://github.com/Algorisys-Technologies/zen-ui/releases/download/v
 Then in their app:
 
 ```tsx
-import { Button, DataTable, Form } from "@algorisys/zen-ui";
-import "@algorisys/zen-ui/styles";
+import { Button, DataTable, Form } from "@algorisys/zen-ui-react";
+import "@algorisys/zen-ui-react/styles";
 ```
 
 Trade-off: no auto-updates — every new version is a fresh tarball.
@@ -340,7 +383,8 @@ Algorisys teams and partners with GitHub access.
 # Use a GitHub Personal Access Token with `write:packages` + `read:packages`.
 npm login --scope=@algorisys --auth-type=legacy --registry=https://npm.pkg.github.com
 
-# Each release:
+# Each release (from packages/react/):
+cd packages/react
 npm version patch         # bumps version + creates a git tag (2.1.1 → 2.1.2)
 npm run publish:lib       # builds the library and publishes
 git push --follow-tags
@@ -360,7 +404,7 @@ user-wide):
 inject it as a secret. Then:
 
 ```bash
-npm install @algorisys/zen-ui
+npm install @algorisys/zen-ui-react
 ```
 
 Pin a version in `package.json`:
@@ -368,7 +412,7 @@ Pin a version in `package.json`:
 ```json
 {
   "dependencies": {
-    "@algorisys/zen-ui": "^2.1.1"
+    "@algorisys/zen-ui-react": "^2.1.1"
   }
 }
 ```
@@ -386,7 +430,7 @@ npm login                       # against npmjs.org
 npm publish --access public
 ```
 
-Consumers then `npm install @algorisys/zen-ui` with no auth.
+Consumers then `npm install @algorisys/zen-ui-react` with no auth.
 
 ### 4. Local dev — cross-project
 
@@ -395,23 +439,24 @@ time, skip the publish loop entirely:
 
 ```bash
 # In the zen-ui clone:
-npm run build:lib
+cd packages/react
+bun run build:lib
 npm link
 
 # In the consuming app:
-npm link @algorisys/zen-ui
+npm link @algorisys/zen-ui-react
 ```
 
-`node_modules/@algorisys/zen-ui` in the consuming app becomes a
-symlink to your local zen-ui working copy. Re-run `npm run build:lib`
-in zen-ui whenever you change a component; the consuming app picks up
-the new build on its next dev-server refresh.
+`node_modules/@algorisys/zen-ui-react` in the consuming app becomes a
+symlink to your local `packages/react/` working copy. Re-run
+`bun run build:lib` whenever you change a component; the consuming
+app picks up the new build on its next dev-server refresh.
 
 To detach:
 
 ```bash
 # In the consuming app:
-npm unlink @algorisys/zen-ui
+npm unlink @algorisys/zen-ui-react
 npm install                 # restores the published version
 ```
 
@@ -440,11 +485,23 @@ the next major safely.
 
 ## Local development
 
+This repo uses bun workspaces. Run from the workspace root:
+
 ```bash
-npm install
-npm run dev          # demo app, served at /builder/
-npm run build:lib    # build the library to dist/
-npm run lint
+bun install
+bun run dev          # demo app, served at /builder/
+bun run build:lib    # build packages/react/ to packages/react/dist/
+bun run lint
 ```
 
-Typecheck: `npx tsc -b`. Tests: not yet wired up — see `todo.md`.
+Each script forwards into `packages/react/` via `bun --filter`. If you
+prefer to run inside the package directly:
+
+```bash
+cd packages/react
+bun run dev
+bun run build:lib
+```
+
+Typecheck: `bun --filter '@algorisys/zen-ui-react' exec tsc -b`. Tests: not
+yet wired up — see `todo.md`.

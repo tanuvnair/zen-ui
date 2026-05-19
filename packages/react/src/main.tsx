@@ -5,8 +5,8 @@ import "./index.css";
 // Design tokens (defines --zen-color-* / --zen-radius-* / --zen-shadow-* per
 // data-theme). MUST load before any UnoCSS utility (bg-zen-*, text-zen-*, …)
 // is evaluated, otherwise those classes resolve to var(--zen-color-…) → empty.
-import "./styles/tokens.css";
-import "./styles/preflight.css";
+import "@algorisys/zen-ui-core/tokens.css";
+import "@algorisys/zen-ui-core/preflight.css";
 import App from "./App";
 import { applyTheme, getInitialTheme } from "./lib/theme";
 import "virtual:uno.css";

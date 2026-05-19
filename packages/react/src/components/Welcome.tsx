@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 /**
  * Landing page for the demo app.
- * Lists the components shipped in @algorisys/zen-ui with quick-jump links
+ * Lists the components shipped in @algorisys/zen-ui-react with quick-jump links
  * into each demo.
  */
 

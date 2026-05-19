@@ -3,10 +3,10 @@
 // ============================================================================
 import "./index.css";
 // Design tokens — public theming surface (override --zen-* CSS vars to retheme)
-import "./styles/tokens.css";
+import "@algorisys/zen-ui-core/tokens.css";
 // Minimal element reset that the shadcn-style utility classes depend on
 // (UnoCSS preset-uno does not ship Tailwind v3's preflight)
-import "./styles/preflight.css";
+import "@algorisys/zen-ui-core/preflight.css";
 // Import UnoCSS generated styles for utility classes used in components
 import "virtual:uno.css";
 // Form Components - Input + Textarea (shadcn-style)

@@ -12,7 +12,7 @@ const NewOTPDemo = () => {
   return (
     <DemoPage
       title="InputOTP"
-      description="Segmented OTP input built on @corvu/otp-field. Handles paste, keyboard nav, autocomplete."
+      description="Segmented OTP input — one input per digit, zero dependencies. Handles paste, keyboard nav, autocomplete."
     >
       <DemoSection title="6 digits, with separator">
         <InputOTP maxLength={6} value={v()} onChange={setV}>

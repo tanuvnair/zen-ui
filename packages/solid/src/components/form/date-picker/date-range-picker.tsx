@@ -1,4 +1,4 @@
-import { createMemo, createSignal, splitProps } from "solid-js";
+import { createEffect, createMemo, createSignal, splitProps } from "solid-js";
 import { cn } from "../../../lib/cn";
 import { Button } from "../../button/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../../popover/popover";
@@ -8,6 +8,9 @@ import { Calendar, type DateRange } from "./date-picker";
  * DateRangePicker — Solid port. Trigger shows "From – To" summary, opens
  * a two-month calendar (default) in a Popover. Returns the same
  * `{ from?, to? }` shape as the React binding.
+ *
+ * The popover stays open while dates are selected. Use Done to apply and
+ * close, or Cancel to discard changes.
  */
 
 export type DateRangePickerProps = {
@@ -19,7 +22,14 @@ export type DateRangePickerProps = {
   class?: string;
   numberOfMonths?: number;
   formatDate?: (date: Date) => string;
+  /** Label for the cancel action in the popover footer. */
+  cancelLabel?: string;
+  /** Label for the apply action in the popover footer. */
+  doneLabel?: string;
 };
+
+const isCompleteRange = (range: DateRange | undefined): boolean =>
+  Boolean(range?.from && range?.to);
 
 export const DateRangePicker = (rawProps: DateRangePickerProps) => {
   const [props] = splitProps(rawProps, [
@@ -31,27 +41,61 @@ export const DateRangePicker = (rawProps: DateRangePickerProps) => {
     "class",
     "numberOfMonths",
     "formatDate",
+    "cancelLabel",
+    "doneLabel",
   ]);
   const isControlled = () => props.value !== undefined;
+  const [open, setOpen] = createSignal(false);
   const [inner, setInner] = createSignal<DateRange | undefined>(props.defaultValue);
-  const range = createMemo<DateRange | undefined>(() =>
+  const committed = createMemo<DateRange | undefined>(() =>
     isControlled() ? props.value : inner(),
   );
-  const update = (next: DateRange | undefined) => {
+
+  const [draft, setDraft] = createSignal<DateRange | undefined>(committed());
+  let rangeAtOpen = committed();
+
+  // Keep the draft mirrored to the committed value while the popover is closed.
+  createEffect(() => {
+    if (!open()) setDraft(committed());
+  });
+
+  const commit = (next: DateRange | undefined) => {
     if (!isControlled()) setInner(next);
     props.onValueChange?.(next);
   };
+
+  const handleOpenChange = (next: boolean) => {
+    if (next) {
+      rangeAtOpen = committed();
+      setDraft(committed());
+    } else {
+      setDraft(rangeAtOpen);
+    }
+    setOpen(next);
+  };
+
+  const handleDone = () => {
+    if (!isCompleteRange(draft())) return;
+    commit(draft());
+    setOpen(false);
+  };
+
+  const handleCancel = () => {
+    setDraft(rangeAtOpen);
+    setOpen(false);
+  };
+
   const fmt = (d: Date) => (props.formatDate ?? ((x: Date) => x.toLocaleDateString()))(d);
 
   const label = () => {
-    const r = range();
+    const r = committed();
     if (!r?.from) return props.placeholder ?? "Pick a date range";
     if (!r.to) return fmt(r.from);
     return `${fmt(r.from)} – ${fmt(r.to)}`;
   };
 
   return (
-    <Popover>
+    <Popover open={open()} onOpenChange={handleOpenChange}>
       <PopoverTrigger
         as={Button}
         variant="outline"
@@ -60,7 +104,7 @@ export const DateRangePicker = (rawProps: DateRangePickerProps) => {
         iconLeft={<CalendarIcon />}
         class={cn(
           "min-w-[16rem] justify-between font-normal",
-          !range()?.from && "text-zen-muted-fg",
+          !committed()?.from && "text-zen-muted-fg",
           props.class,
         )}
       >
@@ -69,11 +113,26 @@ export const DateRangePicker = (rawProps: DateRangePickerProps) => {
       <PopoverContent class="w-auto p-0">
         <Calendar
           mode="range"
-          selected={range()}
-          onSelect={update}
+          selected={draft()}
+          onSelect={setDraft}
           numberOfMonths={props.numberOfMonths ?? 2}
           disabled={typeof props.disabled === "function" ? props.disabled : undefined}
         />
+        <div class="flex justify-end gap-2 border-t border-zen-border px-3 py-2">
+          <Button type="button" variant="ghost" color="neutral" size="sm" onClick={handleCancel}>
+            {props.cancelLabel ?? "Cancel"}
+          </Button>
+          <Button
+            type="button"
+            variant="solid"
+            color="primary"
+            size="sm"
+            onClick={handleDone}
+            disabled={!isCompleteRange(draft())}
+          >
+            {props.doneLabel ?? "Done"}
+          </Button>
+        </div>
       </PopoverContent>
     </Popover>
   );

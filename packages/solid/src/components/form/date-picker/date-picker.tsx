@@ -256,6 +256,7 @@ export const DatePicker = (rawProps: DatePickerProps) => {
     "formatDate",
   ]);
   const isControlled = () => props.value !== undefined;
+  const [open, setOpen] = createSignal(false);
   const [inner, setInner] = createSignal<Date | undefined>(props.defaultValue);
   const date = createMemo<Date | undefined>(() =>
     isControlled() ? props.value : inner(),
@@ -263,11 +264,12 @@ export const DatePicker = (rawProps: DatePickerProps) => {
   const update = (d: Date | undefined) => {
     if (!isControlled()) setInner(d);
     props.onValueChange?.(d);
+    if (d) setOpen(false);
   };
   const fmt = (d: Date) => (props.formatDate ?? ((x: Date) => x.toLocaleDateString()))(d);
 
   return (
-    <Popover>
+    <Popover open={open()} onOpenChange={setOpen}>
       <PopoverTrigger
         as={Button}
         variant="outline"

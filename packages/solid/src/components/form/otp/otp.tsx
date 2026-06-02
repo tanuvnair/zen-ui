@@ -1,101 +1,326 @@
-import { type JSX, Show, createMemo, splitProps } from "solid-js";
-import OtpField from "@corvu/otp-field";
+import {
+  type JSX,
+  For,
+  Show,
+  createContext,
+  createMemo,
+  createSignal,
+  mergeProps,
+  splitProps,
+  useContext,
+} from "solid-js";
 import { cn } from "../../../lib/cn";
+import "./otp.css";
 
 /**
- * InputOTP — Solid port. Built on @corvu/otp-field (the Solid analogue
- * of input-otp that the React side uses).
+ * InputOTP — Solid port. One `<input>` per digit, zero dependencies.
  *
- *   <InputOTP maxLength={6} value={v()} onChange={setV}>
- *     <InputOTPGroup>
- *       <InputOTPSlot index={0} />
- *       <InputOTPSlot index={1} />
- *       <InputOTPSlot index={2} />
- *     </InputOTPGroup>
- *     <InputOTPSeparator />
- *     <InputOTPGroup>
- *       <InputOTPSlot index={3} />
- *       <InputOTPSlot index={4} />
- *       <InputOTPSlot index={5} />
- *     </InputOTPGroup>
+ *   <InputOTP value={code()} onValueChange={setCode} maxLength={6} />
+ *
+ * Custom layout (compound API):
+ *
+ *   <InputOTP value={code()} onValueChange={setCode} maxLength={6}>
+ *     <InputOTPGroup>...</InputOTPGroup>
  *   </InputOTP>
- *
- * @corvu/otp-field handles paste, keyboard nav, autocomplete (OTP
- * one-time-code), mobile keyboard hints. We just style.
  */
 
 export type InputOTPProps = {
-  maxLength: number;
   value?: string;
   defaultValue?: string;
+  /** Primary change handler. */
+  onValueChange?: (value: string) => void;
+  /** @deprecated Use `onValueChange`. */
   onChange?: (value: string) => void;
-  disabled?: boolean;
+  onComplete?: (value: string) => void;
+  maxLength?: number;
+  groupSizes?: number[];
+  separator?: JSX.Element;
+  children?: JSX.Element;
   class?: string;
   containerClass?: string;
-  children?: JSX.Element;
+  disabled?: boolean;
+  /** Transform pasted text before extracting digits. */
+  pasteTransformer?: (text: string) => string;
+  /** CSS color for the default slot border. Defaults to `--zen-color-border`. */
+  borderColor?: string;
+  /** CSS color for the focused slot border. Defaults to `--zen-color-primary`. */
+  focusBorderColor?: string;
+  /** Extra classes applied to every digit input. */
+  slotClass?: string;
 };
 
-export const InputOTP = (props: InputOTPProps) => {
-  const [local] = splitProps(props, [
-    "maxLength",
-    "value",
-    "defaultValue",
-    "onChange",
-    "disabled",
-    "class",
-    "containerClass",
-    "children",
-  ]);
+// --- Context ---------------------------------------------------------------
+
+type OTPContextValue = {
+  value: () => string;
+  maxLength: () => number;
+  disabled: () => boolean | undefined;
+  slotClass: () => string | undefined;
+  setRef: (index: number, el: HTMLInputElement | null) => void;
+  updateValue: (next: string) => void;
+  focusInput: (index: number) => void;
+  applyDigits: (digits: string) => void;
+  sanitize: (raw: string) => string;
+};
+
+const OTPContext = createContext<OTPContextValue>();
+
+function useOTPContext() {
+  const ctx = useContext(OTPContext);
+  if (!ctx) {
+    throw new Error("InputOTP subcomponents must be used within <InputOTP>");
+  }
+  return ctx;
+}
+
+function digitsOnly(text: string) {
+  return text.replace(/\D/g, "");
+}
+
+function sanitizePastedText(
+  text: string,
+  maxLength: number,
+  pasteTransformer?: (text: string) => string,
+) {
+  const transformed = pasteTransformer ? pasteTransformer(text) : text;
+  return digitsOnly(transformed).slice(0, maxLength);
+}
+
+const defaultGroupSizes = (maxLength: number): number[] => {
+  if (maxLength === 6) return [3, 3];
+  if (maxLength === 4) return [4];
+  if (maxLength === 5) return [5];
+  return [maxLength];
+};
+
+// --- The component ---------------------------------------------------------
+
+export const InputOTP = (rawProps: InputOTPProps) => {
+  const props = mergeProps({ maxLength: 6, defaultValue: "" }, rawProps);
+
+  const isControlled = () => props.value !== undefined;
+  const [uncontrolled, setUncontrolled] = createSignal(props.defaultValue);
+  const value = () => (isControlled() ? (props.value as string) : uncontrolled());
+  const maxLength = () => props.maxLength;
+
+  const refs: (HTMLInputElement | null)[] = [];
+  const setRef = (index: number, el: HTMLInputElement | null) => {
+    refs[index] = el;
+  };
+  const focusInput = (index: number) => {
+    const el = refs[index];
+    if (el) {
+      el.focus();
+      el.select();
+    }
+  };
+
+  const emitChange = (v: string) => (props.onValueChange ?? props.onChange)?.(v);
+
+  const updateValue = (next: string) => {
+    const sanitized = digitsOnly(next).slice(0, maxLength());
+    if (!isControlled()) setUncontrolled(sanitized);
+    emitChange(sanitized);
+    if (sanitized.length === maxLength()) props.onComplete?.(sanitized);
+  };
+
+  const sanitize = (raw: string) =>
+    sanitizePastedText(raw, maxLength(), props.pasteTransformer);
+
+  const applyDigits = (digits: string) => {
+    const sanitized = sanitize(digits);
+    if (!sanitized) return;
+    updateValue(sanitized);
+    focusInput(Math.min(sanitized.length, maxLength()) - 1);
+  };
+
+  const handleContainerPaste = (e: ClipboardEvent) => {
+    if (props.disabled) return;
+    const text = e.clipboardData?.getData("text");
+    if (!text) return;
+    const sanitized = sanitize(text);
+    if (!sanitized) return;
+    e.preventDefault();
+    e.stopPropagation();
+    applyDigits(sanitized);
+  };
+
+  const style = (): JSX.CSSProperties => ({
+    ...(props.borderColor ? { "--zen-otp-slot-border": props.borderColor } : {}),
+    ...(props.focusBorderColor
+      ? { "--zen-otp-slot-focus-border": props.focusBorderColor }
+      : {}),
+  });
+
+  const ctx: OTPContextValue = {
+    value,
+    maxLength,
+    disabled: () => props.disabled,
+    slotClass: () => props.slotClass,
+    setRef,
+    updateValue,
+    focusInput,
+    applyDigits,
+    sanitize,
+  };
+
   return (
-    <OtpField
-      maxLength={local.maxLength}
-      value={local.value}
-      onValueChange={local.onChange}
-      class={cn(
-        "flex items-center gap-2",
-        local.disabled && "opacity-50",
-        local.containerClass,
-      )}
-    >
-      <OtpField.Input
-        disabled={local.disabled}
-        class={cn("disabled:cursor-not-allowed", local.class)}
-      />
-      {local.children}
-    </OtpField>
+    <OTPContext.Provider value={ctx}>
+      <div
+        class={cn(
+          "flex items-center gap-2 has-[:disabled]:opacity-50",
+          props.containerClass,
+          props.class,
+        )}
+        style={style()}
+        onPaste={handleContainerPaste}
+      >
+        <Show
+          when={props.children}
+          fallback={
+            <DefaultSlots
+              maxLength={maxLength()}
+              groupSizes={props.groupSizes}
+              separator={props.separator}
+            />
+          }
+        >
+          {props.children}
+        </Show>
+      </div>
+    </OTPContext.Provider>
   );
 };
+
+const DefaultSlots = (props: {
+  maxLength: number;
+  groupSizes?: number[];
+  separator?: JSX.Element;
+}) => {
+  const groups = createMemo(() => {
+    const sizes = props.groupSizes ?? defaultGroupSizes(props.maxLength);
+    const out: { start: number; size: number }[] = [];
+    let cursor = 0;
+    for (const size of sizes) {
+      out.push({ start: cursor, size });
+      cursor += size;
+    }
+    return out;
+  });
+
+  return (
+    <For each={groups()}>
+      {(g, gi) => (
+        <>
+          <Show when={gi() > 0}>
+            {props.separator ?? <InputOTPSeparator />}
+          </Show>
+          <InputOTPGroup>
+            <For each={Array.from({ length: g.size }, (_, i) => g.start + i)}>
+              {(idx) => <InputOTPSlot index={idx} />}
+            </For>
+          </InputOTPGroup>
+        </>
+      )}
+    </For>
+  );
+};
+
+// --- Compound parts --------------------------------------------------------
 
 export const InputOTPGroup = (props: { class?: string; children?: JSX.Element }) => {
   const [local] = splitProps(props, ["class", "children"]);
-  return <div class={cn("flex items-center", local.class)}>{local.children}</div>;
+  return (
+    <div class={cn("flex items-center gap-2", local.class)}>{local.children}</div>
+  );
 };
 
-export const InputOTPSlot = (props: { index: number; class?: string }) => {
-  const [local] = splitProps(props, ["index", "class"]);
-  const ctx = OtpField.useContext();
-  const char = createMemo(() => ctx.value()[local.index] ?? "");
-  const isActive = createMemo(() => ctx.activeSlots().includes(local.index));
-  const showCaret = createMemo(
-    () => isActive() && ctx.isInserting() && !char(),
-  );
+const slotBaseClass = cn(
+  "zen-otp-slot h-11 w-11 rounded-zen-md bg-zen-background p-0",
+  "text-center text-base font-medium text-zen-foreground tabular-nums",
+  "transition-colors",
+  "disabled:cursor-not-allowed disabled:opacity-50",
+);
+
+export const InputOTPSlot = (
+  rawProps: { index: number; class?: string; disabled?: boolean },
+) => {
+  const [local] = splitProps(rawProps, ["index", "class", "disabled"]);
+  const ctx = useOTPContext();
+  const char = () => ctx.value()[local.index] ?? "";
+  const isDisabled = () => ctx.disabled() || local.disabled;
+
+  const handleInput = (
+    e: InputEvent & { currentTarget: HTMLInputElement },
+  ) => {
+    const digits = ctx.sanitize(e.currentTarget.value);
+    const v = ctx.value();
+    const i = local.index;
+    const max = ctx.maxLength();
+
+    if (digits.length > 1) {
+      ctx.applyDigits(digits);
+      return;
+    }
+    if (!digits) {
+      ctx.updateValue(v.slice(0, i) + v.slice(i + 1));
+      return;
+    }
+    const next = (v.slice(0, i) + digits + v.slice(i + 1)).slice(0, max);
+    ctx.updateValue(next);
+    if (i < max - 1) ctx.focusInput(i + 1);
+  };
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    const v = ctx.value();
+    const i = local.index;
+
+    if (e.key === "Backspace") {
+      e.preventDefault();
+      if (char()) {
+        ctx.updateValue(v.slice(0, i) + v.slice(i + 1));
+        return;
+      }
+      if (i > 0) {
+        const prev = i - 1;
+        ctx.updateValue(v.slice(0, prev) + v.slice(prev + 1));
+        ctx.focusInput(prev);
+      }
+      return;
+    }
+    if (e.key === "ArrowLeft" && i > 0) {
+      e.preventDefault();
+      ctx.focusInput(i - 1);
+      return;
+    }
+    if (e.key === "ArrowRight" && i < ctx.maxLength() - 1) {
+      e.preventDefault();
+      ctx.focusInput(i + 1);
+    }
+  };
+
+  const handlePaste = (e: ClipboardEvent) => {
+    const text = e.clipboardData?.getData("text");
+    if (!text) return;
+    e.preventDefault();
+    ctx.applyDigits(text);
+  };
+
   return (
-    <div
-      class={cn(
-        "relative flex h-10 w-10 items-center justify-center border-y border-r border-zen-border text-sm",
-        "first:rounded-l-zen-md first:border-l last:rounded-r-zen-md",
-        "transition-all",
-        isActive() && "z-10 ring-2 ring-zen-ring ring-offset-2",
-        local.class,
-      )}
-    >
-      {char()}
-      <Show when={showCaret()}>
-        <div class="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div class="h-4 w-px animate-pulse bg-zen-foreground" />
-        </div>
-      </Show>
-    </div>
+    <input
+      ref={(el) => ctx.setRef(local.index, el)}
+      type="text"
+      inputmode="numeric"
+      autocomplete={local.index === 0 ? "one-time-code" : "off"}
+      aria-label={`Digit ${local.index + 1} of ${ctx.maxLength()}`}
+      disabled={isDisabled()}
+      value={char()}
+      class={cn(slotBaseClass, ctx.slotClass(), local.class)}
+      onInput={handleInput}
+      onKeyDown={handleKeyDown}
+      onPaste={handlePaste}
+      onFocus={(e) => e.currentTarget.select()}
+    />
   );
 };
 

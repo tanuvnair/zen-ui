@@ -42,7 +42,6 @@
   },
   "dependencies": {
     "@algorisys/zen-ui-core": "workspace:*",
-    "@corvu/otp-field": "^0.1.4",
     "@kobalte/core": "^0.13.7",
     "@modular-forms/solid": "^0.25.0",
     "@solidjs/router": "^0.15.0",

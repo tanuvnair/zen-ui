@@ -20,5 +20,8 @@
     "preview:solid": "bun --filter @algorisys/zen-ui-solid preview",
     "dev:landing": "bun --filter @algorisys/zen-ui-landing dev",
     "build:landing": "bun --filter @algorisys/zen-ui-landing build"
+  },
+  "devDependencies": {
+    "repograph": "github:algorisys-oss/repograph"
   }
 }

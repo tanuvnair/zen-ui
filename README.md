@@ -40,11 +40,15 @@ zen-ui/
 │   │   ├── package.json
 │   │   ├── src/            # cn, theme primitives, UnoCSS preset
 │   │   └── styles/         # tokens.css, preflight.css
-│   └── react/              # @algorisys/zen-ui-react
+│   ├── react/              # @algorisys/zen-ui-react
+│   │   ├── package.json
+│   │   ├── src/
+│   │   ├── vite.config.lib.ts
+│   │   ├── vite.config.demo.ts
+│   │   └── uno.config.ts
+│   └── solid/              # @algorisys/zen-ui-solid (same core, Solid binding)
 │       ├── package.json
 │       ├── src/
-│       ├── vite.config.lib.ts
-│       ├── vite.config.demo.ts
 │       └── uno.config.ts
 ├── docs/
 ├── README.md
@@ -58,9 +62,9 @@ and the pure DOM-level theme primitives (`THEMES`, `applyTheme`,
 `getInitialTheme`). The React binding depends on it via
 `workspace:*` and layers the `useTheme` hook on top.
 
-A SolidJS binding (`packages/solid` → `@algorisys/zen-ui-solid`) is
-planned and will reuse the same core, keeping both bindings visually
-identical.
+A SolidJS binding (`packages/solid` → `@algorisys/zen-ui-solid`)
+ships alongside the React one, reusing the same core so both bindings
+stay visually identical.
 
 ---
 
@@ -489,16 +493,27 @@ This repo uses bun workspaces. Run from the workspace root:
 
 ```bash
 bun install
-bun run dev          # demo app, served at /builder/
+bun run dev          # React demo app, served at /builder/
 bun run build:lib    # build packages/react/ to packages/react/dist/
 bun run lint
 ```
 
-Each script forwards into `packages/react/` via `bun --filter`. If you
-prefer to run inside the package directly:
+By default the workspace scripts target the **React** binding — `bun
+run dev` forwards into `packages/react/` and serves the React demo. The
+**Solid** binding has its own `:solid`-suffixed scripts:
 
 ```bash
-cd packages/react
+bun run dev:solid        # Solid demo app
+bun run build:solid      # build the Solid demo
+bun run build:lib:solid  # build packages/solid/ to packages/solid/dist/
+bun run lint:solid
+```
+
+Each script forwards into the matching package via `bun --filter`. If
+you prefer to run inside a package directly:
+
+```bash
+cd packages/react      # or packages/solid
 bun run dev
 bun run build:lib
 ```

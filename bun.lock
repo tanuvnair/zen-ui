@@ -4,6 +4,9 @@
   "workspaces": {
     "": {
       "name": "@algorisys/zen-ui",
+      "devDependencies": {
+        "repograph": "github:algorisys-oss/repograph",
+      },
     },
     "apps/landing": {
       "name": "@algorisys/zen-ui-landing",
@@ -924,6 +927,8 @@
     "react-style-singleton": ["react-style-singleton@2.2.3", "", { "dependencies": { "get-nonce": "^1.0.0", "tslib": "^2.0.0" }, "peerDependencies": { "@types/react": "*", "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc" } }, ""],
 
     "readdirp": ["readdirp@5.0.0", "", {}, ""],
+
+    "repograph": ["repograph@github:algorisys-oss/repograph#5801c9f", { "bin": { "repograph": "bin/repograph.js" } }, "algorisys-oss-repograph-5801c9f", "sha512-o7DtjMpHsS8/h0eGSlRp373hbuMbb90Gkdf91obJRdh+l8++dYGZ8+4Z4Sl3rDfj8cJ5UX3SSY2m39X0b/O/Wg=="],
 
     "resolve-from": ["resolve-from@4.0.0", "", {}, ""],
 

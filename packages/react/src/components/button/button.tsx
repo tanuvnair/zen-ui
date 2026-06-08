@@ -62,6 +62,13 @@ const buttonVariants = cva(
         circle: "aspect-square px-0 rounded-zen-full",
         block: "w-full",
       },
+      // Let the label wrap across lines instead of forcing a single line.
+      // Drops the fixed height + nowrap (keeps a min tap height) and
+      // left-aligns content — useful for long-text options / list buttons.
+      multiline: {
+        true: "!whitespace-normal !h-auto min-h-10 !items-start !justify-start text-left py-2",
+        false: "",
+      },
     },
     compoundVariants: [
       // solid
@@ -105,6 +112,7 @@ const buttonVariants = cva(
       color: "primary",
       size: "md",
       shape: "default",
+      multiline: false,
     },
   },
 );
@@ -154,6 +162,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       color,
       size,
       shape,
+      multiline,
       asChild = false,
       loading = false,
       disabled,
@@ -171,7 +180,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <Comp
         ref={ref}
-        className={cn(buttonVariants({ variant, color, size, shape, className }))}
+        className={cn(buttonVariants({ variant, color, size, shape, multiline, className }))}
         // When rendering a real <button>, default type="button" to avoid
         // accidental form submission. When asChild, leave type to the child.
         type={asChild ? undefined : (type ?? "button")}

@@ -61,6 +61,13 @@ const buttonVariants = cva(
         circle: "aspect-square px-0 rounded-zen-full",
         block: "w-full",
       },
+      // Let the label wrap across lines instead of forcing a single line.
+      // Drops the fixed height + nowrap (keeps a min tap height) and
+      // left-aligns content — useful for long-text options / list buttons.
+      multiline: {
+        true: "!whitespace-normal !h-auto min-h-10 !items-start !justify-start text-left py-2",
+        false: "",
+      },
     },
     compoundVariants: [
       { variant: "solid", color: "primary", class: "bg-zen-primary text-zen-primary-fg hover:opacity-90" },
@@ -99,6 +106,7 @@ const buttonVariants = cva(
       color: "primary",
       size: "md",
       shape: "default",
+      multiline: false,
     },
   },
 );
@@ -140,6 +148,7 @@ export const Button = <T extends ValidComponent = "button">(
     "color",
     "size",
     "shape",
+    "multiline",
     "loading",
     "disabled",
     "iconLeft",
@@ -158,6 +167,7 @@ export const Button = <T extends ValidComponent = "button">(
           color: local.color,
           size: local.size,
           shape: local.shape,
+          multiline: local.multiline,
         }),
         local.class,
       )}

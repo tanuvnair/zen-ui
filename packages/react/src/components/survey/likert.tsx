@@ -121,7 +121,7 @@ export const Likert = React.forwardRef<HTMLDivElement, LikertProps>(
     return (
       <div
         ref={ref}
-        className={cn("inline-flex flex-col gap-2", className)}
+        className={cn("flex flex-col gap-2 max-w-full", className)}
       >
         {question ? (
           <p className="text-sm font-medium text-zen-foreground m-0">
@@ -136,7 +136,8 @@ export const Likert = React.forwardRef<HTMLDivElement, LikertProps>(
           onKeyDown={onKeyDown}
           className={cn(
             layout === "segmented"
-              ? "inline-flex items-stretch rounded-zen-md border border-zen-border overflow-hidden bg-zen-background"
+              ? // scroll the scale horizontally on narrow widths (keep corner clip vertically)
+                "flex max-w-full items-stretch rounded-zen-md border border-zen-border overflow-x-auto overflow-y-hidden bg-zen-background"
               : "flex flex-col gap-1",
             disabled && "opacity-50",
           )}

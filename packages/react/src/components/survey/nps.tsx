@@ -109,12 +109,14 @@ export const NPS = React.forwardRef<HTMLDivElement, NPSProps>(
         aria-readonly={readOnly || undefined}
         onKeyDown={onKeyDown}
         className={cn(
-          "inline-flex flex-col gap-2",
+          // flex (not inline-flex) + max-w-full so it fits its container; the
+          // 0–10 strip scrolls horizontally on narrow widths instead of clipping
+          "flex flex-col gap-2 max-w-full",
           disabled && "opacity-50",
           className,
         )}
       >
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 overflow-x-auto">
           {scores.map((n) => {
             const selected = value === n;
             const bucket = bucketOf(n);

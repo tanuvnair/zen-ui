@@ -38,6 +38,13 @@ export default defineConfig({
         // Note: react-router-dom is used in dropdown component
         // It's bundled here to avoid requiring consumers to install it
         // If you prefer to externalize it, consumers using dropdown must have it installed
+        // Optional peer deps — lazy-loaded by Chart/RichText/Map/Camera. Never
+        // bundled; consumers install them only if they use those components.
+        "recharts",
+        "jodit-pro-react",
+        "leaflet",
+        "react-leaflet",
+        "react-webcam",
       ],
       output: {
         // Provide global variable names for UMD builds (not used for ESM, but good to have)

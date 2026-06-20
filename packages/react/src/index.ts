@@ -463,3 +463,58 @@ export {
   CommandItem,
   CommandSeparator,
 } from "./components/combobox/command";
+
+// UI Components - Breadcrumb (navigation trail)
+export {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+  BreadcrumbEllipsis,
+} from "./components/breadcrumb/breadcrumb";
+
+// UI Components - Pagination (standalone page navigator)
+export {
+  Pagination,
+  usePaginationRange,
+} from "./components/pagination/pagination";
+export type { PaginationProps } from "./components/pagination/pagination";
+
+// UI Components - Sidebar (collapsible navigation shell)
+export {
+  SidebarProvider,
+  Sidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarTrigger,
+  useSidebar,
+} from "./components/sidebar/sidebar";
+export type {
+  SidebarProviderProps,
+  SidebarMenuButtonProps,
+  SidebarTriggerProps,
+} from "./components/sidebar/sidebar";
+
+// UI Components - Chart (lazy recharts wrapper; optional peer dep)
+export { Chart } from "./components/chart/chart";
+export type { ChartProps, ChartSeries } from "./components/chart/chart";
+
+// UI Components - RichText (lazy jodit-pro-react wrapper; optional peer dep)
+export { RichText } from "./components/rich-text/rich-text";
+export type { RichTextProps } from "./components/rich-text/rich-text";
+
+// UI Components - Map (lazy react-leaflet wrapper; optional peer dep)
+export { Map } from "./components/map/map";
+export type { MapProps, MapMarker } from "./components/map/map";
+
+// UI Components - Camera (lazy react-webcam wrapper; optional peer dep)
+export { Camera } from "./components/camera/camera";
+export type { CameraProps } from "./components/camera/camera";

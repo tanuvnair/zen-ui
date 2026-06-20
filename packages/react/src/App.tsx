@@ -52,6 +52,13 @@ import NewTimePickerDemo from "./components/NewTimePickerDemo";
 import NewDateTimePickerDemo from "./components/NewDateTimePickerDemo";
 import NewQRScannerDemo from "./components/NewQRScannerDemo";
 import NewNotificationsInboxDemo from "./components/NewNotificationsInboxDemo";
+import NewBreadcrumbDemo from "./components/NewBreadcrumbDemo";
+import NewPaginationDemo from "./components/NewPaginationDemo";
+import NewSidebarDemo from "./components/NewSidebarDemo";
+import NewChartDemo from "./components/NewChartDemo";
+import NewRichTextDemo from "./components/NewRichTextDemo";
+import NewMapDemo from "./components/NewMapDemo";
+import NewCameraDemo from "./components/NewCameraDemo";
 import { Toaster } from "./components/toast/toaster";
 
 /**
@@ -116,6 +123,18 @@ const NAV: NavGroup[] = [
       { to: "/date-time-picker", label: "DateTimePicker" },
       { to: "/qr-scanner", label: "QRScanner" },
       { to: "/notifications-inbox", label: "NotificationsInbox" },
+      { to: "/breadcrumb", label: "Breadcrumb" },
+      { to: "/pagination", label: "Pagination" },
+      { to: "/sidebar", label: "Sidebar" },
+    ],
+  },
+  {
+    title: "Heavy / optional (lazy peer deps)",
+    items: [
+      { to: "/chart", label: "Chart (recharts)" },
+      { to: "/rich-text", label: "RichText (jodit)" },
+      { to: "/map", label: "Map (leaflet)" },
+      { to: "/camera", label: "Camera (webcam)" },
     ],
   },
 ];
@@ -268,6 +287,13 @@ const App: React.FC = () => {
             <Route path="/date-time-picker" element={<NewDateTimePickerDemo />} />
             <Route path="/qr-scanner" element={<NewQRScannerDemo />} />
             <Route path="/notifications-inbox" element={<NewNotificationsInboxDemo />} />
+            <Route path="/breadcrumb" element={<NewBreadcrumbDemo />} />
+            <Route path="/pagination" element={<NewPaginationDemo />} />
+            <Route path="/sidebar" element={<NewSidebarDemo />} />
+            <Route path="/chart" element={<NewChartDemo />} />
+            <Route path="/rich-text" element={<NewRichTextDemo />} />
+            <Route path="/map" element={<NewMapDemo />} />
+            <Route path="/camera" element={<NewCameraDemo />} />
           </Routes>
         </main>
       </div>

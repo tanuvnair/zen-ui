@@ -71,6 +71,10 @@ import NewChartDemo from "./components/NewChartDemo";
 import NewRichTextDemo from "./components/NewRichTextDemo";
 import NewMapDemo from "./components/NewMapDemo";
 import NewCameraDemo from "./components/NewCameraDemo";
+import NewIconDemo from "./components/NewIconDemo";
+import NewObjectDemo from "./components/NewObjectDemo";
+import NewButtonFamilyDemo from "./components/NewButtonFamilyDemo";
+import NewTreeDemo from "./components/NewTreeDemo";
 
 applyTheme(getInitialTheme());
 
@@ -138,6 +142,10 @@ render(
       <Route path="/rich-text" component={NewRichTextDemo} />
       <Route path="/map" component={NewMapDemo} />
       <Route path="/camera" component={NewCameraDemo} />
+      <Route path="/icon" component={NewIconDemo} />
+      <Route path="/object" component={NewObjectDemo} />
+      <Route path="/button-family" component={NewButtonFamilyDemo} />
+      <Route path="/tree" component={NewTreeDemo} />
     </Router>
   ),
   root,

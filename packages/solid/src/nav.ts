@@ -155,4 +155,13 @@ export const NAV: NavGroup[] = [
       { label: "Camera", path: "/camera", description: "Camera capture via getUserMedia; no peer dep" },
     ],
   },
+  {
+    group: "Fiori-shaped",
+    items: [
+      { label: "Icon", path: "/icon", description: "zen-ui icon set (48 glyphs); inherits text colour, decorative by default" },
+      { label: "Object atoms", path: "/object", description: "ObjectStatus / ObjectNumber / ObjectIdentifier / ObjectMarker" },
+      { label: "Button family", path: "/button-family", description: "ToggleButton, SegmentedButton, SplitButton" },
+      { label: "Tree", path: "/tree", description: "Hierarchical expandable list with full ARIA keyboard navigation" },
+    ],
+  },
 ];

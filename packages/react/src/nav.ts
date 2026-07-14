@@ -93,4 +93,13 @@ export const NAV: NavGroup[] = [
       { to: "/camera", label: "Camera (webcam)", description: "Lazy-loaded camera capture; react-webcam is an optional peer dep" },
     ],
   },
+  {
+    title: "Fiori-shaped",
+    items: [
+      { to: "/icon", label: "Icon", description: "zen-ui icon set (48 glyphs); inherits text colour, decorative by default" },
+      { to: "/object", label: "Object atoms", description: "ObjectStatus / ObjectNumber / ObjectIdentifier / ObjectMarker" },
+      { to: "/button-family", label: "Button family", description: "ToggleButton, SegmentedButton, SplitButton" },
+      { to: "/tree", label: "Tree", description: "Hierarchical expandable list with full ARIA keyboard navigation" },
+    ],
+  },
 ];

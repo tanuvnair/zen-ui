@@ -159,6 +159,10 @@ export type {
   AvatarSize,
 } from "./components/avatar/avatar";
 
+// UI Components - Icon (zen-ui icon set; geometry shared with the Solid binding)
+export { Icon, ZEN_ICON_NAMES } from "./components/icon/icon";
+export type { IconProps, IconName } from "./components/icon/icon";
+
 // UI Components - Badge (shadcn-style; no Radix primitive)
 export { Badge, badgeVariants } from "./components/badge/badge";
 export type { BadgeProps } from "./components/badge/badge";

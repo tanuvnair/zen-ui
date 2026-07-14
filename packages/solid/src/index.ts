@@ -25,6 +25,9 @@ export type { PolymorphicProps } from "./lib/polymorphic";
 export { Button, buttonVariants } from "./components/button/button";
 export type { ButtonProps } from "./components/button/button";
 
+export { Icon, ZEN_ICON_NAMES } from "./components/icon/icon";
+export type { IconProps, IconName } from "./components/icon/icon";
+
 export { Badge, badgeVariants } from "./components/badge/badge";
 export type { BadgeProps } from "./components/badge/badge";
 

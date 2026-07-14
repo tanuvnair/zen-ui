@@ -62,6 +62,15 @@ import NewTimePickerDemo from "./components/NewTimePickerDemo";
 import NewDateTimePickerDemo from "./components/NewDateTimePickerDemo";
 import NewQRScannerDemo from "./components/NewQRScannerDemo";
 import NewNotificationsInboxDemo from "./components/NewNotificationsInboxDemo";
+import NewStackDemo from "./components/NewStackDemo";
+import NewBreadcrumbDemo from "./components/NewBreadcrumbDemo";
+import NewPaginationDemo from "./components/NewPaginationDemo";
+import NewCommandDemo from "./components/NewCommandDemo";
+import NewSidebarDemo from "./components/NewSidebarDemo";
+import NewChartDemo from "./components/NewChartDemo";
+import NewRichTextDemo from "./components/NewRichTextDemo";
+import NewMapDemo from "./components/NewMapDemo";
+import NewCameraDemo from "./components/NewCameraDemo";
 
 applyTheme(getInitialTheme());
 
@@ -120,6 +129,15 @@ render(
       <Route path="/date-time-picker" component={NewDateTimePickerDemo} />
       <Route path="/qr-scanner" component={NewQRScannerDemo} />
       <Route path="/notifications-inbox" component={NewNotificationsInboxDemo} />
+      <Route path="/stack" component={NewStackDemo} />
+      <Route path="/breadcrumb" component={NewBreadcrumbDemo} />
+      <Route path="/pagination" component={NewPaginationDemo} />
+      <Route path="/command" component={NewCommandDemo} />
+      <Route path="/sidebar" component={NewSidebarDemo} />
+      <Route path="/chart" component={NewChartDemo} />
+      <Route path="/rich-text" component={NewRichTextDemo} />
+      <Route path="/map" component={NewMapDemo} />
+      <Route path="/camera" component={NewCameraDemo} />
     </Router>
   ),
   root,

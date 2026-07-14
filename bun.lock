@@ -5,6 +5,7 @@
     "": {
       "name": "@algorisys/zen-ui",
       "devDependencies": {
+        "jodit": "^4.13.3",
         "playwright": "^1.61.1",
         "repograph": "github:algorisys-oss/repograph",
       },
@@ -877,6 +878,8 @@
     "isexe": ["isexe@2.0.0", "", {}, ""],
 
     "jiti": ["jiti@2.6.1", "", { "bin": "lib/jiti-cli.mjs" }, ""],
+
+    "jodit": ["jodit@4.13.3", "", {}, "sha512-CKmOGRQYDxcNgYgkEs79XFNWdqSC0ZepGh77czpns1mXaBsJp1cOecucPa1DdI64LJHSyD9AMSem7+d1pZbdAA=="],
 
     "jodit-pro-react": ["jodit-pro-react@5.5.43", "", { "peerDependencies": { "react": "~0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react-dom": "~0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0" } }, "sha512-dA2laobPBHxuqOY0NuQjA31/E0Ij4Jfn+VxJR7L/qUvxUb/M5HQ+H8lNp2CBrjhLd0a88NWFPpAgNpOH2XceRQ=="],
 

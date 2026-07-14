@@ -19,7 +19,24 @@ const NewComboboxDemo = () => {
       title="Combobox"
       description="Searchable single-select. Built on Kobalte Combobox."
     >
-      <DemoSection title="Sync · in-memory options">
+      <DemoSection
+        title="Sync · in-memory options"
+        codeTitle="Static list, filtered as you type"
+        code={`const FRAMEWORKS = [
+  { value: "solid", label: "SolidJS" },
+  { value: "react", label: "React" },
+  // …
+];
+
+const [picked, setPicked] = createSignal("");
+
+<Combobox
+  options={FRAMEWORKS}
+  value={picked()}
+  onValueChange={setPicked}
+  placeholder="Pick a framework"
+/>`}
+      >
         <Combobox
           options={FRAMEWORKS}
           value={picked()}
@@ -28,7 +45,19 @@ const NewComboboxDemo = () => {
         />
       </DemoSection>
 
-      <DemoSection title="Async · server-driven">
+      <DemoSection
+        title="Async · server-driven"
+        codeTitle="Pass onSearch instead of options"
+        codeDescription="Debounced; stale responses are discarded. A loading row shows while the request is in flight."
+        code={`<Combobox
+  onSearch={async (query) => {
+    const res = await fetch(\`/api/frameworks?q=\${query}\`);
+    return res.json(); // [{ value, label }]
+  }}
+  placeholder="Search frameworks…"
+  debounceMs={150}
+/>`}
+      >
         <Combobox
           onSearch={async (q) => {
             await new Promise((r) => setTimeout(r, 200));

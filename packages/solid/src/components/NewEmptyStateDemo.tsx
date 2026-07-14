@@ -20,7 +20,21 @@ const NewEmptyStateDemo = () => (
     title="EmptyState"
     description="First-run / no-data surface. Compound API. Use bordered for drop zones."
   >
-    <DemoSection title="Default">
+    <DemoSection
+      title="Default"
+      codeTitle="Icon + title + description + actions"
+      code={`<EmptyState>
+  <EmptyStateIcon><Inbox /></EmptyStateIcon>
+  <EmptyStateTitle>No invoices yet</EmptyStateTitle>
+  <EmptyStateDescription>
+    Create your first invoice to track revenue across your team.
+  </EmptyStateDescription>
+  <EmptyStateActions>
+    <Button>Create invoice</Button>
+    <Button variant="outline">Import from CSV</Button>
+  </EmptyStateActions>
+</EmptyState>`}
+    >
       <div class="zen-w-full zen-max-w-md">
         <EmptyState>
           <EmptyStateIcon><Inbox /></EmptyStateIcon>
@@ -36,7 +50,17 @@ const NewEmptyStateDemo = () => (
       </div>
     </DemoSection>
 
-    <DemoSection title="Bordered (drop zone)">
+    <DemoSection
+      title="Bordered (drop zone)"
+      codeTitle="Dashed border + muted surface"
+      codeDescription="The bordered variant says 'this region is empty on purpose' — drop zones, placeholder columns, empty swimlanes. Icon and actions are optional."
+      code={`<EmptyState bordered size="sm">
+  <EmptyStateTitle>Drop files here</EmptyStateTitle>
+  <EmptyStateDescription>
+    Or click to browse — PDF, PNG, JPG up to 5 MB.
+  </EmptyStateDescription>
+</EmptyState>`}
+    >
       <div class="zen-w-full zen-max-w-md">
         <EmptyState bordered size="sm">
           <EmptyStateTitle>Drop files here</EmptyStateTitle>

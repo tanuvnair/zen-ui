@@ -9,7 +9,17 @@ const NewRadioGroupDemo = () => {
       title="RadioGroup"
       description="Mutually exclusive options, full keyboard nav. Built on Kobalte RadioGroup."
     >
-      <DemoSection title="Vertical (default)">
+      <DemoSection
+        title="Vertical (default)"
+        codeTitle="value + onChange — Kobalte's controlled API"
+        code={`const [plan, setPlan] = createSignal("pro");
+
+<RadioGroup value={plan()} onChange={setPlan}>
+  <RadioGroupItem value="free">Free</RadioGroupItem>
+  <RadioGroupItem value="pro">Pro</RadioGroupItem>
+  <RadioGroupItem value="enterprise">Enterprise</RadioGroupItem>
+</RadioGroup>`}
+      >
         <RadioGroup value={plan()} onChange={setPlan}>
           <RadioGroupItem value="free">Free</RadioGroupItem>
           <RadioGroupItem value="pro">Pro</RadioGroupItem>
@@ -17,7 +27,15 @@ const NewRadioGroupDemo = () => {
         </RadioGroup>
       </DemoSection>
 
-      <DemoSection title="Horizontal">
+      <DemoSection
+        title="Horizontal"
+        codeTitle="orientation switches the group to a flex row"
+        code={`<RadioGroup defaultValue="medium" orientation="horizontal">
+  <RadioGroupItem value="small">Small</RadioGroupItem>
+  <RadioGroupItem value="medium">Medium</RadioGroupItem>
+  <RadioGroupItem value="large">Large</RadioGroupItem>
+</RadioGroup>`}
+      >
         <RadioGroup defaultValue="medium" orientation="horizontal">
           <RadioGroupItem value="small">Small</RadioGroupItem>
           <RadioGroupItem value="medium">Medium</RadioGroupItem>
@@ -25,7 +43,15 @@ const NewRadioGroupDemo = () => {
         </RadioGroup>
       </DemoSection>
 
-      <DemoSection title="Sizes">
+      <DemoSection
+        title="Sizes"
+        codeTitle="size sm · md · lg on RadioGroupItem"
+        code={`<RadioGroup defaultValue="md" orientation="horizontal">
+  <RadioGroupItem size="sm" value="sm">SM</RadioGroupItem>
+  <RadioGroupItem size="md" value="md">MD</RadioGroupItem>
+  <RadioGroupItem size="lg" value="lg">LG</RadioGroupItem>
+</RadioGroup>`}
+      >
         <RadioGroup defaultValue="md" orientation="horizontal">
           <RadioGroupItem size="sm" value="sm">SM</RadioGroupItem>
           <RadioGroupItem size="md" value="md">MD</RadioGroupItem>
@@ -33,7 +59,15 @@ const NewRadioGroupDemo = () => {
         </RadioGroup>
       </DemoSection>
 
-      <DemoSection title="Disabled">
+      <DemoSection
+        title="Disabled"
+        codeTitle="disabled on the group; RadioGroupItem takes it per-item too"
+        code={`<RadioGroup defaultValue="b" disabled orientation="horizontal">
+  <RadioGroupItem value="a">A</RadioGroupItem>
+  <RadioGroupItem value="b">B</RadioGroupItem>
+  <RadioGroupItem value="c">C</RadioGroupItem>
+</RadioGroup>`}
+      >
         <RadioGroup defaultValue="b" disabled orientation="horizontal">
           <RadioGroupItem value="a">A</RadioGroupItem>
           <RadioGroupItem value="b">B</RadioGroupItem>

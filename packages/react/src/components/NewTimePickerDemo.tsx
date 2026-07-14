@@ -114,7 +114,7 @@ const NewTimePickerDemo: React.FC = () => {
             <button
               type="submit"
               style={{
-                padding: "0.6rem 1.2rem",
+                padding: "0.375rem 0.75rem",
                 background: "var(--zen-color-primary)",
                 color: "white",
                 border: 0,

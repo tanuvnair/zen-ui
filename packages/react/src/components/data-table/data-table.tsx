@@ -2384,7 +2384,7 @@ function VirtualizedBody<TData>({
                   <div
                     key={`${header.id}-filter`}
                     style={{
-                      padding: "0.4rem 0.5rem",
+                      padding: "0.25rem 0.3125rem",
                       minWidth: 0,
                       background: headerStickyBg,
                       ...(pin ?? {}),
@@ -2409,7 +2409,7 @@ function VirtualizedBody<TData>({
             role="row"
             style={{
               textAlign: "center",
-              padding: "1.5rem",
+              padding: "0.9375rem",
               color: "var(--zen-color-muted-fg)",
             }}
           >
@@ -2420,7 +2420,7 @@ function VirtualizedBody<TData>({
             role="row"
             style={{
               textAlign: "center",
-              padding: "1.5rem",
+              padding: "0.9375rem",
               color: "var(--zen-color-muted-fg)",
             }}
           >
@@ -2463,7 +2463,7 @@ function VirtualizedBody<TData>({
                       key={cell.id}
                       role="cell"
                       style={{
-                        padding: "0.75rem 0.5rem",
+                        padding: "0.4688rem 0.3125rem",
                         display: "flex",
                         alignItems: "center",
                         minWidth: 0,

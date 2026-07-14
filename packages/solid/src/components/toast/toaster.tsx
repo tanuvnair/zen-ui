@@ -28,9 +28,9 @@ export const Toaster = (props: { position?: "top-left" | "top-center" | "top-rig
         color: "var(--zen-color-foreground)",
         border: "1px solid var(--zen-color-border)",
         "border-radius": "var(--zen-radius-md)",
-        padding: "0.75rem 1rem",
+        padding: "0.4688rem 0.625rem",
         "box-shadow": "var(--zen-shadow-md)",
-        "font-size": "0.875rem",
+        "font-size": "0.5469rem",
       },
     }}
   />

@@ -28,7 +28,7 @@ const NewCameraDemo: React.FC = () => {
             <Camera onCapture={setShot} width={360} height={270} />
             {shot && (
               <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                <span style={{ fontSize: "1.2rem", color: "var(--zen-color-muted-fg)" }}>
+                <span style={{ fontSize: "0.75rem", color: "var(--zen-color-muted-fg)" }}>
                   Captured
                 </span>
                 <img

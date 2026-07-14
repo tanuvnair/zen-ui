@@ -71,7 +71,7 @@ const NewComboboxDemo: React.FC = () => {
             placeholder="Pick a framework"
             searchPlaceholder="Search frameworks…"
           />
-          <span style={{ marginLeft: 12, fontSize: "1.3rem", color: "var(--zen-color-muted-fg)" }}>
+          <span style={{ marginLeft: 12, fontSize: "0.8125rem", color: "var(--zen-color-muted-fg)" }}>
             value: {pickedSync || "(none)"}
           </span>
         </CodeExample>
@@ -141,7 +141,7 @@ const NewComboboxDemo: React.FC = () => {
             width={280}
             debounceMs={250}
           />
-          <span style={{ marginLeft: 12, fontSize: "1.3rem", color: "var(--zen-color-muted-fg)" }}>
+          <span style={{ marginLeft: 12, fontSize: "0.8125rem", color: "var(--zen-color-muted-fg)" }}>
             value: {pickedAsync || "(none)"}
           </span>
         </CodeExample>

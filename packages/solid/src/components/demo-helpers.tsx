@@ -27,9 +27,9 @@ export const DemoSection = (
     <Show when={props.description}>
       <p
         style={{
-          "font-size": "1.4rem",
+          "font-size": "0.875rem",
           color: "var(--zen-color-muted-fg)",
-          margin: "0 0 1.2rem",
+          margin: "0 0 0.75rem",
         }}
       >
         {props.description}
@@ -39,7 +39,7 @@ export const DemoSection = (
       style={{
         display: "flex",
         "flex-wrap": "wrap",
-        gap: "0.8rem",
+        gap: "0.5rem",
         "align-items": "center",
       }}
     >
@@ -53,7 +53,7 @@ export const Row = (props: { children: JSX.Element }) => (
     style={{
       display: "flex",
       "flex-wrap": "wrap",
-      gap: "0.8rem",
+      gap: "0.5rem",
       "align-items": "center",
     }}
   >

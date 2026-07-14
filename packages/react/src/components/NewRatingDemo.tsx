@@ -72,7 +72,7 @@ const NewRatingDemo: React.FC = () => {
                 <code
                   style={{
                     width: 50,
-                    fontSize: "1.2rem",
+                    fontSize: "0.75rem",
                     color: "var(--zen-color-muted-fg)",
                   }}
                 >

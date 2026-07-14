@@ -70,7 +70,7 @@ const NewCardDemo: React.FC = () => {
   </CardFooter>
 </Card>`}
         >
-          <div style={{ width: "100%", maxWidth: "32rem" }}>
+          <div style={{ width: "100%", maxWidth: "20rem" }}>
             <Card>
               <CardHeader>
                 <CardTitle>Account</CardTitle>

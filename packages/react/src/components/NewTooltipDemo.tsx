@@ -125,8 +125,8 @@ const NewTooltipDemo: React.FC = () => {
             previewStyle={{
               display: "grid",
               gridTemplateColumns: "repeat(4, 1fr)",
-              gap: "1.6rem",
-              padding: "4rem 2rem",
+              gap: "1rem",
+              padding: "2.5rem 1.25rem",
               justifyItems: "center",
             }}
           >
@@ -226,9 +226,9 @@ const NewTooltipDemo: React.FC = () => {
           <h2>7. Custom width</h2>
           <CodeExample
             title="max-w-* / min-w-* / w-* utility classes"
-            description="Tooltip content has a default max-width of xs (~20rem). Override with className."
+            description="Tooltip content has a default max-width of xs (~12.5rem). Override with className."
             code={`<TooltipContent className="max-w-md">
-  This tooltip can grow up to roughly 28rem wide before wrapping. Great
+  This tooltip can grow up to roughly 17.5rem wide before wrapping. Great
   for medium-length help text or short explanations that need to breathe.
 </TooltipContent>
 
@@ -241,7 +241,7 @@ const NewTooltipDemo: React.FC = () => {
                 <Button variant="outline">Wider</Button>
               </TooltipTrigger>
               <TooltipContent className="zen-max-w-md">
-                This tooltip can grow up to roughly 28rem wide before wrapping.
+                This tooltip can grow up to roughly 17.5rem wide before wrapping.
                 Great for medium-length help text or short explanations that need
                 to breathe.
               </TooltipContent>

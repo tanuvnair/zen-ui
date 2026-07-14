@@ -77,7 +77,7 @@ export const PhoneInput = (rawProps: PhoneInputProps) => {
 
   return (
     <div class={cn("zen-flex zen-items-stretch zen-gap-2", props.class)}>
-      <div style={{ width: "10rem" }}>
+      <div style={{ width: "6.25rem" }}>
         <Select
           options={options()}
           value={current().country}

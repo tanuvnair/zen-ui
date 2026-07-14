@@ -102,9 +102,9 @@ export type AvatarGroupProps = {
 };
 
 const SPACING: Record<NonNullable<AvatarGroupProps["spacing"]>, string> = {
-  tight: "-ml-3",
-  default: "-ml-2",
-  loose: "-ml-1",
+  tight: "-zen-ml-3",
+  default: "-zen-ml-2",
+  loose: "-zen-ml-1",
 };
 
 export const AvatarGroup = (props: AvatarGroupProps) => {

@@ -14,17 +14,17 @@ import { cn } from "../../lib/cn";
  */
 
 const ALIGN = {
-  start: "items-start",
-  center: "items-center",
-  end: "items-end",
-  stretch: "items-stretch",
+  start: "zen-items-start",
+  center: "zen-items-center",
+  end: "zen-items-end",
+  stretch: "zen-items-stretch",
 } as const;
 
 const JUSTIFY = {
-  start: "justify-start",
-  center: "justify-center",
-  end: "justify-end",
-  between: "justify-between",
+  start: "zen-justify-start",
+  center: "zen-justify-center",
+  end: "zen-justify-end",
+  between: "zen-justify-between",
 } as const;
 
 export interface StackProps extends React.HTMLAttributes<HTMLDivElement> {

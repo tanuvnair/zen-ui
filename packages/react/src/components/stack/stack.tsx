@@ -63,9 +63,9 @@ const Stack = React.forwardRef<HTMLDivElement, StackProps>(
     <div
       ref={ref}
       className={cn(
-        "flex",
-        direction === "column" ? "flex-col" : "flex-row",
-        wrap && "flex-wrap",
+        "zen-flex",
+        direction === "column" ? "zen-flex-col" : "zen-flex-row",
+        wrap && "zen-flex-wrap",
         align && ALIGN[align],
         justify && JUSTIFY[justify],
         className,

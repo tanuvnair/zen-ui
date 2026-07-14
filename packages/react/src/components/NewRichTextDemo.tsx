@@ -38,7 +38,7 @@ const NewRichTextDemo: React.FC = () => {
               padding: 12,
               width: "100%",
               overflowX: "auto",
-              fontSize: "1.2rem",
+              fontSize: "0.75rem",
               background: "var(--zen-color-muted)",
               borderRadius: 6,
               color: "var(--zen-color-foreground)",

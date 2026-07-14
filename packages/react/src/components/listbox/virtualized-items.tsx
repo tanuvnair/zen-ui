@@ -64,7 +64,7 @@ export function VirtualizedItems<T>({
   return (
     <div
       ref={parentRef}
-      className={cn("overflow-y-auto", className)}
+      className={cn("zen-overflow-y-auto", className)}
       style={{ maxHeight }}
     >
       <div

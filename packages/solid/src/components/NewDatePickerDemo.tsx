@@ -11,7 +11,7 @@ const NewDatePickerDemo = () => {
     >
       <DemoSection title="Controlled">
         <DatePicker value={d()} onValueChange={setD} />
-        <span class="text-xs text-zen-muted-fg">
+        <span class="zen-text-xs zen-text-zen-muted-fg">
           {d() ? d()!.toLocaleDateString() : "—"}
         </span>
       </DemoSection>

@@ -69,7 +69,7 @@ const NewLikertDemo: React.FC = () => {
               onValueChange={setAnswer}
               question="Our support response time meets your expectations."
             />
-            <p className="text-xs text-zen-muted-fg m-0">
+            <p className="zen-text-xs zen-text-zen-muted-fg zen-m-0">
               Answer: <code>{answer ?? "(none)"}</code>
             </p>
           </div>

@@ -11,7 +11,7 @@ const NewTimePickerDemo = () => {
     >
       <DemoSection title="24h (default)">
         <TimePicker value={t1()} onValueChange={setT1} />
-        <span class="text-xs text-zen-muted-fg">Value: {t1() ?? "—"}</span>
+        <span class="zen-text-xs zen-text-zen-muted-fg">Value: {t1() ?? "—"}</span>
       </DemoSection>
       <DemoSection title="12h with AM/PM toggle">
         <TimePicker defaultValue="14:00" format="12h" />

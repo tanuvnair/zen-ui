@@ -11,7 +11,7 @@ const NewDateTimePickerDemo = () => {
     >
       <DemoSection title="24h">
         <DateTimePicker value={when()} onValueChange={setWhen} />
-        <span class="text-xs text-zen-muted-fg">{when()?.toLocaleString() ?? "—"}</span>
+        <span class="zen-text-xs zen-text-zen-muted-fg">{when()?.toLocaleString() ?? "—"}</span>
       </DemoSection>
       <DemoSection title="12h with seconds">
         <DateTimePicker defaultValue={new Date()} format="12h" showSeconds />

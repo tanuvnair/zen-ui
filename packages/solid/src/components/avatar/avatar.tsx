@@ -21,11 +21,11 @@ import { cn } from "../../lib/cn";
 export type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 const SIZES: Record<AvatarSize, string> = {
-  xs: "h-6 w-6 text-xs",
-  sm: "h-8 w-8 text-xs",
-  md: "h-10 w-10 text-sm",
-  lg: "h-12 w-12 text-base",
-  xl: "h-16 w-16 text-lg",
+  xs: "zen-h-6 zen-w-6 zen-text-xs",
+  sm: "zen-h-8 zen-w-8 zen-text-xs",
+  md: "zen-h-10 zen-w-10 zen-text-sm",
+  lg: "zen-h-12 zen-w-12 zen-text-base",
+  xl: "zen-h-16 zen-w-16 zen-text-lg",
 };
 
 export type AvatarProps = {
@@ -43,7 +43,7 @@ export const Avatar = (props: AvatarProps) => {
     <KImage
       fallbackDelay={local.fallbackDelay}
       class={cn(
-        "relative inline-flex shrink-0 overflow-hidden rounded-zen-full",
+        "zen-relative zen-inline-flex zen-shrink-0 zen-overflow-hidden zen-rounded-zen-full",
         SIZES[local.size ?? "md"],
         local.class,
       )}
@@ -65,7 +65,7 @@ export const AvatarImage = (props: AvatarImageProps) => {
     <KImage.Img
       src={local.src}
       alt={local.alt}
-      class={cn("aspect-square h-full w-full object-cover", local.class)}
+      class={cn("zen-aspect-square zen-h-full zen-w-full zen-object-cover", local.class)}
     />
   );
 };
@@ -80,7 +80,7 @@ export const AvatarFallback = (props: AvatarFallbackProps) => {
   return (
     <KImage.Fallback
       class={cn(
-        "flex h-full w-full items-center justify-center bg-zen-muted text-zen-muted-fg font-medium",
+        "zen-flex zen-h-full zen-w-full zen-items-center zen-justify-center zen-bg-zen-muted zen-text-zen-muted-fg zen-font-medium",
         local.class,
       )}
     >
@@ -126,12 +126,12 @@ export const AvatarGroup = (props: AvatarGroupProps) => {
   const spacing = () => SPACING[local.spacing ?? "default"];
 
   return (
-    <div class={cn("flex items-center", local.class)}>
+    <div class={cn("zen-flex zen-items-center", local.class)}>
       <For each={visible()}>
         {(child, i) => (
           <div
             class={cn(
-              "ring-2 ring-zen-background rounded-zen-full",
+              "zen-ring-2 zen-ring-zen-background zen-rounded-zen-full",
               i() > 0 && spacing(),
             )}
           >
@@ -140,7 +140,7 @@ export const AvatarGroup = (props: AvatarGroupProps) => {
         )}
       </For>
       <Show when={overflow() > 0}>
-        <div class={cn("ring-2 ring-zen-background rounded-zen-full", spacing())}>
+        <div class={cn("zen-ring-2 zen-ring-zen-background zen-rounded-zen-full", spacing())}>
           <Avatar size={local.size ?? "md"}>
             <AvatarFallback>+{overflow()}</AvatarFallback>
           </Avatar>

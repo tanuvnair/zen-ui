@@ -10,9 +10,9 @@ const NewPhoneInputDemo = () => {
       description="Country dial-code Select composed with a tel Input."
     >
       <DemoSection title="Controlled">
-        <div class="w-full max-w-md">
+        <div class="zen-w-full zen-max-w-md">
           <PhoneInput value={phone()} onValueChange={setPhone} />
-          <div class="text-xs text-zen-muted-fg mt-2">
+          <div class="zen-text-xs zen-text-zen-muted-fg zen-mt-2">
             Value: {phone().country} {phone().number || "—"}
           </div>
         </div>

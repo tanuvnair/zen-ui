@@ -29,11 +29,11 @@ const NewBadgeDemo = () => (
 
     <DemoSection title="With leading dot">
       <Badge color="success">
-        <span class="inline-block w-1.5 h-1.5 rounded-zen-full bg-zen-success" />
+        <span class="zen-inline-block zen-w-1.5 zen-h-1.5 zen-rounded-zen-full zen-bg-zen-success" />
         Online
       </Badge>
       <Badge color="warning">
-        <span class="inline-block w-1.5 h-1.5 rounded-zen-full bg-zen-warning" />
+        <span class="zen-inline-block zen-w-1.5 zen-h-1.5 zen-rounded-zen-full zen-bg-zen-warning" />
         Pending
       </Badge>
     </DemoSection>

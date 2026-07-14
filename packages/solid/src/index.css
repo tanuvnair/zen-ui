@@ -24,10 +24,7 @@ body {
   width: 100%;
 }
 
-/* 1rem = 10px so legacy SCSS values keep working; the UnoCSS preset in
- * @algorisys/zen-ui-core compensates rem-based utilities by 1.6×. */
 html {
-  font-size: 62.5%;
   overflow-x: hidden;
 }
 

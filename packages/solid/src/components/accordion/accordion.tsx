@@ -68,7 +68,7 @@ export const AccordionItem = (props: AccordionItemProps) => {
     <KAccordion.Item
       value={local.value}
       disabled={local.disabled}
-      class={cn("border-b border-zen-border last:border-b-0", local.class)}
+      class={cn("zen-border-b zen-border-zen-border last:zen-border-b-0", local.class)}
     >
       {local.children}
     </KAccordion.Item>
@@ -83,23 +83,23 @@ export type AccordionTriggerProps = {
 export const AccordionTrigger = (props: AccordionTriggerProps) => {
   const [local] = splitProps(props, ["class", "children"]);
   return (
-    <KAccordion.Header class="flex">
+    <KAccordion.Header class="zen-flex">
       <KAccordion.Trigger
         class={cn(
-          "flex flex-1 items-center justify-between gap-2",
-          "py-3 px-1 text-sm font-medium text-left",
-          "bg-transparent border-0 cursor-pointer",
-          "transition-colors hover:text-zen-foreground",
-          "text-zen-foreground",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zen-ring focus-visible:ring-inset rounded-zen-sm",
+          "zen-flex zen-flex-1 zen-items-center zen-justify-between zen-gap-2",
+          "zen-py-3 zen-px-1 zen-text-sm zen-font-medium zen-text-left",
+          "zen-bg-transparent zen-border-0 zen-cursor-pointer",
+          "zen-transition-colors hover:zen-text-zen-foreground",
+          "zen-text-zen-foreground",
+          "focus-visible:zen-outline-none focus-visible:zen-ring-2 focus-visible:zen-ring-zen-ring focus-visible:zen-ring-inset zen-rounded-zen-sm",
           // Rotate the trailing chevron when expanded.
-          "[&[data-expanded]>svg.zen-acc-chevron]:rotate-180",
+          "[&[data-expanded]>svg.zen-acc-chevron]:zen-rotate-180",
           local.class,
         )}
       >
         {local.children}
         <svg
-          class="zen-acc-chevron transition-transform duration-200 text-zen-muted-fg flex-shrink-0"
+          class="zen-acc-chevron zen-transition-transform zen-duration-200 zen-text-zen-muted-fg zen-flex-shrink-0"
           width="16"
           height="16"
           viewBox="0 0 24 24"
@@ -125,8 +125,8 @@ export type AccordionContentProps = {
 export const AccordionContent = (props: AccordionContentProps) => {
   const [local] = splitProps(props, ["class", "children"]);
   return (
-    <KAccordion.Content class="overflow-hidden text-sm data-[closed]:animate-accordion-up data-[expanded]:animate-accordion-down">
-      <div class={cn("pb-3 px-1 pt-0 text-zen-foreground", local.class)}>
+    <KAccordion.Content class="zen-overflow-hidden zen-text-sm data-[closed]:zen-anim-accordion-up data-[expanded]:zen-anim-accordion-down">
+      <div class={cn("zen-pb-3 zen-px-1 zen-pt-0 zen-text-zen-foreground", local.class)}>
         {local.children}
       </div>
     </KAccordion.Content>

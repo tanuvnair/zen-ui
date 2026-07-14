@@ -44,7 +44,7 @@ export type FormProps = {
 };
 
 export const Form = (props: FormProps) => (
-  <div class={cn("space-y-4", props.class)}>{props.children}</div>
+  <div class={cn("zen-space-y-4", props.class)}>{props.children}</div>
 );
 
 /* ----------------------------- Field context ---------------------------- */
@@ -130,7 +130,7 @@ export function FormField(props: FormFieldProps) {
 /* ----------------------------- FormItem -------------------------------- */
 export const FormItem = (props: { class?: string; children?: JSX.Element }) => {
   const [local] = splitProps(props, ["class", "children"]);
-  return <div class={cn("space-y-1.5", local.class)}>{local.children}</div>;
+  return <div class={cn("zen-space-y-1.5", local.class)}>{local.children}</div>;
 };
 
 /* ----------------------------- FormLabel ------------------------------- */
@@ -141,8 +141,8 @@ export const FormLabel = (props: { class?: string; children?: JSX.Element }) => 
     <label
       for={ctx.itemId}
       class={cn(
-        "text-sm font-medium leading-none",
-        ctx.error() ? "text-zen-error" : "text-zen-foreground",
+        "zen-text-sm zen-font-medium zen-leading-none",
+        ctx.error() ? "zen-text-zen-error" : "zen-text-zen-foreground",
         local.class,
       )}
     >
@@ -177,7 +177,7 @@ export const FormDescription = (props: { class?: string; children?: JSX.Element 
   const ctx = useFormField();
   const [local] = splitProps(props, ["class", "children"]);
   return (
-    <p id={ctx.descriptionId} class={cn("text-xs text-zen-muted-fg", local.class)}>
+    <p id={ctx.descriptionId} class={cn("zen-text-xs zen-text-zen-muted-fg", local.class)}>
       {local.children}
     </p>
   );
@@ -191,7 +191,7 @@ export const FormMessage = (props: { class?: string; children?: JSX.Element }) =
     <Show when={ctx.error() || local.children}>
       <p
         id={ctx.messageId}
-        class={cn("text-xs font-medium text-zen-error", local.class)}
+        class={cn("zen-text-xs zen-font-medium zen-text-zen-error", local.class)}
         role="alert"
       >
         {ctx.error() || local.children}

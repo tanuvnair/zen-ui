@@ -12,10 +12,10 @@ const NewLazyOptionsDemo = () => (
     description="Drop-in scrolling viewport that renders only the visible window. Use inside large lists where mounting every row would blow up the DOM."
   >
     <DemoSection title="5,000 items, 280 px viewport">
-      <div class="w-72 rounded-zen-md border border-zen-border">
+      <div class="zen-w-72 zen-rounded-zen-md zen-border zen-border-zen-border">
         <VirtualizedItems items={ITEMS} estimateSize={36}>
           {({ item }) => (
-            <div class="px-3 py-2 text-sm border-b border-zen-border last:border-b-0">
+            <div class="zen-px-3 zen-py-2 zen-text-sm zen-border-b zen-border-zen-border last:zen-border-b-0">
               {item.label}
             </div>
           )}

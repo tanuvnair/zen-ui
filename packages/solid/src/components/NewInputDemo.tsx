@@ -4,7 +4,7 @@ import { DemoPage, DemoSection } from "./demo-helpers";
 const NewInputDemo = () => (
   <DemoPage title="Input + Textarea" description="Styled native <input> and <textarea>.">
     <DemoSection title="Input variants">
-      <div class="w-64 flex flex-col gap-2">
+      <div class="zen-w-64 zen-flex zen-flex-col zen-gap-2">
         <Input type="text" placeholder="Type something" />
         <Input type="email" placeholder="you@algorisys.com" />
         <Input type="password" placeholder="Password" />
@@ -12,7 +12,7 @@ const NewInputDemo = () => (
       </div>
     </DemoSection>
     <DemoSection title="Textarea">
-      <div class="w-64">
+      <div class="zen-w-64">
         <Textarea placeholder="Tell us about your project…" rows={4} />
       </div>
     </DemoSection>

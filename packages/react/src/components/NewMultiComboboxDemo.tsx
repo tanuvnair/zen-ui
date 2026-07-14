@@ -82,7 +82,7 @@ const NewMultiComboboxDemo: React.FC = () => {
               placeholder="Pick roles"
               width={320}
             />
-            <p className="text-xs text-zen-muted-fg m-0">
+            <p className="zen-text-xs zen-text-zen-muted-fg zen-m-0">
               Picked: <code>{JSON.stringify(roles)}</code>
             </p>
           </div>
@@ -110,7 +110,7 @@ const NewMultiComboboxDemo: React.FC = () => {
               maxDisplayed={2}
               width={320}
             />
-            <p className="text-xs text-zen-muted-fg m-0">
+            <p className="zen-text-xs zen-text-zen-muted-fg zen-m-0">
               {countries.length === 0
                 ? "Pick a few countries to see the +N overflow"
                 : `Picked: ${countries.join(", ")}`}
@@ -143,7 +143,7 @@ const NewMultiComboboxDemo: React.FC = () => {
               debounceMs={300}
               width={360}
             />
-            <p className="text-xs text-zen-muted-fg m-0">
+            <p className="zen-text-xs zen-text-zen-muted-fg zen-m-0">
               Picked {users.length} user(s). Try typing then clearing
               the query — chips keep their labels even when the
               underlying option list rotates.

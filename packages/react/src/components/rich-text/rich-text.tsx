@@ -38,7 +38,7 @@ export const RichText = ({
   return (
     <div className={className}>
       <React.Suspense
-        fallback={<div className="text-sm text-zen-muted-fg">Loading editor…</div>}
+        fallback={<div className="zen-text-sm zen-text-zen-muted-fg">Loading editor…</div>}
       >
         <JoditEditor
           value={value}

@@ -21,9 +21,9 @@ export const ScrollArea = (props: ScrollAreaProps) => {
   return (
     <div
       class={cn(
-        "relative overflow-auto",
+        "zen-relative zen-overflow-auto",
         // Subtle Webkit/Firefox scrollbar styling, falling back to native.
-        "[scrollbar-width:thin] [scrollbar-color:var(--zen-color-border)_transparent]",
+        "zen-[scrollbar-width:thin] zen-[scrollbar-color:var(--zen-color-border)_transparent]",
         local.class,
       )}
     >

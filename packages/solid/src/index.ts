@@ -4,8 +4,10 @@
 // Side-effect CSS imports. Tokens must load before any UnoCSS utility
 // (bg-zen-*, text-zen-*, …) is evaluated, otherwise those classes
 // resolve to var(--zen-color-…) → empty.
+// Only `--zen-*` custom properties and `.zen-*` classes ship from here. The
+// element reset is opt-in via `@algorisys/zen-ui-solid/preflight` so the library
+// cannot restyle a consumer's document — see docs/css-interop.md.
 import "@algorisys/zen-ui-core/tokens.css";
-import "@algorisys/zen-ui-core/preflight.css";
 import "virtual:uno.css";
 
 // Theming

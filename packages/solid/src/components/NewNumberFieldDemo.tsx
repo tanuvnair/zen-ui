@@ -11,7 +11,7 @@ const NewNumberFieldDemo = () => {
     >
       <DemoSection title="Controlled">
         <NumberField value={n()} onValueChange={setN} min={0} max={100} step={5} />
-        <span class="text-sm text-zen-muted-fg">Value: {n() ?? "—"}</span>
+        <span class="zen-text-sm zen-text-zen-muted-fg">Value: {n() ?? "—"}</span>
       </DemoSection>
       <DemoSection title="Default + step">
         <NumberField defaultValue={2.5} step={0.5} />

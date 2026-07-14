@@ -42,7 +42,7 @@ type DivProps = {
 export const AlertDialogOverlay = (props: DivProps) => {
   const [local] = splitProps(props, ["class", "children"]);
   return (
-    <KAlertDialog.Overlay class={cn("fixed inset-0 z-50 bg-black/50", local.class)}>
+    <KAlertDialog.Overlay class={cn("zen-fixed zen-inset-0 zen-z-50 zen-bg-black/50", local.class)}>
       {local.children}
     </KAlertDialog.Overlay>
   );
@@ -60,10 +60,10 @@ export const AlertDialogContent = (props: AlertDialogContentProps) => {
       <AlertDialogOverlay />
       <KAlertDialog.Content
         class={cn(
-          "fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2",
-          "w-full max-w-lg max-h-[85vh] overflow-y-auto",
-          "rounded-zen-md border border-zen-border bg-zen-background p-6 shadow-zen-lg",
-          "focus:outline-none",
+          "zen-fixed zen-left-1/2 zen-top-1/2 zen-z-50 -zen-translate-x-1/2 -zen-translate-y-1/2",
+          "zen-w-full zen-max-w-lg zen-max-h-[85vh] zen-overflow-y-auto",
+          "zen-rounded-zen-md zen-border zen-border-zen-border zen-bg-zen-background zen-p-6 zen-shadow-zen-lg",
+          "focus:zen-outline-none",
           local.class,
         )}
       >
@@ -76,7 +76,7 @@ export const AlertDialogContent = (props: AlertDialogContentProps) => {
 export const AlertDialogHeader = (props: DivProps) => {
   const [local] = splitProps(props, ["class", "children"]);
   return (
-    <div class={cn("flex flex-col gap-1 text-left mb-3", local.class)}>
+    <div class={cn("zen-flex zen-flex-col zen-gap-1 zen-text-left zen-mb-3", local.class)}>
       {local.children}
     </div>
   );
@@ -87,7 +87,7 @@ export const AlertDialogFooter = (props: DivProps) => {
   return (
     <div
       class={cn(
-        "flex flex-col-reverse sm:flex-row sm:justify-end gap-2 mt-5",
+        "zen-flex zen-flex-col-reverse sm:zen-flex-row sm:zen-justify-end zen-gap-2 zen-mt-5",
         local.class,
       )}
     >
@@ -101,7 +101,7 @@ export const AlertDialogTitle = (props: DivProps) => {
   return (
     <KAlertDialog.Title
       class={cn(
-        "text-lg font-semibold leading-tight text-zen-foreground",
+        "zen-text-lg zen-font-semibold zen-leading-tight zen-text-zen-foreground",
         local.class,
       )}
     >
@@ -114,7 +114,7 @@ export const AlertDialogDescription = (props: DivProps) => {
   const [local] = splitProps(props, ["class", "children"]);
   return (
     <KAlertDialog.Description
-      class={cn("text-sm text-zen-muted-fg leading-snug", local.class)}
+      class={cn("zen-text-sm zen-text-zen-muted-fg zen-leading-snug", local.class)}
     >
       {local.children}
     </KAlertDialog.Description>

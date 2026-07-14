@@ -58,21 +58,21 @@ export const Slider = (props: SliderProps) => {
       disabled={local.disabled}
       name={local.name}
       class={cn(
-        "relative flex w-full touch-none select-none items-center",
-        "data-[orientation=vertical]:h-full data-[orientation=vertical]:w-2 data-[orientation=vertical]:flex-col",
+        "zen-relative zen-flex zen-w-full zen-touch-none zen-select-none zen-items-center",
+        "data-[orientation=vertical]:zen-h-full data-[orientation=vertical]:zen-w-2 data-[orientation=vertical]:zen-flex-col",
         local.class,
       )}
     >
       <KSlider.Track
         class={cn(
-          "relative h-2 w-full grow overflow-hidden rounded-zen-full bg-zen-muted",
-          "data-[orientation=vertical]:h-full data-[orientation=vertical]:w-2",
+          "zen-relative zen-h-2 zen-w-full zen-grow zen-overflow-hidden zen-rounded-zen-full zen-bg-zen-muted",
+          "data-[orientation=vertical]:zen-h-full data-[orientation=vertical]:zen-w-2",
         )}
       >
         <KSlider.Fill
           class={cn(
-            "absolute h-full bg-zen-primary",
-            "data-[orientation=vertical]:w-full",
+            "zen-absolute zen-h-full zen-bg-zen-primary",
+            "data-[orientation=vertical]:zen-w-full",
           )}
         />
       </KSlider.Track>
@@ -80,10 +80,10 @@ export const Slider = (props: SliderProps) => {
         {() => (
           <KSlider.Thumb
             class={cn(
-              "block h-5 w-5 rounded-zen-full border-2 border-zen-primary bg-zen-background",
-              "transition-colors",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zen-ring focus-visible:ring-offset-2",
-              "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+              "zen-block zen-h-5 zen-w-5 zen-rounded-zen-full zen-border-2 zen-border-zen-primary zen-bg-zen-background",
+              "zen-transition-colors",
+              "focus-visible:zen-outline-none focus-visible:zen-ring-2 focus-visible:zen-ring-zen-ring focus-visible:zen-ring-offset-2",
+              "data-[disabled]:zen-pointer-events-none data-[disabled]:zen-opacity-50",
             )}
           >
             <KSlider.Input />

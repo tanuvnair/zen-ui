@@ -26,7 +26,7 @@ const NewBannerDemo = () => {
       description="Page-top persistent callout. Differs from Alert by being full-width with optional sticky."
     >
       <DemoSection title="Variants">
-        <div class="flex flex-col gap-3 w-full">
+        <div class="zen-flex zen-flex-col zen-gap-3 zen-w-full">
           <Banner color="info">
             <BannerIcon><Bell /></BannerIcon>
             <BannerContent>
@@ -63,7 +63,7 @@ const NewBannerDemo = () => {
 
       <DemoSection title="Dismissible">
         <Show when={show()} fallback={<Button size="sm" onClick={() => setShow(true)}>Restore banner</Button>}>
-          <div class="w-full">
+          <div class="zen-w-full">
             <Banner color="primary">
               <BannerIcon><Bell /></BannerIcon>
               <BannerContent>

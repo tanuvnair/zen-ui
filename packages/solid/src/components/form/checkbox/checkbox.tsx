@@ -31,9 +31,9 @@ export type CheckboxProps = {
 };
 
 const BOX_SIZES: Record<CheckboxSize, string> = {
-  sm: "h-3.5 w-3.5",
-  md: "h-4 w-4",
-  lg: "h-5 w-5",
+  sm: "zen-h-3.5 zen-w-3.5",
+  md: "zen-h-4 zen-w-4",
+  lg: "zen-h-5 zen-w-5",
 };
 
 export const Checkbox = (props: CheckboxProps) => {
@@ -60,26 +60,26 @@ export const Checkbox = (props: CheckboxProps) => {
       required={local.required}
       name={local.name}
       value={local.value}
-      class={cn("inline-flex items-center gap-2", local.class)}
+      class={cn("zen-inline-flex zen-items-center zen-gap-2", local.class)}
     >
-      <KCheckbox.Input class="sr-only" />
+      <KCheckbox.Input class="zen-sr-only" />
       <KCheckbox.Control
         class={cn(
-          "peer shrink-0 rounded-zen-sm border border-zen-border bg-zen-background",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zen-ring focus-visible:ring-offset-2",
-          "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50",
-          "data-[checked]:bg-zen-primary data-[checked]:border-zen-primary data-[checked]:text-zen-primary-fg",
-          "data-[indeterminate]:bg-zen-primary data-[indeterminate]:border-zen-primary data-[indeterminate]:text-zen-primary-fg",
+          "zen-peer zen-shrink-0 zen-rounded-zen-sm zen-border zen-border-zen-border zen-bg-zen-background",
+          "focus-visible:zen-outline-none focus-visible:zen-ring-2 focus-visible:zen-ring-zen-ring focus-visible:zen-ring-offset-2",
+          "data-[disabled]:zen-cursor-not-allowed data-[disabled]:zen-opacity-50",
+          "data-[checked]:zen-bg-zen-primary data-[checked]:zen-border-zen-primary data-[checked]:zen-text-zen-primary-fg",
+          "data-[indeterminate]:zen-bg-zen-primary data-[indeterminate]:zen-border-zen-primary data-[indeterminate]:zen-text-zen-primary-fg",
           BOX_SIZES[local.size ?? "md"],
         )}
       >
-        <KCheckbox.Indicator class="flex items-center justify-center text-current h-full w-full">
+        <KCheckbox.Indicator class="zen-flex zen-items-center zen-justify-center zen-text-current zen-h-full zen-w-full">
           <Show when={local.indeterminate} fallback={<CheckIcon />}>
             <DashIcon />
           </Show>
         </KCheckbox.Indicator>
       </KCheckbox.Control>
-      {local.label ? <KCheckbox.Label class="text-sm">{local.label}</KCheckbox.Label> : null}
+      {local.label ? <KCheckbox.Label class="zen-text-sm">{local.label}</KCheckbox.Label> : null}
     </KCheckbox>
   );
 };

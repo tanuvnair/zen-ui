@@ -28,7 +28,7 @@ const NewOTPDemo = () => {
             <InputOTPSlot index={5} />
           </InputOTPGroup>
         </InputOTP>
-        <div class="text-xs text-zen-muted-fg">Value: {v() || "—"}</div>
+        <div class="zen-text-xs zen-text-zen-muted-fg">Value: {v() || "—"}</div>
       </DemoSection>
     </DemoPage>
   );

@@ -168,7 +168,7 @@ export const InputOTP = (rawProps: InputOTPProps) => {
     <OTPContext.Provider value={ctx}>
       <div
         class={cn(
-          "flex items-center gap-2 has-[:disabled]:opacity-50",
+          "zen-flex zen-items-center zen-gap-2 has-[:disabled]:zen-opacity-50",
           props.containerClass,
           props.class,
         )}
@@ -231,15 +231,15 @@ const DefaultSlots = (props: {
 export const InputOTPGroup = (props: { class?: string; children?: JSX.Element }) => {
   const [local] = splitProps(props, ["class", "children"]);
   return (
-    <div class={cn("flex items-center gap-2", local.class)}>{local.children}</div>
+    <div class={cn("zen-flex zen-items-center zen-gap-2", local.class)}>{local.children}</div>
   );
 };
 
 const slotBaseClass = cn(
-  "zen-otp-slot h-11 w-11 rounded-zen-md bg-zen-background p-0",
-  "text-center text-base font-medium text-zen-foreground tabular-nums",
-  "transition-colors",
-  "disabled:cursor-not-allowed disabled:opacity-50",
+  "zen-otp-slot zen-h-11 zen-w-11 zen-rounded-zen-md zen-bg-zen-background zen-p-0",
+  "zen-text-center zen-text-base zen-font-medium zen-text-zen-foreground zen-tabular-nums",
+  "zen-transition-colors",
+  "disabled:zen-cursor-not-allowed disabled:zen-opacity-50",
 );
 
 export const InputOTPSlot = (

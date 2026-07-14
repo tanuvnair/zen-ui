@@ -49,7 +49,7 @@ const Progress = React.forwardRef<
     ref={ref}
     value={value}
     className={cn(
-      "relative w-full overflow-hidden rounded-zen-full bg-zen-muted",
+      "zen-relative zen-w-full zen-overflow-hidden zen-rounded-zen-full zen-bg-zen-muted",
       TRACK_HEIGHT[size],
       className,
     )}
@@ -57,7 +57,7 @@ const Progress = React.forwardRef<
   >
     <ProgressPrimitive.Indicator
       className={cn(
-        "h-full w-full flex-1 transition-transform",
+        "zen-h-full zen-w-full zen-flex-1 zen-transition-transform",
         FILL_BG[color],
       )}
       style={{

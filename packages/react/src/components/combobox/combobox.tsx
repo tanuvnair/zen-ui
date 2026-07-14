@@ -174,8 +174,8 @@ const Combobox: React.FC<ComboboxProps> = ({
           aria-expanded={open}
           disabled={disabled}
           className={cn(
-            "justify-between font-normal",
-            !selected && "text-zen-muted-fg",
+            "zen-justify-between zen-font-normal",
+            !selected && "zen-text-zen-muted-fg",
             className,
           )}
           style={{ width }}
@@ -187,7 +187,7 @@ const Combobox: React.FC<ComboboxProps> = ({
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="p-0"
+        className="zen-p-0"
         style={{ width: typeof width === "number" ? width : undefined }}
         align="start"
       >

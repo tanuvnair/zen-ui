@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import { NavLink, Routes, Route } from "react-router-dom";
+import { NAV } from "./nav";
 
 import Welcome from "./components/Welcome";
 import ThemeSwitcher from "./components/theme-switcher";
@@ -65,79 +66,7 @@ import { Toaster } from "./components/toast/toaster";
  * Navigation data — single source of truth for the sidebar.
  * Add a new component's route here and it shows up under the right group.
  */
-type NavEntry = { to: string; label: string };
-type NavGroup = { title: string; items: NavEntry[] };
 
-const NAV: NavGroup[] = [
-  {
-    title: "Getting started",
-    items: [{ to: "/", label: "Welcome" }],
-  },
-  {
-    title: "Components",
-    items: [
-      { to: "/button-new", label: "Button" },
-      { to: "/tooltip-new", label: "Tooltip" },
-      { to: "/dropdown-menu", label: "DropdownMenu" },
-      { to: "/separator", label: "Separator" },
-      { to: "/switch-new", label: "Switch" },
-      { to: "/checkbox-new", label: "Checkbox" },
-      { to: "/radio-group", label: "RadioGroup" },
-      { to: "/progress-new", label: "Progress" },
-      { to: "/avatar-new", label: "Avatar" },
-      { to: "/badge-new", label: "Badge" },
-      { to: "/skeleton-new", label: "Skeleton" },
-      { to: "/loading-new", label: "Loading" },
-      { to: "/select-new", label: "Select" },
-      { to: "/slider-new", label: "Slider" },
-      { to: "/scroll-area-new", label: "ScrollArea" },
-      { to: "/input-new", label: "Input + Textarea" },
-      { to: "/number-field-new", label: "NumberField" },
-      { to: "/date-picker-new", label: "DatePicker" },
-      { to: "/otp-new", label: "InputOTP" },
-      { to: "/phone-input-new", label: "PhoneInput" },
-      { to: "/fab-new", label: "FAB" },
-      { to: "/form-new", label: "Form (RHF + Zod)" },
-      { to: "/data-table", label: "DataTable" },
-      { to: "/lazy-options", label: "Lazy options" },
-      { to: "/combobox", label: "Combobox + Async" },
-      { to: "/alert", label: "Alert" },
-      { to: "/dialog", label: "Dialog + AlertDialog" },
-      { to: "/toast", label: "Toast" },
-      { to: "/file-upload", label: "FileUpload" },
-      { to: "/form-bound", label: "Bound* fields" },
-      { to: "/stepper", label: "Stepper" },
-      { to: "/banner", label: "Banner" },
-      { to: "/empty-state", label: "EmptyState" },
-      { to: "/tabs", label: "Tabs" },
-      { to: "/accordion", label: "Accordion" },
-      { to: "/card", label: "Card" },
-      { to: "/sheet", label: "Sheet / Drawer" },
-      { to: "/date-range-picker", label: "DateRangePicker" },
-      { to: "/tag-input", label: "TagInput" },
-      { to: "/multi-combobox", label: "MultiCombobox" },
-      { to: "/rating", label: "Rating" },
-      { to: "/nps", label: "NPS" },
-      { to: "/likert", label: "Likert" },
-      { to: "/time-picker", label: "TimePicker" },
-      { to: "/date-time-picker", label: "DateTimePicker" },
-      { to: "/qr-scanner", label: "QRScanner" },
-      { to: "/notifications-inbox", label: "NotificationsInbox" },
-      { to: "/breadcrumb", label: "Breadcrumb" },
-      { to: "/pagination", label: "Pagination" },
-      { to: "/sidebar", label: "Sidebar" },
-    ],
-  },
-  {
-    title: "Heavy / optional (lazy peer deps)",
-    items: [
-      { to: "/chart", label: "Chart (recharts)" },
-      { to: "/rich-text", label: "RichText (jodit)" },
-      { to: "/map", label: "Map (leaflet)" },
-      { to: "/camera", label: "Camera (webcam)" },
-    ],
-  },
-];
 
 const Sidebar: React.FC<{ collapsed: boolean }> = ({ collapsed }) => (
   <aside className={`sidebar${collapsed ? " is-collapsed" : ""}`} aria-hidden={collapsed}>

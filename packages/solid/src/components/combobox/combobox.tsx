@@ -140,12 +140,12 @@ export const Combobox = (rawProps: ComboboxProps) => {
         <KCombobox.Item
           item={itemProps.item}
           class={cn(
-            "relative flex cursor-default select-none items-center rounded-zen-sm py-1.5 pl-8 pr-2 text-sm outline-none",
-            "data-[highlighted]:bg-zen-muted",
-            "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+            "zen-relative zen-flex zen-cursor-default zen-select-none zen-items-center zen-rounded-zen-sm zen-py-1.5 zen-pl-8 zen-pr-2 zen-text-sm zen-outline-none",
+            "data-[highlighted]:zen-bg-zen-muted",
+            "data-[disabled]:zen-pointer-events-none data-[disabled]:zen-opacity-50",
           )}
         >
-          <KCombobox.ItemIndicator class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+          <KCombobox.ItemIndicator class="zen-absolute zen-left-2 zen-flex zen-h-3.5 zen-w-3.5 zen-items-center zen-justify-center">
             <CheckIcon />
           </KCombobox.ItemIndicator>
           <KCombobox.ItemLabel>{itemProps.item.rawValue.label}</KCombobox.ItemLabel>
@@ -155,17 +155,17 @@ export const Combobox = (rawProps: ComboboxProps) => {
     >
       <KCombobox.Control<ComboboxOption>
         class={cn(
-          "inline-flex items-center gap-2 h-10 px-3",
-          "rounded-zen-md border border-zen-border bg-zen-background",
-          "focus-within:outline-none focus-within:ring-2 focus-within:ring-zen-ring focus-within:ring-offset-2",
+          "zen-inline-flex zen-items-center zen-gap-2 zen-h-10 zen-px-3",
+          "zen-rounded-zen-md zen-border zen-border-zen-border zen-bg-zen-background",
+          "focus-within:zen-outline-none focus-within:zen-ring-2 focus-within:zen-ring-zen-ring focus-within:zen-ring-offset-2",
         )}
         style={{ width: typeof props.width === "number" ? `${props.width}px` : (props.width ?? "240px") }}
       >
         <KCombobox.Input
-          class="flex-1 min-w-0 bg-transparent border-0 outline-none text-sm placeholder:text-zen-muted-fg"
+          class="zen-flex-1 zen-min-w-0 zen-bg-transparent zen-border-0 zen-outline-none zen-text-sm placeholder:zen-text-zen-muted-fg"
           placeholder={props.searchPlaceholder ?? "Search…"}
         />
-        <KCombobox.Trigger class="bg-transparent border-0 cursor-pointer text-zen-muted-fg">
+        <KCombobox.Trigger class="zen-bg-transparent zen-border-0 zen-cursor-pointer zen-text-zen-muted-fg">
           <KCombobox.Icon>
             <ChevronDown />
           </KCombobox.Icon>
@@ -174,15 +174,15 @@ export const Combobox = (rawProps: ComboboxProps) => {
       <KCombobox.Portal>
         <KCombobox.Content
           class={cn(
-            "z-50 min-w-44 overflow-hidden rounded-zen-md border bg-zen-background p-1 text-zen-foreground shadow-md",
+            "zen-z-50 zen-min-w-44 zen-overflow-hidden zen-rounded-zen-md zen-border zen-bg-zen-background zen-p-1 zen-text-zen-foreground zen-shadow-md",
           )}
         >
           <Show when={asyncLoading()}>
-            <div class="py-1.5 px-2 text-sm text-zen-muted-fg">Loading…</div>
+            <div class="zen-py-1.5 zen-px-2 zen-text-sm zen-text-zen-muted-fg">Loading…</div>
           </Show>
-          <KCombobox.Listbox class="max-h-72 overflow-y-auto" />
+          <KCombobox.Listbox class="zen-max-h-72 zen-overflow-y-auto" />
           <Show when={effectiveOptions().length === 0 && !asyncLoading()}>
-            <div class="py-1.5 px-2 text-sm text-zen-muted-fg">
+            <div class="zen-py-1.5 zen-px-2 zen-text-sm zen-text-zen-muted-fg">
               {props.emptyMessage ?? "No results."}
             </div>
           </Show>

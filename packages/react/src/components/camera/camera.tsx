@@ -41,11 +41,11 @@ export const Camera = ({
   }, [onCapture]);
 
   return (
-    <div className={cn("flex flex-col items-center gap-3", className)}>
+    <div className={cn("zen-flex zen-flex-col zen-items-center zen-gap-3", className)}>
       <React.Suspense
         fallback={
           <div
-            className="flex items-center justify-center text-sm text-zen-muted-fg"
+            className="zen-flex zen-items-center zen-justify-center zen-text-sm zen-text-zen-muted-fg"
             style={{ width, height }}
           >
             Loading camera…
@@ -60,13 +60,13 @@ export const Camera = ({
           mirrored={mirrored}
           screenshotFormat={screenshotFormat}
           videoConstraints={{ facingMode, width, height }}
-          className="rounded-zen-md border border-zen-border"
+          className="zen-rounded-zen-md zen-border zen-border-zen-border"
         />
       </React.Suspense>
       <button
         type="button"
         onClick={capture}
-        className="inline-flex h-9 items-center justify-center rounded-zen-md bg-zen-primary px-4 text-sm font-medium text-zen-primary-fg transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zen-ring focus-visible:ring-offset-2"
+        className="zen-inline-flex zen-h-9 zen-items-center zen-justify-center zen-rounded-zen-md zen-bg-zen-primary zen-px-4 zen-text-sm zen-font-medium zen-text-zen-primary-fg zen-transition-colors hover:zen-opacity-90 focus-visible:zen-outline-none focus-visible:zen-ring-2 focus-visible:zen-ring-zen-ring focus-visible:zen-ring-offset-2"
       >
         {captureLabel}
       </button>

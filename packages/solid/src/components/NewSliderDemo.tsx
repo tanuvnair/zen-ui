@@ -12,23 +12,23 @@ const NewSliderDemo = () => {
       description="Single + range sliders built on Kobalte Slider. Full keyboard control."
     >
       <DemoSection title="Single (controlled)">
-        <div class="w-80 flex flex-col gap-2">
+        <div class="zen-w-80 zen-flex zen-flex-col zen-gap-2">
           <Slider value={single()} onChange={setSingle} maxValue={100} step={1} />
-          <div class="text-xs text-zen-muted-fg">Value: {single()[0]}</div>
+          <div class="zen-text-xs zen-text-zen-muted-fg">Value: {single()[0]}</div>
         </div>
       </DemoSection>
 
       <DemoSection title="Range (controlled)">
-        <div class="w-80 flex flex-col gap-2">
+        <div class="zen-w-80 zen-flex zen-flex-col zen-gap-2">
           <Slider value={range()} onChange={setRange} maxValue={100} step={5} />
-          <div class="text-xs text-zen-muted-fg">
+          <div class="zen-text-xs zen-text-zen-muted-fg">
             Range: {range()[0]} – {range()[1]}
           </div>
         </div>
       </DemoSection>
 
       <DemoSection title="Disabled">
-        <div class="w-80">
+        <div class="zen-w-80">
           <Slider defaultValue={[60]} disabled />
         </div>
       </DemoSection>

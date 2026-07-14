@@ -48,7 +48,7 @@ const NewRatingDemo: React.FC = () => {
               label="Rate your last delivery"
               showValue
             />
-            <p className="text-xs text-zen-muted-fg m-0">
+            <p className="zen-text-xs zen-text-zen-muted-fg zen-m-0">
               Current rating: <code>{stars}</code>
             </p>
           </div>
@@ -72,7 +72,7 @@ const NewRatingDemo: React.FC = () => {
                 <code
                   style={{
                     width: 50,
-                    fontSize: "1.2rem",
+                    fontSize: "0.75rem",
                     color: "var(--zen-color-muted-fg)",
                   }}
                 >

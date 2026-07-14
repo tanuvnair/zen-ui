@@ -1,14 +1,19 @@
 // ============================================================================
 // Component Exports
 // ============================================================================
-import "./index.css";
-// Design tokens — public theming surface (override --zen-* CSS vars to retheme)
+// Design tokens — public theming surface (override --zen-* CSS vars to retheme).
+// Safe to ship: every declaration is a `--zen-*` custom property or a
+// `.zen-*`-namespaced class, so it cannot collide with the consuming app.
 import "@algorisys/zen-ui-core/tokens.css";
-// Minimal element reset that the shadcn-style utility classes depend on
-// (UnoCSS preset-uno does not ship Tailwind v3's preflight)
-import "@algorisys/zen-ui-core/preflight.css";
 // Import UnoCSS generated styles for utility classes used in components
 import "virtual:uno.css";
+
+// NOTE: this entry deliberately imports NO page-level or element-level CSS.
+// `./index.css` (html/body/#root rules) belongs to the demo app and is imported
+// by `src/main.tsx`; shipping it here let the library restyle the consumer's
+// document — it set their root font-size to 10px. The element reset now lives
+// behind the opt-in `@algorisys/zen-ui-react/preflight` export.
+// See docs/css-interop.md.
 // Form Components - Input + Textarea (shadcn-style)
 export { Input } from "./components/form/input/input";
 export type { InputProps } from "./components/form/input/input";

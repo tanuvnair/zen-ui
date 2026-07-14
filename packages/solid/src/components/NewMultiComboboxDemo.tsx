@@ -26,7 +26,7 @@ const NewMultiComboboxDemo = () => {
           onValueChange={setPicks}
           placeholder="Pick some skills"
         />
-        <div class="text-xs text-zen-muted-fg">
+        <div class="zen-text-xs zen-text-zen-muted-fg">
           Picked: {picks().join(", ") || "—"}
         </div>
       </DemoSection>

@@ -49,6 +49,7 @@ const NewFormDemo = () => {
       <DemoSection title="BoundFields — config-driven form">
         <Form class="zen-w-full zen-max-w-md">
           <MForm
+            class="zen-space-y-4"
             onSubmit={(values) => setSubmitted(values as SignUpValues)}
           >
             <BoundInput
@@ -129,6 +130,7 @@ const NewFormDemo = () => {
       <DemoSection title="Compound API — FormField / FormItem / FormLabel / FormControl / FormMessage">
         <Form class="zen-w-full zen-max-w-md">
           <MForm2
+            class="zen-space-y-4"
             onSubmit={(values) => alert(`Submitted: ${values.email}`)}
           >
             <FormField of={form2} Field={Field2} name="email">

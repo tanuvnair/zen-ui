@@ -47,3 +47,4 @@ vite.config.http.ts
 
 # npm configuration (contains tokens)
 .npmrc
+.visual/

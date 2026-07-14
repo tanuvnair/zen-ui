@@ -19,6 +19,12 @@ export type SwitchSize = "sm" | "md" | "lg";
 export type SwitchProps = {
   size?: SwitchSize;
   class?: string;
+  /**
+   * Forwarded to the underlying input so an external `<label for>` can toggle
+   * it — React's Switch has always accepted this. BoundSwitch needs it to
+   * render the settings-row layout with the label outside the control.
+   */
+  id?: string;
   checked?: boolean;
   defaultChecked?: boolean;
   onChange?: (checked: boolean) => void;
@@ -44,6 +50,7 @@ const THUMB_SIZES: Record<SwitchSize, string> = {
 export const Switch = (props: SwitchProps) => {
   const [local] = splitProps(props, [
     "class",
+    "id",
     "size",
     "checked",
     "defaultChecked",
@@ -66,7 +73,7 @@ export const Switch = (props: SwitchProps) => {
       value={local.value}
       class={cn("zen-inline-flex zen-items-center zen-gap-2", local.class)}
     >
-      <KSwitch.Input />
+      <KSwitch.Input id={local.id} />
       <KSwitch.Control
         class={cn(
           "zen-peer zen-inline-flex zen-shrink-0 zen-cursor-pointer zen-items-center zen-rounded-zen-full",

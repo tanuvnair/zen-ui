@@ -71,7 +71,21 @@ const NewEmptyStateDemo = () => (
       </div>
     </DemoSection>
 
-    <DemoSection title="Large (first-run)">
+    <DemoSection
+      title="Large (first-run)"
+      codeTitle={`size="sm" | "md" | "lg"`}
+      codeDescription="md is the default. sm fits inline (table body, dropdown); lg suits a full-page first-run screen with extra breathing room."
+      code={`<EmptyState size="lg">
+  <EmptyStateIcon><Inbox /></EmptyStateIcon>
+  <EmptyStateTitle>Welcome to your dashboard</EmptyStateTitle>
+  <EmptyStateDescription>
+    Connect a data source to start tracking metrics in real time.
+  </EmptyStateDescription>
+  <EmptyStateActions>
+    <Button>Connect a source</Button>
+  </EmptyStateActions>
+</EmptyState>`}
+    >
       <div class="zen-w-full zen-max-w-2xl">
         <EmptyState size="lg">
           <EmptyStateIcon><Inbox /></EmptyStateIcon>

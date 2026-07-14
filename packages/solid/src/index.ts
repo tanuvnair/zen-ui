@@ -23,6 +23,19 @@ export type { PolymorphicProps } from "./lib/polymorphic";
 // ---------------------------------------------------------------------------
 
 export { Button, buttonVariants } from "./components/button/button";
+
+export {
+  ToggleButton,
+  SegmentedButton,
+  SegmentedButtonItem,
+  SplitButton,
+} from "./components/button/button-family";
+export type {
+  ToggleButtonProps,
+  SegmentedButtonProps,
+  SegmentedButtonItemProps,
+  SplitButtonProps,
+} from "./components/button/button-family";
 export type { ButtonProps } from "./components/button/button";
 
 export {

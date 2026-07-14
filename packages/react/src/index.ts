@@ -207,6 +207,20 @@ export type { SkeletonProps } from "./components/skeleton/skeleton";
 // UI Components - ScrollArea (Radix-backed)
 export { ScrollArea, ScrollBar } from "./components/scroll-area/scroll-area";
 
+// Button family (Fiori-shaped: ToggleButton / SegmentedButton / SplitButton)
+export {
+  ToggleButton,
+  SegmentedButton,
+  SegmentedButtonItem,
+  SplitButton,
+} from "./components/button/button-family";
+export type {
+  ToggleButtonProps,
+  SegmentedButtonProps,
+  SegmentedButtonItemProps,
+  SplitButtonProps,
+} from "./components/button/button-family";
+
 // UI Components - Button (shadcn/radix-style)
 export { Button, buttonVariants } from "./components/button/button";
 export type { ButtonProps } from "./components/button/button";

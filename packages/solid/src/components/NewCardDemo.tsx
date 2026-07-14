@@ -40,7 +40,42 @@ const NewCardDemo = () => {
       title="Card"
       description="Generic surface primitive plus a SelectableCard variant for 'pick one' onboarding questions. Selectable cards beat radio lists for goal pickers / plan selectors / use-case pickers."
     >
-      <DemoSection title="1. Compound surface — Header / Title / Description / Content / Footer">
+      <DemoSection
+        title="1. Compound surface — Header / Title / Description / Content / Footer"
+        codeTitle="Compound API + variant · padding"
+        codeDescription="variant: elevated · outlined (default) · ghost. padding: none · sm · md · lg — set it when you skip the Header/Content/Footer scaffolding, which brings its own padding."
+        code={`<Card>
+  <CardHeader>
+    <CardTitle>Account</CardTitle>
+    <CardDescription>Your billing + contact info.</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <p class="zen-text-sm">Pull up of profile info here.</p>
+  </CardContent>
+  <CardFooter>
+    <Button size="sm">Save</Button>
+    <Button size="sm" variant="ghost">Cancel</Button>
+  </CardFooter>
+</Card>
+
+<Card variant="elevated">
+  <CardHeader>
+    <CardTitle>Elevated</CardTitle>
+    <CardDescription>Same shape with a small drop-shadow.</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <p class="zen-text-sm">For features you want to make pop.</p>
+  </CardContent>
+</Card>
+
+{/* No header/footer — pad the Card itself instead */}
+<Card variant="ghost" padding="md">
+  <CardTitle>Ghost</CardTitle>
+  <CardDescription>
+    Transparent border. Useful when nesting inside another surface.
+  </CardDescription>
+</Card>`}
+      >
         <div class="zen-grid zen-grid-cols-2 zen-gap-4 zen-max-w-3xl">
           <Card>
             <CardHeader>
@@ -86,7 +121,29 @@ const NewCardDemo = () => {
         </div>
       </DemoSection>
 
-      <DemoSection title="2. SelectableCard — goal picker (radio-as-card)">
+      <DemoSection
+        title="2. SelectableCard — goal picker (radio-as-card)"
+        codeTitle="Replaces a radio-button list with rich card choices"
+        codeDescription="Built on Kobalte's RadioGroup — the underlying radios are visually hidden but keyboard-navigable. data-checked on the selected card paints the primary ring + soft tint."
+        code={`const [goal, setGoal] = createSignal("invoice");
+
+<SelectableCardGroup value={goal()} onValueChange={setGoal}>
+  <SelectableCard
+    value="invoice"
+    title="Send invoices"
+    icon={<InvoiceIcon />}
+    badge={<Badge color="success">Popular</Badge>}
+  >
+    Bill customers and track payments.
+  </SelectableCard>
+  <SelectableCard value="track" title="Track expenses" icon={<ExpenseIcon />}>
+    Log receipts and categorize spending.
+  </SelectableCard>
+  <SelectableCard value="report" title="File taxes" icon={<ReportIcon />}>
+    Generate GST + income-tax-ready exports.
+  </SelectableCard>
+</SelectableCardGroup>`}
+      >
         <div class="zen-w-full zen-max-w-2xl">
           <SelectableCardGroup value={goal()} onValueChange={setGoal}>
             <SelectableCard

@@ -146,4 +146,13 @@ export const NAV: NavGroup[] = [
       { label: "NotificationsInbox", path: "/notifications-inbox", description: "Bell + popover panel; day-grouped feed with unread badge" },
     ],
   },
+  {
+    group: "Heavy / optional (lazy peer deps)",
+    items: [
+      { label: "Chart", path: "/chart", description: "Line / bar / area charts; dependency-free SVG in the Solid binding" },
+      { label: "RichText", path: "/rich-text", description: "Lazy-loaded WYSIWYG editor; jodit is an optional peer dep" },
+      { label: "Map", path: "/map", description: "Lazy-loaded map with markers; leaflet is an optional peer dep" },
+      { label: "Camera", path: "/camera", description: "Camera capture via getUserMedia; no peer dep" },
+    ],
+  },
 ];

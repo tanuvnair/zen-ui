@@ -25,6 +25,22 @@ export type { PolymorphicProps } from "./lib/polymorphic";
 export { Button, buttonVariants } from "./components/button/button";
 export type { ButtonProps } from "./components/button/button";
 
+export {
+  ObjectStatus,
+  ObjectNumber,
+  ObjectIdentifier,
+  ObjectMarker,
+  objectStatusVariants,
+} from "./components/object/object";
+export type {
+  ObjectStatusProps,
+  ObjectNumberProps,
+  ObjectIdentifierProps,
+  ObjectMarkerProps,
+  ObjectState,
+  ObjectMarkerType,
+} from "./components/object/object";
+
 export { Icon, ZEN_ICON_NAMES } from "./components/icon/icon";
 export type { IconProps, IconName } from "./components/icon/icon";
 

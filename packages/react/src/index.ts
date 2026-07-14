@@ -159,6 +159,23 @@ export type {
   AvatarSize,
 } from "./components/avatar/avatar";
 
+// Object atoms (Fiori-shaped: ObjectStatus / Number / Identifier / Marker)
+export {
+  ObjectStatus,
+  ObjectNumber,
+  ObjectIdentifier,
+  ObjectMarker,
+  objectStatusVariants,
+} from "./components/object/object";
+export type {
+  ObjectStatusProps,
+  ObjectNumberProps,
+  ObjectIdentifierProps,
+  ObjectMarkerProps,
+  ObjectState,
+  ObjectMarkerType,
+} from "./components/object/object";
+
 // UI Components - Icon (zen-ui icon set; geometry shared with the Solid binding)
 export { Icon, ZEN_ICON_NAMES } from "./components/icon/icon";
 export type { IconProps, IconName } from "./components/icon/icon";

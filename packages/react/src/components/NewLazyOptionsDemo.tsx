@@ -119,7 +119,7 @@ const NewLazyOptionsDemo: React.FC = () => {
               <DropdownMenuTrigger asChild>
                 <Button variant="outline">Jump to record</Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="min-w-56">
+              <DropdownMenuContent className="zen-min-w-56">
                 <DropdownMenuLabel>Records</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <VirtualizedItems items={FIVE_K} estimateSize={32} maxHeight={300}>

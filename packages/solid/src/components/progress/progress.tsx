@@ -64,15 +64,15 @@ export const Progress = (props: ProgressProps) => {
       maxValue={local.maxValue}
       indeterminate={local.indeterminate}
       class={cn(
-        "relative w-full overflow-hidden rounded-zen-full bg-zen-muted",
+        "zen-relative zen-w-full zen-overflow-hidden zen-rounded-zen-full zen-bg-zen-muted",
         TRACK_HEIGHT[local.size ?? "md"],
         local.class,
       )}
     >
-      <KProgress.Track class="h-full w-full">
+      <KProgress.Track class="zen-h-full zen-w-full">
         <KProgress.Fill
           class={cn(
-            "h-full w-[var(--kb-progress-fill-width)] transition-[width]",
+            "zen-h-full zen-w-[var(--kb-progress-fill-width)] zen-transition-[width]",
             FILL_BG[local.color ?? "primary"],
           )}
         />

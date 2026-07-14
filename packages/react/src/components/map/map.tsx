@@ -57,7 +57,7 @@ export const Map = ({
     return (
       <div
         className={cn(
-          "flex items-center justify-center rounded-zen-md border border-zen-border text-sm text-zen-muted-fg",
+          "zen-flex zen-items-center zen-justify-center zen-rounded-zen-md zen-border zen-border-zen-border zen-text-sm zen-text-zen-muted-fg",
           className,
         )}
         style={{ height }}
@@ -73,7 +73,7 @@ export const Map = ({
     <MapContainer
       center={center}
       zoom={zoom}
-      className={cn("rounded-zen-md", className)}
+      className={cn("zen-rounded-zen-md", className)}
       style={{ height, width: "100%" }}
     >
       <TileLayer url={tileUrl} attribution={attribution} />

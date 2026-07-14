@@ -33,7 +33,7 @@ export const BreadcrumbList = React.forwardRef<
   <ol
     ref={ref}
     className={cn(
-      "flex flex-wrap items-center gap-1.5 break-words text-sm text-zen-muted-fg sm:gap-2.5",
+      "zen-flex zen-flex-wrap zen-items-center zen-gap-1.5 zen-break-words zen-text-sm zen-text-zen-muted-fg sm:zen-gap-2.5",
       className,
     )}
     {...props}
@@ -47,7 +47,7 @@ export const BreadcrumbItem = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <li
     ref={ref}
-    className={cn("inline-flex items-center gap-1.5", className)}
+    className={cn("zen-inline-flex zen-items-center zen-gap-1.5", className)}
     {...props}
   />
 ));
@@ -62,7 +62,7 @@ export const BreadcrumbLink = React.forwardRef<
     <Comp
       ref={ref}
       className={cn(
-        "rounded-zen-sm transition-colors hover:text-zen-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zen-ring focus-visible:ring-offset-2",
+        "zen-rounded-zen-sm zen-transition-colors hover:zen-text-zen-foreground focus-visible:zen-outline-none focus-visible:zen-ring-2 focus-visible:zen-ring-zen-ring focus-visible:zen-ring-offset-2",
         className,
       )}
       {...props}
@@ -80,7 +80,7 @@ export const BreadcrumbPage = React.forwardRef<
     role="link"
     aria-disabled="true"
     aria-current="page"
-    className={cn("font-medium text-zen-foreground", className)}
+    className={cn("zen-font-medium zen-text-zen-foreground", className)}
     {...props}
   />
 ));
@@ -94,7 +94,7 @@ export const BreadcrumbSeparator = ({
   <li
     role="presentation"
     aria-hidden="true"
-    className={cn("[&>svg]:size-3.5 text-zen-muted-fg", className)}
+    className={cn("[&>svg]:zen-size-3.5 zen-text-zen-muted-fg", className)}
     {...props}
   >
     {children ?? <span aria-hidden>/</span>}
@@ -109,11 +109,11 @@ export const BreadcrumbEllipsis = ({
   <span
     role="presentation"
     aria-hidden="true"
-    className={cn("flex h-9 w-9 items-center justify-center", className)}
+    className={cn("zen-flex zen-h-9 zen-w-9 zen-items-center zen-justify-center", className)}
     {...props}
   >
     &#8230;
-    <span className="sr-only">More</span>
+    <span className="zen-sr-only">More</span>
   </span>
 );
 BreadcrumbEllipsis.displayName = "BreadcrumbEllipsis";

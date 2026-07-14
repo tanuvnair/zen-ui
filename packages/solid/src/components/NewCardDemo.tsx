@@ -41,14 +41,14 @@ const NewCardDemo = () => {
       description="Generic surface primitive plus a SelectableCard variant for 'pick one' onboarding questions. Selectable cards beat radio lists for goal pickers / plan selectors / use-case pickers."
     >
       <DemoSection title="1. Compound surface — Header / Title / Description / Content / Footer">
-        <div class="grid grid-cols-2 gap-4 max-w-3xl">
+        <div class="zen-grid zen-grid-cols-2 zen-gap-4 zen-max-w-3xl">
           <Card>
             <CardHeader>
               <CardTitle>Account</CardTitle>
               <CardDescription>Your billing + contact info.</CardDescription>
             </CardHeader>
             <CardContent>
-              <p class="text-sm">Pull up of profile info here.</p>
+              <p class="zen-text-sm">Pull up of profile info here.</p>
             </CardContent>
             <CardFooter>
               <Button size="sm">Save</Button>
@@ -66,7 +66,7 @@ const NewCardDemo = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p class="text-sm">For features you want to make pop.</p>
+              <p class="zen-text-sm">For features you want to make pop.</p>
             </CardContent>
           </Card>
 
@@ -87,7 +87,7 @@ const NewCardDemo = () => {
       </DemoSection>
 
       <DemoSection title="2. SelectableCard — goal picker (radio-as-card)">
-        <div class="w-full max-w-2xl">
+        <div class="zen-w-full zen-max-w-2xl">
           <SelectableCardGroup value={goal()} onValueChange={setGoal}>
             <SelectableCard
               value="invoice"
@@ -112,7 +112,7 @@ const NewCardDemo = () => {
               Generate GST + income-tax-ready exports.
             </SelectableCard>
           </SelectableCardGroup>
-          <div class="text-xs text-zen-muted-fg mt-3">
+          <div class="zen-text-xs zen-text-zen-muted-fg zen-mt-3">
             Picked: <code>{goal()}</code>
           </div>
         </div>

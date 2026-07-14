@@ -24,7 +24,7 @@ const NewSheetDemo = () => (
             <SheetTitle>Filters</SheetTitle>
             <SheetDescription>Narrow your view.</SheetDescription>
           </SheetHeader>
-          <p class="text-sm text-zen-muted-fg">Form controls would go here.</p>
+          <p class="zen-text-sm zen-text-zen-muted-fg">Form controls would go here.</p>
           <SheetFooter>
             <SheetClose as={Button} variant="outline">Cancel</SheetClose>
             <Button>Apply</Button>

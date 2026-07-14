@@ -130,9 +130,9 @@ const parent = all ? true : some ? "indeterminate" : false;
   className="data-[state=checked]:bg-zen-success data-[state=checked]:border-zen-success"
 />`}
         >
-          <Checkbox defaultChecked className="data-[state=checked]:bg-zen-success data-[state=checked]:border-zen-success" />
-          <Checkbox defaultChecked className="data-[state=checked]:bg-zen-warning data-[state=checked]:border-zen-warning" />
-          <Checkbox defaultChecked className="data-[state=checked]:bg-zen-error data-[state=checked]:border-zen-error" />
+          <Checkbox defaultChecked className="data-[state=checked]:zen-bg-zen-success data-[state=checked]:zen-border-zen-success" />
+          <Checkbox defaultChecked className="data-[state=checked]:zen-bg-zen-warning data-[state=checked]:zen-border-zen-warning" />
+          <Checkbox defaultChecked className="data-[state=checked]:zen-bg-zen-error data-[state=checked]:zen-border-zen-error" />
         </CodeExample>
       </section>
 

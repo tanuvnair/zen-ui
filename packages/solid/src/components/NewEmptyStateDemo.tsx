@@ -21,7 +21,7 @@ const NewEmptyStateDemo = () => (
     description="First-run / no-data surface. Compound API. Use bordered for drop zones."
   >
     <DemoSection title="Default">
-      <div class="w-full max-w-md">
+      <div class="zen-w-full zen-max-w-md">
         <EmptyState>
           <EmptyStateIcon><Inbox /></EmptyStateIcon>
           <EmptyStateTitle>No invoices yet</EmptyStateTitle>
@@ -37,7 +37,7 @@ const NewEmptyStateDemo = () => (
     </DemoSection>
 
     <DemoSection title="Bordered (drop zone)">
-      <div class="w-full max-w-md">
+      <div class="zen-w-full zen-max-w-md">
         <EmptyState bordered size="sm">
           <EmptyStateTitle>Drop files here</EmptyStateTitle>
           <EmptyStateDescription>
@@ -48,7 +48,7 @@ const NewEmptyStateDemo = () => (
     </DemoSection>
 
     <DemoSection title="Large (first-run)">
-      <div class="w-full max-w-2xl">
+      <div class="zen-w-full zen-max-w-2xl">
         <EmptyState size="lg">
           <EmptyStateIcon><Inbox /></EmptyStateIcon>
           <EmptyStateTitle>Welcome to your dashboard</EmptyStateTitle>

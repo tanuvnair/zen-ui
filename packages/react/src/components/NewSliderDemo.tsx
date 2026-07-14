@@ -95,15 +95,15 @@ const NewSliderDemo: React.FC = () => {
           <div style={{ width: "100%", maxWidth: 360, display: "grid", gap: "1.2rem" }}>
             <Slider
               defaultValue={[60]}
-              className="[&_[data-orientation=horizontal]>span]:bg-zen-success [&_[role=slider]]:border-zen-success"
+              className="[&_[data-orientation=horizontal]>span]:zen-bg-zen-success [&_[role=slider]]:zen-border-zen-success"
             />
             <Slider
               defaultValue={[40]}
-              className="[&_[data-orientation=horizontal]>span]:bg-zen-warning [&_[role=slider]]:border-zen-warning"
+              className="[&_[data-orientation=horizontal]>span]:zen-bg-zen-warning [&_[role=slider]]:zen-border-zen-warning"
             />
             <Slider
               defaultValue={[80]}
-              className="[&_[data-orientation=horizontal]>span]:bg-zen-error [&_[role=slider]]:border-zen-error"
+              className="[&_[data-orientation=horizontal]>span]:zen-bg-zen-error [&_[role=slider]]:zen-border-zen-error"
             />
           </div>
         </CodeExample>

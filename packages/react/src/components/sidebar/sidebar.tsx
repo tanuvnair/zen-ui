@@ -89,8 +89,8 @@ export const Sidebar = React.forwardRef<
       ref={ref}
       data-collapsed={collapsed || undefined}
       className={cn(
-        "flex h-full flex-col border-r border-zen-border bg-zen-background text-zen-foreground transition-[width] duration-200 ease-in-out",
-        collapsed ? "w-16" : "w-64",
+        "zen-flex zen-h-full zen-flex-col zen-border-r zen-border-zen-border zen-bg-zen-background zen-text-zen-foreground zen-transition-[width] zen-duration-200 zen-ease-in-out",
+        collapsed ? "zen-w-16" : "zen-w-64",
         className,
       )}
       {...props}
@@ -105,7 +105,7 @@ export const SidebarHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex items-center gap-2 p-3", className)}
+    className={cn("zen-flex zen-items-center zen-gap-2 zen-p-3", className)}
     {...props}
   />
 ));
@@ -117,7 +117,7 @@ export const SidebarContent = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto p-2", className)}
+    className={cn("zen-flex zen-min-h-0 zen-flex-1 zen-flex-col zen-gap-1 zen-overflow-y-auto zen-p-2", className)}
     {...props}
   />
 ));
@@ -129,7 +129,7 @@ export const SidebarFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("mt-auto flex items-center gap-2 border-t border-zen-border p-3", className)}
+    className={cn("zen-mt-auto zen-flex zen-items-center zen-gap-2 zen-border-t zen-border-zen-border zen-p-3", className)}
     {...props}
   />
 ));
@@ -139,7 +139,7 @@ export const SidebarGroup = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("flex flex-col gap-1 py-2", className)} {...props} />
+  <div ref={ref} className={cn("zen-flex zen-flex-col zen-gap-1 zen-py-2", className)} {...props} />
 ));
 SidebarGroup.displayName = "SidebarGroup";
 
@@ -152,8 +152,8 @@ export const SidebarGroupLabel = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        "px-3 py-1 text-xs font-medium uppercase tracking-wide text-zen-muted-fg",
-        collapsed && "sr-only",
+        "zen-px-3 zen-py-1 zen-text-xs zen-font-medium zen-uppercase zen-tracking-wide zen-text-zen-muted-fg",
+        collapsed && "zen-sr-only",
         className,
       )}
       {...props}
@@ -166,7 +166,7 @@ export const SidebarMenu = React.forwardRef<
   HTMLUListElement,
   React.ComponentPropsWithoutRef<"ul">
 >(({ className, ...props }, ref) => (
-  <ul ref={ref} className={cn("flex w-full flex-col gap-0.5", className)} {...props} />
+  <ul ref={ref} className={cn("zen-flex zen-w-full zen-flex-col zen-gap-0.5", className)} {...props} />
 ));
 SidebarMenu.displayName = "SidebarMenu";
 
@@ -174,7 +174,7 @@ export const SidebarMenuItem = React.forwardRef<
   HTMLLIElement,
   React.ComponentPropsWithoutRef<"li">
 >(({ className, ...props }, ref) => (
-  <li ref={ref} className={cn("w-full", className)} {...props} />
+  <li ref={ref} className={cn("zen-w-full", className)} {...props} />
 ));
 SidebarMenuItem.displayName = "SidebarMenuItem";
 
@@ -196,11 +196,11 @@ export const SidebarMenuButton = React.forwardRef<
       ref={ref}
       data-active={active || undefined}
       className={cn(
-        "flex w-full items-center gap-2 rounded-zen-md px-3 py-2 text-sm font-medium transition-colors",
-        "hover:bg-zen-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zen-ring focus-visible:ring-offset-2",
-        "[&>svg]:size-4 [&>svg]:shrink-0",
-        active && "bg-zen-primary-soft text-zen-primary-soft-fg",
-        collapsed && "justify-center px-0 [&>span]:hidden",
+        "zen-flex zen-w-full zen-items-center zen-gap-2 zen-rounded-zen-md zen-px-3 zen-py-2 zen-text-sm zen-font-medium zen-transition-colors",
+        "hover:zen-bg-zen-muted focus-visible:zen-outline-none focus-visible:zen-ring-2 focus-visible:zen-ring-zen-ring focus-visible:zen-ring-offset-2",
+        "[&>svg]:zen-size-4 [&>svg]:zen-shrink-0",
+        active && "zen-bg-zen-primary-soft zen-text-zen-primary-soft-fg",
+        collapsed && "zen-justify-center zen-px-0 [&>span]:zen-hidden",
         className,
       )}
       {...props}
@@ -229,7 +229,7 @@ export const SidebarTrigger = React.forwardRef<
         toggle();
       }}
       className={cn(
-        "inline-flex h-9 w-9 items-center justify-center rounded-zen-md text-zen-foreground transition-colors hover:bg-zen-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zen-ring focus-visible:ring-offset-2",
+        "zen-inline-flex zen-h-9 zen-w-9 zen-items-center zen-justify-center zen-rounded-zen-md zen-text-zen-foreground zen-transition-colors hover:zen-bg-zen-muted focus-visible:zen-outline-none focus-visible:zen-ring-2 focus-visible:zen-ring-zen-ring focus-visible:zen-ring-offset-2",
         className,
       )}
       {...props}

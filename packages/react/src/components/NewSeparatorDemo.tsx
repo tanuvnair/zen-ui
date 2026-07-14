@@ -75,9 +75,9 @@ const NewSeparatorDemo: React.FC = () => (
 <Separator className="bg-zen-error" />`}
       >
         <div style={{ width: "100%" }}>
-          <Separator className="bg-zen-primary" />
+          <Separator className="zen-bg-zen-primary" />
           <div style={{ height: 8 }} />
-          <Separator className="bg-zen-error" />
+          <Separator className="zen-bg-zen-error" />
         </div>
       </CodeExample>
     </section>

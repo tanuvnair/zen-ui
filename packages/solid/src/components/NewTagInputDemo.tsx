@@ -10,12 +10,12 @@ const NewTagInputDemo = () => {
       description="Chip input. Enter / Tab / comma commits; Backspace removes."
     >
       <DemoSection title="Controlled">
-        <div class="w-96">
+        <div class="zen-w-96">
           <TagInput value={tags()} onValueChange={setTags} placeholder="Add a skill…" />
         </div>
       </DemoSection>
       <DemoSection title="Max 3 + unique">
-        <div class="w-96">
+        <div class="zen-w-96">
           <TagInput defaultValue={["a"]} max={3} placeholder="Up to 3 unique tags" />
         </div>
       </DemoSection>

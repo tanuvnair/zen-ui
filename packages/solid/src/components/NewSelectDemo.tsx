@@ -10,7 +10,7 @@ const NewSelectDemo = () => {
       description="Single-select dropdown built on Kobalte Select. Data-driven via `options` array."
     >
       <DemoSection title="Default">
-        <div class="w-64">
+        <div class="zen-w-64">
           <Select
             options={[
               { value: "us", label: "United States" },
@@ -27,7 +27,7 @@ const NewSelectDemo = () => {
       </DemoSection>
 
       <DemoSection title="With error">
-        <div class="w-64">
+        <div class="zen-w-64">
           <Select
             options={[
               { value: "a", label: "Option A" },
@@ -41,7 +41,7 @@ const NewSelectDemo = () => {
       </DemoSection>
 
       <DemoSection title="Disabled">
-        <div class="w-64">
+        <div class="zen-w-64">
           <Select
             options={[{ value: "a", label: "Only option" }]}
             defaultValue="a"

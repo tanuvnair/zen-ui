@@ -48,7 +48,7 @@ const NewRatingDemo: React.FC = () => {
               label="Rate your last delivery"
               showValue
             />
-            <p className="text-xs text-zen-muted-fg m-0">
+            <p className="zen-text-xs zen-text-zen-muted-fg zen-m-0">
               Current rating: <code>{stars}</code>
             </p>
           </div>

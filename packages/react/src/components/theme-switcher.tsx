@@ -32,7 +32,7 @@ const ThemeSwitcher: React.FC = () => {
           Theme · {active.label}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="min-w-64">
+      <DropdownMenuContent align="end" className="zen-min-w-64">
         <DropdownMenuLabel>Demo theme</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuRadioGroup

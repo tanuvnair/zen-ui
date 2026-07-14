@@ -25,7 +25,7 @@ const NewAlertDemo = () => {
   return (
     <DemoPage title="Alert" description="Inline message banner. Compound API.">
       <DemoSection title="Variants × colours">
-        <div class="flex flex-col gap-2 w-full max-w-2xl">
+        <div class="zen-flex zen-flex-col zen-gap-2 zen-w-full zen-max-w-2xl">
           <Alert color="info">
             <AlertIcon><Info /></AlertIcon>
             <AlertContent>
@@ -66,7 +66,7 @@ const NewAlertDemo = () => {
 
       <DemoSection title="With actions and dismissible">
         <Show when={show()}>
-          <div class="w-full max-w-2xl">
+          <div class="zen-w-full zen-max-w-2xl">
             <Alert color="primary">
               <AlertIcon><Info /></AlertIcon>
               <AlertContent>

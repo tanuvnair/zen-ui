@@ -101,7 +101,7 @@ const NewInputDemo: React.FC = () => {
               type="email"
               aria-invalid
               defaultValue="invalid@"
-              className="border-zen-error focus-visible:ring-zen-error"
+              className="zen-border-zen-error focus-visible:zen-ring-zen-error"
             />
             <span style={{ fontSize: "1.2rem", color: "var(--zen-color-error)" }}>
               Not a valid email.

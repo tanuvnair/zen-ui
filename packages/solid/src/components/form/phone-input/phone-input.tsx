@@ -76,7 +76,7 @@ export const PhoneInput = (rawProps: PhoneInputProps) => {
   );
 
   return (
-    <div class={cn("flex items-stretch gap-2", props.class)}>
+    <div class={cn("zen-flex zen-items-stretch zen-gap-2", props.class)}>
       <div style={{ width: "10rem" }}>
         <Select
           options={options()}
@@ -87,7 +87,7 @@ export const PhoneInput = (rawProps: PhoneInputProps) => {
           disabled={props.disabled}
         />
       </div>
-      <div class="flex-1">
+      <div class="zen-flex-1">
         <Input
           type="tel"
           inputMode="tel"

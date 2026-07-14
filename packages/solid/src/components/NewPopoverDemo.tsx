@@ -8,9 +8,9 @@ const NewPopoverDemo = () => (
       <Popover>
         <PopoverTrigger as={Button} variant="outline">Open popover</PopoverTrigger>
         <PopoverContent>
-          <div class="space-y-2">
-            <h4 class="font-semibold text-sm m-0">Profile</h4>
-            <p class="text-sm text-zen-muted-fg m-0">
+          <div class="zen-space-y-2">
+            <h4 class="zen-font-semibold zen-text-sm zen-m-0">Profile</h4>
+            <p class="zen-text-sm zen-text-zen-muted-fg zen-m-0">
               Sign in to see your account details.
             </p>
             <Button size="sm">Sign in</Button>

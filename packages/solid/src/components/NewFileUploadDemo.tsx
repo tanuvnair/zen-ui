@@ -13,7 +13,7 @@ const NewFileUploadDemo = () => {
     >
       <Toaster />
       <DemoSection title="Images + PDFs, multiple, max 5 MB">
-        <div class="w-full max-w-md">
+        <div class="zen-w-full zen-max-w-md">
           <FileUpload
             accept="image/*,.pdf"
             multiple

@@ -24,9 +24,7 @@ body {
   width: 100%;
 }
 
-/* Set base font-size so 1rem = 10px (assuming browser default 16px) */
 html {
-  font-size: 62.5%;
   overflow-x: hidden;
 }
 button,

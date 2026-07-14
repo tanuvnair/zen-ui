@@ -17,13 +17,13 @@ const NewProgressDemo = () => {
       description="Determinate / indeterminate progress bar built on Kobalte Progress."
     >
       <DemoSection title="Animated · primary">
-        <div class="w-80">
+        <div class="zen-w-80">
           <Progress value={v()} />
         </div>
       </DemoSection>
 
       <DemoSection title="Sizes">
-        <div class="flex flex-col gap-2 w-80">
+        <div class="zen-flex zen-flex-col zen-gap-2 zen-w-80">
           <Progress size="sm" value={45} />
           <Progress size="md" value={65} />
           <Progress size="lg" value={85} />
@@ -31,7 +31,7 @@ const NewProgressDemo = () => {
       </DemoSection>
 
       <DemoSection title="Colours">
-        <div class="flex flex-col gap-2 w-80">
+        <div class="zen-flex zen-flex-col zen-gap-2 zen-w-80">
           <Progress value={60} color="primary" />
           <Progress value={60} color="success" />
           <Progress value={60} color="warning" />
@@ -42,7 +42,7 @@ const NewProgressDemo = () => {
       </DemoSection>
 
       <DemoSection title="Indeterminate">
-        <div class="w-80">
+        <div class="zen-w-80">
           <Progress indeterminate />
         </div>
       </DemoSection>

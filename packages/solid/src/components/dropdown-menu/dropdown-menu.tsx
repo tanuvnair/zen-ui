@@ -49,7 +49,7 @@ export const DropdownMenuContent = (props: CommonProps) => {
     <KDropdown.Portal>
       <KDropdown.Content
         class={cn(
-          "z-50 min-w-32 overflow-hidden rounded-zen-md border bg-zen-background p-1 text-zen-foreground shadow-md",
+          "zen-z-50 zen-min-w-32 zen-overflow-hidden zen-rounded-zen-md zen-border zen-bg-zen-background zen-p-1 zen-text-zen-foreground zen-shadow-md",
           local.class,
         )}
       >
@@ -64,9 +64,9 @@ export const DropdownMenuSubTrigger = (props: CommonProps & { inset?: boolean })
   return (
     <KDropdown.SubTrigger
       class={cn(
-        "flex cursor-default items-center gap-2 select-none rounded-zen-sm px-2 py-1.5 text-sm outline-none",
-        "data-[expanded]:bg-zen-muted data-[highlighted]:bg-zen-muted",
-        local.inset && "pl-8",
+        "zen-flex zen-cursor-default zen-items-center zen-gap-2 zen-select-none zen-rounded-zen-sm zen-px-2 zen-py-1.5 zen-text-sm zen-outline-none",
+        "data-[expanded]:zen-bg-zen-muted data-[highlighted]:zen-bg-zen-muted",
+        local.inset && "zen-pl-8",
         local.class,
       )}
     >
@@ -82,7 +82,7 @@ export const DropdownMenuSubContent = (props: CommonProps) => {
     <KDropdown.Portal>
       <KDropdown.SubContent
         class={cn(
-          "z-50 min-w-32 overflow-hidden rounded-zen-md border bg-zen-background p-1 text-zen-foreground shadow-md",
+          "zen-z-50 zen-min-w-32 zen-overflow-hidden zen-rounded-zen-md zen-border zen-bg-zen-background zen-p-1 zen-text-zen-foreground zen-shadow-md",
           local.class,
         )}
       >
@@ -113,12 +113,12 @@ export const DropdownMenuItem = (props: DropdownMenuItemProps) => {
       disabled={local.disabled}
       onSelect={local.onSelect}
       class={cn(
-        "relative flex cursor-default select-none items-center gap-2 rounded-zen-sm px-2 py-1.5 text-sm outline-none",
-        "data-[highlighted]:bg-zen-muted",
-        "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        "zen-relative zen-flex zen-cursor-default zen-select-none zen-items-center zen-gap-2 zen-rounded-zen-sm zen-px-2 zen-py-1.5 zen-text-sm zen-outline-none",
+        "data-[highlighted]:zen-bg-zen-muted",
+        "data-[disabled]:zen-pointer-events-none data-[disabled]:zen-opacity-50",
         local.variant === "destructive" &&
-          "text-zen-error data-[highlighted]:bg-zen-error-soft data-[highlighted]:text-zen-error-soft-fg",
-        local.inset && "pl-8",
+          "zen-text-zen-error data-[highlighted]:zen-bg-zen-error-soft data-[highlighted]:zen-text-zen-error-soft-fg",
+        local.inset && "zen-pl-8",
         local.class,
       )}
     >
@@ -141,13 +141,13 @@ export const DropdownMenuCheckboxItem = (props: DropdownMenuCheckboxItemProps) =
       onChange={local.onChange}
       disabled={local.disabled}
       class={cn(
-        "relative flex cursor-default select-none items-center rounded-zen-sm py-1.5 pl-8 pr-2 text-sm outline-none",
-        "data-[highlighted]:bg-zen-muted",
-        "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        "zen-relative zen-flex zen-cursor-default zen-select-none zen-items-center zen-rounded-zen-sm zen-py-1.5 zen-pl-8 zen-pr-2 zen-text-sm zen-outline-none",
+        "data-[highlighted]:zen-bg-zen-muted",
+        "data-[disabled]:zen-pointer-events-none data-[disabled]:zen-opacity-50",
         local.class,
       )}
     >
-      <span class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+      <span class="zen-absolute zen-left-2 zen-flex zen-h-3.5 zen-w-3.5 zen-items-center zen-justify-center">
         <KDropdown.ItemIndicator>
           <CheckIcon />
         </KDropdown.ItemIndicator>
@@ -169,13 +169,13 @@ export const DropdownMenuRadioItem = (props: DropdownMenuRadioItemProps) => {
       value={local.value}
       disabled={local.disabled}
       class={cn(
-        "relative flex cursor-default select-none items-center rounded-zen-sm py-1.5 pl-8 pr-2 text-sm outline-none",
-        "data-[highlighted]:bg-zen-muted",
-        "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        "zen-relative zen-flex zen-cursor-default zen-select-none zen-items-center zen-rounded-zen-sm zen-py-1.5 zen-pl-8 zen-pr-2 zen-text-sm zen-outline-none",
+        "data-[highlighted]:zen-bg-zen-muted",
+        "data-[disabled]:zen-pointer-events-none data-[disabled]:zen-opacity-50",
         local.class,
       )}
     >
-      <span class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+      <span class="zen-absolute zen-left-2 zen-flex zen-h-3.5 zen-w-3.5 zen-items-center zen-justify-center">
         <KDropdown.ItemIndicator>
           <DotIcon />
         </KDropdown.ItemIndicator>
@@ -190,8 +190,8 @@ export const DropdownMenuLabel = (props: CommonProps & { inset?: boolean }) => {
   return (
     <KDropdown.GroupLabel
       class={cn(
-        "px-2 py-1.5 text-xs font-semibold text-zen-muted-fg",
-        local.inset && "pl-8",
+        "zen-px-2 zen-py-1.5 zen-text-xs zen-font-semibold zen-text-zen-muted-fg",
+        local.inset && "zen-pl-8",
         local.class,
       )}
     >
@@ -204,7 +204,7 @@ export const DropdownMenuSeparator = (props: { class?: string }) => {
   const [local] = splitProps(props, ["class"]);
   return (
     <KDropdown.Separator
-      class={cn("-mx-1 my-1 h-px bg-zen-border", local.class)}
+      class={cn("-zen-mx-1 zen-my-1 zen-h-px zen-bg-zen-border", local.class)}
     />
   );
 };
@@ -212,7 +212,7 @@ export const DropdownMenuSeparator = (props: { class?: string }) => {
 export const DropdownMenuShortcut = (props: CommonProps) => {
   const [local] = splitProps(props, ["class", "children"]);
   return (
-    <span class={cn("ml-auto text-xs tracking-widest text-zen-muted-fg", local.class)}>
+    <span class={cn("zen-ml-auto zen-text-xs zen-tracking-widest zen-text-zen-muted-fg", local.class)}>
       {local.children}
     </span>
   );
@@ -229,7 +229,7 @@ const DotIcon = () => (
   </svg>
 );
 const ChevronRightIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-auto">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="zen-ml-auto">
     <polyline points="9 18 15 12 9 6" />
   </svg>
 );

@@ -483,6 +483,8 @@ the next major safely.
 - **`docs/rp-review-1.md`** — initial library review (pre-refactor).
 - **`docs/rp-shadcn-radix-gap.md`** — the migration rubric: shadcn /
   Radix patterns + how each component maps.
+- **`docs/fiori-gap-analysis.md`** — component gap analysis against the SAP
+  Fiori for Web design system; tiered by value, with a build shortlist.
 - **`todo.md`** — deferred-work tracker (Phase 2 + release housekeeping).
 
 ---

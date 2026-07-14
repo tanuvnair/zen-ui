@@ -90,10 +90,10 @@ const NewBadgeDemo: React.FC = () => (
 <Badge className="bg-zen-accent-orange text-zen-foreground">Hot</Badge>
 <Badge className="bg-zen-accent-cream text-zen-foreground">Soft</Badge>`}
       >
-        <Badge className="bg-zen-accent-purple text-white">Beta</Badge>
-        <Badge className="bg-zen-accent-magenta text-white">New</Badge>
-        <Badge className="bg-zen-accent-orange text-zen-foreground">Hot</Badge>
-        <Badge className="bg-zen-accent-cream text-zen-foreground">Soft</Badge>
+        <Badge className="zen-bg-zen-accent-purple zen-text-white">Beta</Badge>
+        <Badge className="zen-bg-zen-accent-magenta zen-text-white">New</Badge>
+        <Badge className="zen-bg-zen-accent-orange zen-text-zen-foreground">Hot</Badge>
+        <Badge className="zen-bg-zen-accent-cream zen-text-zen-foreground">Soft</Badge>
       </CodeExample>
     </section>
 

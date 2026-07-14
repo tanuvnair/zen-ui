@@ -46,7 +46,7 @@ export function VirtualizedItems<T>(props: VirtualizedItemsProps<T>) {
   return (
     <div
       ref={parentRef}
-      class={cn("overflow-y-auto", props.class)}
+      class={cn("zen-overflow-y-auto", props.class)}
       style={{ "max-height": `${props.maxHeight ?? 280}px` }}
     >
       <div

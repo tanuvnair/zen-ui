@@ -47,7 +47,7 @@ const NewFormDemo = () => {
       description="Compound primitives + config-driven Bound* adapters on top of @modular-forms/solid + Zod."
     >
       <DemoSection title="BoundFields — config-driven form">
-        <Form class="w-full max-w-md">
+        <Form class="zen-w-full zen-max-w-md">
           <MForm
             onSubmit={(values) => setSubmitted(values as SignUpValues)}
           >
@@ -114,20 +114,20 @@ const NewFormDemo = () => {
               name="marketing"
               inlineLabel="Receive marketing updates"
             />
-            <div class="flex gap-2 pt-2">
+            <div class="zen-flex zen-gap-2 zen-pt-2">
               <Button type="submit">Submit</Button>
             </div>
           </MForm>
         </Form>
         <Show when={submitted()}>
-          <pre class="text-xs mt-4 p-3 rounded-zen-sm bg-zen-muted text-zen-foreground">
+          <pre class="zen-text-xs zen-mt-4 zen-p-3 zen-rounded-zen-sm zen-bg-zen-muted zen-text-zen-foreground">
             {JSON.stringify(submitted(), null, 2)}
           </pre>
         </Show>
       </DemoSection>
 
       <DemoSection title="Compound API — FormField / FormItem / FormLabel / FormControl / FormMessage">
-        <Form class="w-full max-w-md">
+        <Form class="zen-w-full zen-max-w-md">
           <MForm2
             onSubmit={(values) => alert(`Submitted: ${values.email}`)}
           >
@@ -143,7 +143,7 @@ const NewFormDemo = () => {
                 </FormItem>
               )}
             </FormField>
-            <div class="mt-3">
+            <div class="zen-mt-3">
               <Button type="submit">Save</Button>
             </div>
           </MForm2>

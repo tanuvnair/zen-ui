@@ -69,7 +69,7 @@ export const Chart = ({
     return (
       <div
         className={cn(
-          "flex items-center justify-center text-sm text-zen-muted-fg",
+          "zen-flex zen-items-center zen-justify-center zen-text-sm zen-text-zen-muted-fg",
           className,
         )}
         style={{ height }}

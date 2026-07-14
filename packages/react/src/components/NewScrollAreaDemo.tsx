@@ -18,7 +18,7 @@ const NewScrollAreaDemo: React.FC = () => (
   {longList}
 </ScrollArea>`}
       >
-        <ScrollArea className="h-48 w-64 rounded-zen-md border border-zen-border p-3">
+        <ScrollArea className="zen-h-48 zen-w-64 zen-rounded-zen-md zen-border zen-border-zen-border zen-p-3">
           <div style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: "1.3rem" }}>
             {Array.from({ length: 40 }).map((_, i) => (
               <div key={i}>Item {i + 1}</div>
@@ -37,7 +37,7 @@ const NewScrollAreaDemo: React.FC = () => (
   <ScrollBar orientation="horizontal" />
 </ScrollArea>`}
       >
-        <ScrollArea className="w-96 rounded-zen-md border border-zen-border whitespace-nowrap">
+        <ScrollArea className="zen-w-96 zen-rounded-zen-md zen-border zen-border-zen-border zen-whitespace-nowrap">
           <div style={{ display: "flex", gap: 8, padding: 12 }}>
             {Array.from({ length: 20 }).map((_, i) => (
               <span
@@ -69,7 +69,7 @@ const NewScrollAreaDemo: React.FC = () => (
   <ScrollBar orientation="horizontal" />
 </ScrollArea>`}
       >
-        <ScrollArea className="h-64 w-80 rounded-zen-md border border-zen-border">
+        <ScrollArea className="zen-h-64 zen-w-80 zen-rounded-zen-md zen-border zen-border-zen-border">
           <div style={{ width: 800, padding: 12, fontSize: "1.3rem", lineHeight: 1.8 }}>
             {Array.from({ length: 12 }).map((_, i) => (
               <p key={i} style={{ margin: "0 0 1rem 0" }}>

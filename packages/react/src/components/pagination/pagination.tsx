@@ -58,7 +58,7 @@ export function usePaginationRange({
 }
 
 const itemBase =
-  "inline-flex h-9 min-w-9 items-center justify-center rounded-zen-md border border-zen-border px-2 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zen-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
+  "zen-inline-flex zen-h-9 zen-min-w-9 zen-items-center zen-justify-center zen-rounded-zen-md zen-border zen-border-zen-border zen-px-2 zen-text-sm zen-transition-colors focus-visible:zen-outline-none focus-visible:zen-ring-2 focus-visible:zen-ring-zen-ring focus-visible:zen-ring-offset-2 disabled:zen-pointer-events-none disabled:zen-opacity-50";
 
 export interface PaginationProps
   extends Omit<React.HTMLAttributes<HTMLElement>, "onChange"> {
@@ -102,13 +102,13 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
       <nav
         ref={ref}
         aria-label="pagination"
-        className={cn("flex items-center gap-1", className)}
+        className={cn("zen-flex zen-items-center zen-gap-1", className)}
         {...props}
       >
         {!hidePrevNext && (
           <button
             type="button"
-            className={cn(itemBase, "hover:bg-zen-muted")}
+            className={cn(itemBase, "hover:zen-bg-zen-muted")}
             onClick={() => go(page - 1)}
             disabled={page <= 1}
             aria-label="Go to previous page"
@@ -121,7 +121,7 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
             <span
               key={`dots-${i}`}
               aria-hidden="true"
-              className="inline-flex h-9 min-w-9 items-center justify-center px-1 text-zen-muted-fg"
+              className="zen-inline-flex zen-h-9 zen-min-w-9 zen-items-center zen-justify-center zen-px-1 zen-text-zen-muted-fg"
             >
               &#8230;
             </span>
@@ -133,8 +133,8 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
               className={cn(
                 itemBase,
                 item === page
-                  ? "border-zen-primary bg-zen-primary text-zen-primary-fg"
-                  : "hover:bg-zen-muted",
+                  ? "zen-border-zen-primary zen-bg-zen-primary zen-text-zen-primary-fg"
+                  : "hover:zen-bg-zen-muted",
               )}
               onClick={() => go(item)}
             >
@@ -145,7 +145,7 @@ export const Pagination = React.forwardRef<HTMLElement, PaginationProps>(
         {!hidePrevNext && (
           <button
             type="button"
-            className={cn(itemBase, "hover:bg-zen-muted")}
+            className={cn(itemBase, "hover:zen-bg-zen-muted")}
             onClick={() => go(page + 1)}
             disabled={page >= pageCount}
             aria-label="Go to next page"

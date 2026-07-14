@@ -37,7 +37,7 @@ const NewTimePickerDemo: React.FC = () => {
         >
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             <TimePicker value={time} onValueChange={setTime} />
-            <p className="text-xs text-zen-muted-fg m-0">
+            <p className="zen-text-xs zen-text-zen-muted-fg zen-m-0">
               Value: <code>{time ?? "(empty)"}</code>
             </p>
           </div>

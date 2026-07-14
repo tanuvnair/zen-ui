@@ -12,7 +12,7 @@ const NewAccordionDemo = () => (
     description="Collapsible-section list. Built on Kobalte Accordion."
   >
     <DemoSection title="Single (default — Kobalte)">
-      <div class="w-full max-w-xl">
+      <div class="zen-w-full zen-max-w-xl">
         <Accordion collapsible defaultValue={["basic"]}>
           <AccordionItem value="basic">
             <AccordionTrigger>Basic info</AccordionTrigger>
@@ -37,7 +37,7 @@ const NewAccordionDemo = () => (
     </DemoSection>
 
     <DemoSection title="Multiple">
-      <div class="w-full max-w-xl">
+      <div class="zen-w-full zen-max-w-xl">
         <Accordion multiple defaultValue={["a"]}>
           <AccordionItem value="a">
             <AccordionTrigger>First section</AccordionTrigger>

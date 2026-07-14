@@ -245,10 +245,19 @@ const App: Component<ParentProps> = (props) => {
                     <For each={group.items}>
                       {(item) => (
                         <li>
+                          {/*
+                            `sidebar-link` must appear ONLY in `class`. Router
+                            puts activeClass/inactiveClass into a classList, and
+                            listing `sidebar-link` there too meant that when a
+                            link went active -> inactive the whole activeClass
+                            token set was removed — stripping `sidebar-link`
+                            itself. Links you had navigated away from rendered
+                            unstyled.
+                          */}
                           <A
                             href={item.path}
-                            class="sidebar-link sidebar-link-inactive"
-                            activeClass="sidebar-link sidebar-link-active"
+                            class="sidebar-link"
+                            activeClass="sidebar-link-active"
                             inactiveClass="sidebar-link-inactive"
                             end
                           >

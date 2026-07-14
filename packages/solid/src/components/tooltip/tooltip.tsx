@@ -35,17 +35,17 @@ export const TooltipContent = (props: TooltipContentProps) => {
     <KTooltip.Portal>
       <KTooltip.Content
         class={cn(
-          "z-50 max-w-xs px-2.5 py-1.5",
-          "rounded-zen-md bg-zen-neutral text-xs text-zen-neutral-fg",
-          "shadow-md",
+          "zen-z-50 zen-max-w-xs zen-px-2.5 zen-py-1.5",
+          "zen-rounded-zen-md zen-bg-zen-neutral zen-text-xs zen-text-zen-neutral-fg",
+          "zen-shadow-md",
           // Kobalte sets data-expanded / data-closed on the content.
-          "transition-opacity duration-100 data-[closed]:opacity-0",
+          "zen-transition-opacity zen-duration-100 data-[closed]:zen-opacity-0",
           local.class,
         )}
       >
         {local.children}
         <Show when={local.arrow}>
-          <KTooltip.Arrow class="fill-zen-neutral" />
+          <KTooltip.Arrow class="zen-fill-zen-neutral" />
         </Show>
       </KTooltip.Content>
     </KTooltip.Portal>

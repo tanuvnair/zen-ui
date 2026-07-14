@@ -97,9 +97,9 @@ const NewSwitchDemo: React.FC = () => {
   className="data-[state=checked]:bg-zen-error"
 />`}
         >
-          <Switch defaultChecked className="data-[state=checked]:bg-zen-success" />
-          <Switch defaultChecked className="data-[state=checked]:bg-zen-error" />
-          <Switch defaultChecked className="data-[state=checked]:bg-zen-warning" />
+          <Switch defaultChecked className="data-[state=checked]:zen-bg-zen-success" />
+          <Switch defaultChecked className="data-[state=checked]:zen-bg-zen-error" />
+          <Switch defaultChecked className="data-[state=checked]:zen-bg-zen-warning" />
         </CodeExample>
       </section>
 

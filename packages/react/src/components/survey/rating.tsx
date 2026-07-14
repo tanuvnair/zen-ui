@@ -102,9 +102,9 @@ export const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
         aria-readonly={readOnly || undefined}
         onKeyDown={onKeyDown}
         className={cn(
-          "inline-flex items-center",
+          "zen-inline-flex zen-items-center",
           GAPS[size],
-          disabled && "opacity-50 cursor-not-allowed",
+          disabled && "zen-opacity-50 zen-cursor-not-allowed",
           className,
         )}
       >
@@ -128,14 +128,14 @@ export const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
               onMouseLeave={() => interactive && setHover(0)}
               onFocus={() => interactive && setHover(0)}
               className={cn(
-                "bg-transparent border-0 p-0.5 cursor-pointer",
-                "rounded-zen-sm transition-colors",
-                "text-zen-border",
-                filled && "text-zen-warning",
-                interactive && "hover:text-zen-warning",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zen-ring",
-                (disabled || readOnly) && "cursor-default",
-                disabled && "hover:text-zen-border",
+                "zen-bg-transparent zen-border-0 zen-p-0.5 zen-cursor-pointer",
+                "zen-rounded-zen-sm zen-transition-colors",
+                "zen-text-zen-border",
+                filled && "zen-text-zen-warning",
+                interactive && "hover:zen-text-zen-warning",
+                "focus-visible:zen-outline-none focus-visible:zen-ring-2 focus-visible:zen-ring-zen-ring",
+                (disabled || readOnly) && "zen-cursor-default",
+                disabled && "hover:zen-text-zen-border",
               )}
             >
               <StarIcon size={SIZES[size]} filled={filled} />
@@ -145,8 +145,8 @@ export const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
         {showValue ? (
           <span
             className={cn(
-              "ml-1 text-sm font-medium tabular-nums",
-              value > 0 ? "text-zen-foreground" : "text-zen-muted-fg",
+              "zen-ml-1 zen-text-sm zen-font-medium zen-tabular-nums",
+              value > 0 ? "zen-text-zen-foreground" : "zen-text-zen-muted-fg",
             )}
             aria-hidden
           >

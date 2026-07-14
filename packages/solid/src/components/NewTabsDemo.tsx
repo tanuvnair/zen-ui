@@ -7,7 +7,7 @@ const NewTabsDemo = () => (
     description="Switch between related sections inside the same page. Built on Kobalte Tabs."
   >
     <DemoSection title="Underline (default)">
-      <div class="w-full max-w-xl">
+      <div class="zen-w-full zen-max-w-xl">
         <Tabs defaultValue="overview">
           <TabsList>
             <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -15,20 +15,20 @@ const NewTabsDemo = () => (
             <TabsTrigger value="notes">Notes</TabsTrigger>
           </TabsList>
           <TabsContent value="overview">
-            <p class="text-sm">Overview content goes here.</p>
+            <p class="zen-text-sm">Overview content goes here.</p>
           </TabsContent>
           <TabsContent value="activity">
-            <p class="text-sm">Activity content goes here.</p>
+            <p class="zen-text-sm">Activity content goes here.</p>
           </TabsContent>
           <TabsContent value="notes">
-            <p class="text-sm">Notes content goes here.</p>
+            <p class="zen-text-sm">Notes content goes here.</p>
           </TabsContent>
         </Tabs>
       </div>
     </DemoSection>
 
     <DemoSection title="Pills">
-      <div class="w-full max-w-xl">
+      <div class="zen-w-full zen-max-w-xl">
         <Tabs defaultValue="overview">
           <TabsList variant="pills">
             <TabsTrigger variant="pills" value="overview">Overview</TabsTrigger>
@@ -36,13 +36,13 @@ const NewTabsDemo = () => (
             <TabsTrigger variant="pills" value="notes">Notes</TabsTrigger>
           </TabsList>
           <TabsContent value="overview">
-            <p class="text-sm">Overview content goes here.</p>
+            <p class="zen-text-sm">Overview content goes here.</p>
           </TabsContent>
           <TabsContent value="activity">
-            <p class="text-sm">Activity content goes here.</p>
+            <p class="zen-text-sm">Activity content goes here.</p>
           </TabsContent>
           <TabsContent value="notes">
-            <p class="text-sm">Notes content goes here.</p>
+            <p class="zen-text-sm">Notes content goes here.</p>
           </TabsContent>
         </Tabs>
       </div>

@@ -1,11 +1,10 @@
 import { defineConfig, presetUno } from "unocss";
-import { zenUnoPostprocess, zenUnoTheme } from "@algorisys/zen-ui-core/uno-preset";
+import { ZEN_PREFIX, zenUnoTheme } from "@algorisys/zen-ui-core/uno-preset";
 
-// The theme (--zen-color-* → bg-zen-*, etc.) and the 62.5% rem rescale
-// are shared with every other zen-ui binding via @algorisys/zen-ui-core.
-// Only the unocss wiring (presetUno + defineConfig) lives here.
+// Mirror of packages/react/uno.config.ts — see the rationale for `prefix`
+// there. Both bindings must emit the same `.zen-*` namespace so an app can
+// load either (or both) alongside its own CSS without collisions.
 export default defineConfig({
-  presets: [presetUno()],
-  postprocess: zenUnoPostprocess,
+  presets: [presetUno({ prefix: ZEN_PREFIX })],
   theme: zenUnoTheme,
 });

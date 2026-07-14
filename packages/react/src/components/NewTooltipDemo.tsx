@@ -207,7 +207,7 @@ const NewTooltipDemo: React.FC = () => {
               <TooltipTrigger asChild>
                 <Button variant="outline">Blue</Button>
               </TooltipTrigger>
-              <TooltipContent className="bg-blue-600 text-white">
+              <TooltipContent className="zen-bg-blue-600 zen-text-white">
                 Custom background color
               </TooltipContent>
             </Tooltip>
@@ -215,7 +215,7 @@ const NewTooltipDemo: React.FC = () => {
               <TooltipTrigger asChild>
                 <Button variant="outline">Pink</Button>
               </TooltipTrigger>
-              <TooltipContent className="bg-pink-500 text-white" arrow>
+              <TooltipContent className="zen-bg-pink-500 zen-text-white" arrow>
                 Pink tooltip with arrow
               </TooltipContent>
             </Tooltip>
@@ -240,7 +240,7 @@ const NewTooltipDemo: React.FC = () => {
               <TooltipTrigger asChild>
                 <Button variant="outline">Wider</Button>
               </TooltipTrigger>
-              <TooltipContent className="max-w-md">
+              <TooltipContent className="zen-max-w-md">
                 This tooltip can grow up to roughly 28rem wide before wrapping.
                 Great for medium-length help text or short explanations that need
                 to breathe.
@@ -250,7 +250,7 @@ const NewTooltipDemo: React.FC = () => {
               <TooltipTrigger asChild>
                 <Button variant="outline">Min-width</Button>
               </TooltipTrigger>
-              <TooltipContent className="min-w-[200px]">
+              <TooltipContent className="zen-min-w-[200px]">
                 Min-width forces a baseline tooltip size.
               </TooltipContent>
             </Tooltip>

@@ -36,7 +36,7 @@ const NewDialogDemo = () => (
               Update your account details. Changes apply immediately.
             </DialogDescription>
           </DialogHeader>
-          <p class="text-sm text-zen-muted-fg">
+          <p class="zen-text-sm zen-text-zen-muted-fg">
             Form fields would render here.
           </p>
           <DialogFooter>

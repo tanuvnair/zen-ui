@@ -184,14 +184,14 @@ const MultiCombobox: React.FC<MultiComboboxProps> = ({
           aria-expanded={open}
           disabled={disabled}
           className={cn(
-            "justify-between font-normal text-left min-h-10 h-auto py-1.5",
-            selected.length === 0 && "text-zen-muted-fg",
+            "zen-justify-between zen-font-normal zen-text-left zen-min-h-10 zen-h-auto zen-py-1.5",
+            selected.length === 0 && "zen-text-zen-muted-fg",
             className,
           )}
           style={{ minWidth: width }}
           iconRight={<ChevronIcon />}
         >
-          <span className="flex flex-wrap items-center gap-1 flex-1 min-w-0">
+          <span className="zen-flex zen-flex-wrap zen-items-center zen-gap-1 zen-flex-1 zen-min-w-0">
             {selected.length === 0 ? (
               placeholder
             ) : (
@@ -207,7 +207,7 @@ const MultiCombobox: React.FC<MultiComboboxProps> = ({
                   />
                 ))}
                 {overflow > 0 ? (
-                  <span className="text-xs text-zen-muted-fg ml-0.5">
+                  <span className="zen-text-xs zen-text-zen-muted-fg zen-ml-0.5">
                     +{overflow} more
                   </span>
                 ) : null}
@@ -217,7 +217,7 @@ const MultiCombobox: React.FC<MultiComboboxProps> = ({
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="p-0"
+        className="zen-p-0"
         style={{ width: typeof width === "number" ? width : undefined }}
         align="start"
       >
@@ -254,22 +254,22 @@ const MultiCombobox: React.FC<MultiComboboxProps> = ({
                         marginRight: 6,
                       }}
                     />
-                    <span className="flex-1">{o.label}</span>
+                    <span className="zen-flex-1">{o.label}</span>
                   </CommandItem>
                 );
               })}
             </CommandGroup>
           </CommandList>
           {showClearAll && selected.length > 0 ? (
-            <div className="border-t border-zen-border p-1">
+            <div className="zen-border-t zen-border-zen-border zen-p-1">
               <button
                 type="button"
                 onClick={() => update([])}
                 className={cn(
-                  "w-full text-left text-xs px-2 py-1 rounded-zen-sm",
-                  "text-zen-muted-fg hover:text-zen-foreground hover:bg-zen-muted",
-                  "bg-transparent border-0 cursor-pointer",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zen-ring",
+                  "zen-w-full zen-text-left zen-text-xs zen-px-2 zen-py-1 zen-rounded-zen-sm",
+                  "zen-text-zen-muted-fg hover:zen-text-zen-foreground hover:zen-bg-zen-muted",
+                  "zen-bg-transparent zen-border-0 zen-cursor-pointer",
+                  "focus-visible:zen-outline-none focus-visible:zen-ring-2 focus-visible:zen-ring-zen-ring",
                 )}
               >
                 Clear all ({selected.length})
@@ -288,13 +288,13 @@ const Chip: React.FC<{
 }> = ({ label, onRemove }) => (
   <span
     className={cn(
-      "inline-flex items-center gap-1 px-1.5 py-0.5",
-      "text-xs font-medium",
-      "rounded-zen-sm bg-zen-primary-soft text-zen-primary-soft-fg",
-      "max-w-[10rem]",
+      "zen-inline-flex zen-items-center zen-gap-1 zen-px-1.5 zen-py-0.5",
+      "zen-text-xs zen-font-medium",
+      "zen-rounded-zen-sm zen-bg-zen-primary-soft zen-text-zen-primary-soft-fg",
+      "zen-max-w-[10rem]",
     )}
   >
-    <span className="truncate">{label}</span>
+    <span className="zen-truncate">{label}</span>
     {/* role="button" span (not a <button>) so it can live inside the trigger
      * <Button> without nesting interactive <button> elements (invalid HTML). */}
     <span
@@ -313,10 +313,10 @@ const Chip: React.FC<{
        * the user just wanted to remove a chip). */
       aria-label={`Remove ${label}`}
       className={cn(
-        "inline-flex items-center justify-center",
-        "h-3.5 w-3.5 rounded-zen-full bg-transparent border-0 cursor-pointer",
-        "text-current opacity-70 hover:opacity-100 hover:bg-black/10",
-        "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zen-ring",
+        "zen-inline-flex zen-items-center zen-justify-center",
+        "zen-h-3.5 zen-w-3.5 zen-rounded-zen-full zen-bg-transparent zen-border-0 zen-cursor-pointer",
+        "zen-text-current zen-opacity-70 hover:zen-opacity-100 hover:zen-bg-black/10",
+        "focus-visible:zen-outline-none focus-visible:zen-ring-1 focus-visible:zen-ring-zen-ring",
       )}
     >
       <svg

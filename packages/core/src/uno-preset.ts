@@ -1,37 +1,25 @@
 /**
- * UnoCSS theme + postprocess used by every zen-ui binding.
+ * UnoCSS theme + prefix used by every zen-ui binding.
  *
  * Why this lives in core: the shared design tokens (--zen-color-*,
- * --zen-radius-*, --zen-shadow-*) and the 62.5% rem-rescale compensation
- * apply identically regardless of which framework the components are
- * authored in. Each binding's uno.config.ts assembles a defineConfig
- * with these pieces + `presetUno()`, so the binding (not core) owns the
- * unocss dependency.
+ * --zen-radius-*, --zen-shadow-*) apply identically regardless of which
+ * framework the components are authored in. Each binding's uno.config.ts
+ * assembles a defineConfig with these pieces + `presetUno()`, so the
+ * binding (not core) owns the unocss dependency.
  */
 
-// Compensation factor for the project-wide `html { font-size: 62.5% }` rule
-// in the consuming app's index.css. That makes 1rem = 10px so legacy SCSS
-// can write `1.4rem` to mean 14px. UnoCSS preset-uno ships Tailwind's
-// defaults assuming the browser default 1rem = 16px, so every rem-based
-// utility (h-*, text-*, p-*, gap-*, …) would otherwise render at 62.5% of
-// its intended size. We rescale every rem value UnoCSS emits by 16/10 = 1.6,
-// leaving raw rem CSS untouched.
-const REM_SCALE = 1.6;
-
-type UnoUtilEntries = { entries: Array<[string, unknown]> };
-
-export const zenUnoPostprocess = (util: UnoUtilEntries): void => {
-  util.entries.forEach((entry) => {
-    const value = entry[1];
-    if (typeof value === "string" && value.includes("rem")) {
-      entry[1] = value.replace(/(-?[\d.]+)rem/g, (_, n) => {
-        const scaled = parseFloat(n) * REM_SCALE;
-        // Round to 4 decimals to avoid float artefacts like 4.000000001rem.
-        return `${Number(scaled.toFixed(4))}rem`;
-      });
-    }
-  });
-};
+/**
+ * Utility prefix. Every generated class is emitted as `.zen-<util>` so the
+ * library's CSS can never collide with a utility of the same name in the
+ * consuming app. Without this, zen-ui's `.p-4` and Bootstrap's `.p-4`
+ * (1.5rem) — or a custom Tailwind theme's `.p-4` — would fight, with the
+ * winner decided by bundler CSS import order.
+ *
+ * Consumed by each binding's uno.config.ts as `presetUno({ prefix: ZEN_PREFIX })`
+ * and by `cn()` via `extendTailwindMerge({ prefix: ZEN_PREFIX })`, so the two
+ * must never drift apart.
+ */
+export const ZEN_PREFIX = "zen-";
 
 /**
  * UnoCSS `theme` block — wires the design tokens declared in

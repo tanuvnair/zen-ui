@@ -39,7 +39,7 @@ const NewNotificationsInboxDemo = () => {
       description="Bell trigger with unread count + Popover panel grouped by day."
     >
       <DemoSection title="Default">
-        <div class="flex items-center gap-3">
+        <div class="zen-flex zen-items-center zen-gap-3">
           <NotificationsInbox
             notifications={items()}
             onItemSelect={(n) => alert(`Open: ${n.id}`)}
@@ -48,7 +48,7 @@ const NewNotificationsInboxDemo = () => {
             }
             onViewAll={() => alert("Navigate to /notifications")}
           />
-          <span class="text-xs text-zen-muted-fg">↑ click the bell</span>
+          <span class="zen-text-xs zen-text-zen-muted-fg">↑ click the bell</span>
         </div>
       </DemoSection>
     </DemoPage>

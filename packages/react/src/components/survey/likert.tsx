@@ -121,10 +121,10 @@ export const Likert = React.forwardRef<HTMLDivElement, LikertProps>(
     return (
       <div
         ref={ref}
-        className={cn("flex flex-col gap-2 max-w-full", className)}
+        className={cn("zen-flex zen-flex-col zen-gap-2 zen-max-w-full", className)}
       >
         {question ? (
-          <p className="text-sm font-medium text-zen-foreground m-0">
+          <p className="zen-text-sm zen-font-medium zen-text-zen-foreground zen-m-0">
             {question}
           </p>
         ) : null}
@@ -137,9 +137,9 @@ export const Likert = React.forwardRef<HTMLDivElement, LikertProps>(
           className={cn(
             layout === "segmented"
               ? // scroll the scale horizontally on narrow widths (keep corner clip vertically)
-                "flex max-w-full items-stretch rounded-zen-md border border-zen-border overflow-x-auto overflow-y-hidden bg-zen-background"
-              : "flex flex-col gap-1",
-            disabled && "opacity-50",
+                "zen-flex zen-max-w-full zen-items-stretch zen-rounded-zen-md zen-border zen-border-zen-border zen-overflow-x-auto zen-overflow-y-hidden zen-bg-zen-background"
+              : "zen-flex zen-flex-col zen-gap-1",
+            disabled && "zen-opacity-50",
           )}
         >
           {options.map((opt, i) => {
@@ -159,27 +159,27 @@ export const Likert = React.forwardRef<HTMLDivElement, LikertProps>(
                   }
                   onClick={() => interactive && update(opt.value)}
                   className={cn(
-                    "flex items-center gap-2 px-2 py-1.5 rounded-zen-sm",
-                    "bg-transparent border-0 text-left text-sm cursor-pointer",
-                    "transition-colors",
-                    interactive && "hover:bg-zen-muted",
-                    selected && "bg-zen-primary-soft text-zen-primary-soft-fg",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zen-ring",
-                    (disabled || readOnly) && "cursor-default",
+                    "zen-flex zen-items-center zen-gap-2 zen-px-2 zen-py-1.5 zen-rounded-zen-sm",
+                    "zen-bg-transparent zen-border-0 zen-text-left zen-text-sm zen-cursor-pointer",
+                    "zen-transition-colors",
+                    interactive && "hover:zen-bg-zen-muted",
+                    selected && "zen-bg-zen-primary-soft zen-text-zen-primary-soft-fg",
+                    "focus-visible:zen-outline-none focus-visible:zen-ring-2 focus-visible:zen-ring-zen-ring",
+                    (disabled || readOnly) && "zen-cursor-default",
                   )}
                 >
                   <span
                     aria-hidden
                     className={cn(
-                      "inline-flex items-center justify-center",
-                      "h-4 w-4 rounded-zen-full border",
+                      "zen-inline-flex zen-items-center zen-justify-center",
+                      "zen-h-4 zen-w-4 zen-rounded-zen-full zen-border",
                       selected
-                        ? "border-zen-primary bg-zen-primary"
-                        : "border-zen-border bg-zen-background",
+                        ? "zen-border-zen-primary zen-bg-zen-primary"
+                        : "zen-border-zen-border zen-bg-zen-background",
                     )}
                   >
                     {selected ? (
-                      <span className="h-1.5 w-1.5 rounded-zen-full bg-zen-primary-fg" />
+                      <span className="zen-h-1.5 zen-w-1.5 zen-rounded-zen-full zen-bg-zen-primary-fg" />
                     ) : null}
                   </span>
                   <span>{opt.label}</span>
@@ -200,23 +200,23 @@ export const Likert = React.forwardRef<HTMLDivElement, LikertProps>(
                 onClick={() => interactive && update(opt.value)}
                 title={opt.label}
                 className={cn(
-                  "flex-1 min-w-[3.5rem] px-3 py-2",
-                  "inline-flex items-center justify-center",
-                  "text-xs font-medium",
-                  "bg-transparent border-0 cursor-pointer transition-colors",
-                  !isFirst && "border-l border-zen-border",
-                  "text-zen-muted-fg",
-                  interactive && "hover:bg-zen-muted hover:text-zen-foreground",
+                  "zen-flex-1 zen-min-w-[3.5rem] zen-px-3 zen-py-2",
+                  "zen-inline-flex zen-items-center zen-justify-center",
+                  "zen-text-xs zen-font-medium",
+                  "zen-bg-transparent zen-border-0 zen-cursor-pointer zen-transition-colors",
+                  !isFirst && "zen-border-l zen-border-zen-border",
+                  "zen-text-zen-muted-fg",
+                  interactive && "hover:zen-bg-zen-muted hover:zen-text-zen-foreground",
                   selected &&
-                    "bg-zen-primary text-zen-primary-fg hover:bg-zen-primary hover:text-zen-primary-fg",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zen-ring focus-visible:ring-inset",
-                  (disabled || readOnly) && "cursor-default",
-                  isFirst && "rounded-l-zen-md",
-                  isLast && "rounded-r-zen-md",
+                    "zen-bg-zen-primary zen-text-zen-primary-fg hover:zen-bg-zen-primary hover:zen-text-zen-primary-fg",
+                  "focus-visible:zen-outline-none focus-visible:zen-ring-2 focus-visible:zen-ring-zen-ring focus-visible:zen-ring-inset",
+                  (disabled || readOnly) && "zen-cursor-default",
+                  isFirst && "zen-rounded-l-zen-md",
+                  isLast && "zen-rounded-r-zen-md",
                 )}
               >
-                <span className="hidden md:inline">{opt.label}</span>
-                <span className="md:hidden">
+                <span className="zen-hidden md:zen-inline">{opt.label}</span>
+                <span className="md:zen-hidden">
                   {opt.shortLabel ?? opt.label}
                 </span>
               </button>

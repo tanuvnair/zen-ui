@@ -1,0 +1,149 @@
+# zen-ui
+
+Bun workspace. A shadcn/Radix-style component library published as two framework
+bindings that share one design core.
+
+| Package | What it is |
+|---|---|
+| `packages/core` — `@algorisys/zen-ui-core` | Framework-agnostic: design tokens, UnoCSS theme + prefix, `cn()`, theme primitives. Private, consumed via workspace link. |
+| `packages/react` — `@algorisys/zen-ui-react` | React binding (Radix-backed) **+ the demo app** in the same `src/`. |
+| `packages/solid` — `@algorisys/zen-ui-solid` | Solid binding (Kobalte-backed) + its demo. Mirrors the React API. |
+| `apps/landing` | Marketing page. Ships CSS to nobody; depends on `core` only. |
+
+## Development guidelines
+
+**Read [LOOPS.md](LOOPS.md) before doing substantial work in this repo.** It is
+the engineering contract: 40 rules across 7 tiers covering read-before-write,
+scope lock, verification, TDD, deviation rules, comment style, and safety.
+
+**It is also the reference for autonomous development over long periods** —
+Tier 6 (Agent Loops, rules XXVII–XXXV) covers writing the loop rather than the
+prompt, separating roles, negotiating the contract first, writing state to disk
+instead of context, letting the loop restart, scoring subjective work, reading
+traces, and deleting the harness. Tier 5 (XXIII–XXVI) covers the traceability
+that makes a long unattended run recoverable: changelog, `IMPLEMENT.md`
+tracking, and keeping state resumable.
+
+## Commands
+
+Run from the repo root (Bun workspaces; Node 22.12.0 via `.nvmrc`):
+
+```bash
+bun install
+
+bun run dev              # React demo   (base /builder)
+bun run dev:solid        # Solid demo   (base /builder-solid)
+bun run dev:landing
+
+bun run build:lib        # publishable React lib -> packages/react/dist
+bun run build:lib:solid
+bun run lint             # lint:solid for the Solid binding
+```
+
+Note `build` (demo) and `build:lib` (library) both write to `packages/*/dist`
+and clobber each other — rebuild the lib before inspecting `dist/style.css`.
+
+### Verification traps — all three have produced false passes here
+
+- **`tsconfig.lib.json` cannot see demos.** It excludes `src/**/*Demo.tsx`, so
+  `tsc --project tsconfig.lib.json --noEmit` reports clean on a demo containing a
+  hard type error. For demo files use `--project tsconfig.app.json`, which `npm
+  run build` (`tsc -b`) also covers.
+- **A syntax error in ONE file silently disables type-checking for the whole
+  project** — tsc bails before the semantic pass, so every other file reports
+  clean. If a run looks suspiciously green, check for parse errors first.
+- **Lint baselines**: Solid 8 errors / 47 warnings; React 29 problems. Measure
+  before you claim a delta — a stated baseline that is off by one turns "adds
+  nothing" into "adds one".
+- **A failed command looks identical to a clean one** when you grep its output
+  for error lines. `lint:solid` returned "0 issues" for a long time purely
+  because ESLint aborted on a missing config. Assert the tool actually ran.
+
+Green output is not evidence. Prefer running the thing: `node
+scripts/visual-check.mjs <react|solid> [routes…]` boots the demo's preview
+server, screenshots each route from `nav.ts`, and reports per-route console and
+page errors. A build says nothing about whether a panel is clipped, a switch
+landed on the wrong side, or a class silently generated no CSS — all three have
+shipped here.
+
+## CSS conventions — read before touching a component
+
+The full rationale is in [docs/css-interop.md](docs/css-interop.md). The rules
+that bite:
+
+- **Utilities are prefixed `zen-`.** Variants sit *outside* the prefix:
+  `hover:zen-bg-zen-primary`, `-zen-mt-2`, `!zen-p-4`, `data-[state=open]:zen-p-4`.
+  Anchors are prefixed too (`zen-group`, `zen-peer`).
+- **`ZEN_PREFIX`** in `packages/core/src/uno-preset.ts` is shared by every
+  binding's `uno.config.ts` *and* by `cn()`. They must not drift apart.
+- **Never ship page-level or element-level CSS from a library entry.** The
+  published stylesheet may only touch elements zen-ui renders and `--zen-*`
+  custom properties. `index.css` belongs to the demo (`main.tsx`), not to
+  `index.ts`. The element reset is opt-in via the `/preflight` export.
+- **No raw `rem` literals in component source.** Use utilities or `--zen-*`
+  tokens. The repo used to assume `html { font-size: 62.5% }` (1rem = 10px);
+  that rule is gone, so any bare `1.4rem` is a magic number that no longer means
+  what it says.
+- **Hand-written animation classes are `zen-anim-*`, not `zen-animate-*`** —
+  under the prefix, `zen-animate-fade-in` parses as `animate-fade-in`, a real
+  UnoCSS built-in, and Uno emits a competing rule. (`zen-animate-spin` /
+  `zen-animate-pulse` *are* genuine Uno utilities.)
+- `apps/landing` is deliberately unprefixed — it has nothing to collide with.
+
+## Binding parity — React and Solid must stay in sync
+
+**A component added to one binding must be added to the other.** The two are one
+design system with two renderers; a component that exists only in React is a
+bug, not a roadmap item. The same applies to props, variants and behaviour: if
+you change a component's API in one binding, change it in the other in the same
+change.
+
+The demos must match too — same routes, same sections, same code examples.
+
+Current state (was: 10 families missing from Solid, and code examples in 1/48 of
+its demos):
+
+- **Exports**: React 219, Solid 204. The only gap is the **Toast** family, and
+  that one is a real API divergence rather than a missing port — React wraps
+  Radix Toast primitives, Solid uses solid-toast. Decide whether to converge the
+  API before "porting" it.
+- **Code examples**: React 54/54 demos (~305 examples), Solid 55/57 (158). The
+  two demos without have no `DemoSection` to attach one to. The remaining gap is
+  section COUNT, not snippets — Solid's demos genuinely have fewer sections.
+- **Known latent, same class as the fixed ones**: Checkbox, RadioGroupItem and
+  Select still land a caller's `id` on the wrapper rather than the native
+  control, so `<label for>` will not associate. Kobalte derives sub-part ids from
+  the root.
+
+Before adding anything new, check the delta:
+
+```bash
+# component exports present in one binding but not the other
+diff <(grep -oE 'export \{ [A-Z][A-Za-z]+' packages/react/src/index.ts | sort -u) \
+     <(grep -oE 'export \{ [A-Z][A-Za-z]+' packages/solid/src/index.ts | sort -u)
+```
+
+When porting, port behaviour rather than syntax, and mirror the React API —
+see LOOPS.md rule XXXVI. Solid's `PopoverContent` once accepted only
+`class`/`children` while React's forwarded everything, which silently dropped
+`style` and clipped the NotificationsInbox panel. That class of bug is what
+parity prevents.
+
+## Demo conventions
+
+Each binding has one `src/nav.ts` — the single source of truth for **both** the
+sidebar and the landing-page catalogue. Adding a component means: add it to
+`nav.ts`, add its `<Route>`. Nothing else. (They were previously two hand-kept
+lists and drifted 16 entries apart.)
+
+## Theming
+
+Override `--zen-*` custom properties; that is the whole public theming surface.
+Three built-in themes via `data-theme`: `default`, `zen-theme`, `dark`. Token
+reference is in the [README](README.md#token-reference).
+
+## Other references
+
+- [docs/fiori-gap-analysis.md](docs/fiori-gap-analysis.md) — component gaps vs SAP Fiori, tiered with a build shortlist.
+- [docs/rp-shadcn-radix-gap.md](docs/rp-shadcn-radix-gap.md) — the shadcn/Radix migration rubric.
+- [todo.md](todo.md) — deferred-work tracker.

@@ -26,7 +26,10 @@ export const NAV: NavGroup[] = [
     // link to it, unlike the React demo. Mirrors React's "Getting started".
     group: "Getting started",
     catalogue: false,
-    items: [{ label: "Welcome", path: "/" }],
+    items: [
+      { label: "Welcome", path: "/" },
+      { label: "Customizing", path: "/customizing" },
+    ],
   },
   {
     group: "Primitives",

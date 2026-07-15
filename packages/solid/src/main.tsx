@@ -86,6 +86,7 @@ import NewViewSettingsDemo from "./components/NewViewSettingsDemo";
 import NewFilterBarDemo from "./components/NewFilterBarDemo";
 import NewPageHeaderDemo from "./components/NewPageHeaderDemo";
 import NewStatCardDemo from "./components/NewStatCardDemo";
+import NewCustomizingDemo from "./components/NewCustomizingDemo";
 
 applyTheme(getInitialTheme());
 
@@ -171,6 +172,7 @@ render(
       <Route path="/filter-bar" component={NewFilterBarDemo} />
       <Route path="/page-header" component={NewPageHeaderDemo} />
       <Route path="/stat-card" component={NewStatCardDemo} />
+      <Route path="/customizing" component={NewCustomizingDemo} />
     </Router>
   ),
   root,

@@ -27,6 +27,7 @@ export const NAV: NavGroup[] = [
     catalogue: false,
     items: [
       { to: "/", label: "Welcome" },
+      { to: "/customizing", label: "Customizing" },
     ],
   },
   {

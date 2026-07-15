@@ -13,6 +13,15 @@ const COMPONENT_COUNT = NAV.filter((g) => g.catalogue !== false).reduce(
   (n, g) => n + g.items.length,
   0,
 );
+
+/**
+ * The root site, one level up from this demo's own base — derived, not "/".
+ * The demo is mounted at /builder-solid/ under `dev:all` and at
+ * /zen-ui/builder-solid/ on GH-Pages, and the way out has to land on the right
+ * root in both. Hardcoding "/" would walk out of the deployment entirely.
+ */
+const ROOT_URL = new URL("..", new URL(import.meta.env.BASE_URL, window.location.origin))
+  .pathname;
 import "./App.css";
 
 /**
@@ -99,6 +108,11 @@ const App: Component<ParentProps> = (props) => {
           </div>
         </div>
         <div class="app-header-actions">
+          {/* A real anchor, not the router's <A>: this leaves the SPA for the
+              root site, so the router must not intercept it. */}
+          <a class="app-home-link" href={ROOT_URL}>
+            <span aria-hidden="true">←</span> All demos
+          </a>
           <label style={{
             display: "inline-flex",
             "align-items": "center",

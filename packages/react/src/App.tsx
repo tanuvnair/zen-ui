@@ -14,6 +14,15 @@ const COMPONENT_COUNT = NAV.filter((g) => g.catalogue !== false).reduce(
   0,
 );
 
+/**
+ * The root site, one level up from this demo's own base — derived, not "/".
+ * The demo is mounted at /builder/ under `dev:all` and at /zen-ui/builder/ on
+ * GH-Pages, and the way out has to land on the right root in both. Hardcoding
+ * "/" would walk out of the deployment entirely.
+ */
+const ROOT_URL = new URL("..", new URL(import.meta.env.BASE_URL, window.location.origin))
+  .pathname;
+
 import Welcome from "./components/Welcome";
 import ThemeSwitcher from "./components/theme-switcher";
 
@@ -186,6 +195,11 @@ const App: React.FC = () => {
           </div>
         </div>
         <div className="app-header-actions">
+          {/* A real anchor: this leaves the SPA for the root site, so the
+              router must not intercept it. */}
+          <a className="app-home-link" href={ROOT_URL}>
+            <span aria-hidden>←</span> All demos
+          </a>
           <ThemeSwitcher />
         </div>
       </header>

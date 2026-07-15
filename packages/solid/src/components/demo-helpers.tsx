@@ -20,7 +20,24 @@ export const DemoPage = (props: ParentProps<{ title: string; description?: strin
 );
 
 export const DemoSection = (
-  props: ParentProps<{ title: string; description?: string }>,
+  props: ParentProps<{
+    title: string;
+    description?: string;
+    /**
+     * Snippet that produced `children`. When given, the children render as the
+     * live preview of a CodeExample card (heading + copyable code block) rather
+     * than as a bare row — matching how the React demos pair every section with
+     * its source. Omit it and the section keeps the plain-row layout the
+     * pre-existing demos rely on.
+     */
+    code?: string;
+    /** CodeExample heading. Defaults to the section title. */
+    codeTitle?: string;
+    /** CodeExample sub-caption, shown under the heading. */
+    codeDescription?: string;
+    /** Override the preview area's layout (e.g. to use grid). */
+    previewStyle?: JSX.CSSProperties;
+  }>,
 ) => (
   <section class="demo-section">
     <h2>{props.title}</h2>
@@ -35,16 +52,32 @@ export const DemoSection = (
         {props.description}
       </p>
     </Show>
-    <div
-      style={{
-        display: "flex",
-        "flex-wrap": "wrap",
-        gap: "0.5rem",
-        "align-items": "center",
-      }}
+    <Show
+      when={props.code}
+      fallback={
+        <div
+          style={{
+            display: "flex",
+            "flex-wrap": "wrap",
+            gap: "0.5rem",
+            "align-items": "center",
+          }}
+        >
+          {props.children}
+        </div>
+      }
     >
-      {props.children}
-    </div>
+      {(code) => (
+        <CodeExample
+          title={props.codeTitle ?? props.title}
+          description={props.codeDescription}
+          code={code()}
+          previewStyle={props.previewStyle}
+        >
+          {props.children}
+        </CodeExample>
+      )}
+    </Show>
   </section>
 );
 

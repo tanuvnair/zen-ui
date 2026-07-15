@@ -224,7 +224,7 @@ const Viewfinder = () => (
     viewBox="0 0 100 100"
     preserveAspectRatio="none"
     class="zen-pointer-events-none zen-absolute zen-inset-0 zen-h-full zen-w-full"
-    aria-hidden
+    aria-hidden="true"
   >
     <g
       stroke="white"

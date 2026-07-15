@@ -70,7 +70,7 @@ export const BannerIcon = (props: SpanProps) => {
   const [local, rest] = splitProps(props, ["class", "children"]);
   return (
     <span
-      aria-hidden
+      aria-hidden="true"
       class={cn("zen-flex-shrink-0 zen-inline-flex zen-items-center", local.class)}
       {...rest}
     >
@@ -149,7 +149,7 @@ export const BannerClose = (props: BannerCloseProps) => {
         stroke-width="2.5"
         stroke-linecap="round"
         stroke-linejoin="round"
-        aria-hidden
+        aria-hidden="true"
       >
         <line x1="18" y1="6" x2="6" y2="18" />
         <line x1="6" y1="6" x2="18" y2="18" />

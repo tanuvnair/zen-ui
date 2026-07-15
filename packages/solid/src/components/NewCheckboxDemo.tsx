@@ -9,21 +9,49 @@ const NewCheckboxDemo = () => {
       title="Checkbox"
       description="Three-state checkbox (off / on / indeterminate) built on Kobalte Checkbox."
     >
-      <DemoSection title="Sizes">
+      <DemoSection
+        title="Sizes"
+        codeTitle="sm · md · lg"
+        codeDescription="`label` renders an inline Kobalte label to the right of the box — no wrapping <label> needed."
+        code={`<Checkbox size="sm" defaultChecked label="Small" />
+<Checkbox size="md" defaultChecked label="Medium" />
+<Checkbox size="lg" defaultChecked label="Large" />`}
+      >
         <Checkbox size="sm" defaultChecked label="Small" />
         <Checkbox size="md" defaultChecked label="Medium" />
         <Checkbox size="lg" defaultChecked label="Large" />
       </DemoSection>
 
-      <DemoSection title="Controlled">
+      <DemoSection
+        title="Controlled"
+        codeTitle="checked + onChange"
+        codeDescription="onChange hands you a plain boolean, so a setter can be passed straight through. Drop `checked` and use `defaultChecked` to go uncontrolled."
+        code={`const [a, setA] = createSignal(false);
+
+<Checkbox
+  checked={a()}
+  onChange={setA}
+  label={a() ? "Checked" : "Unchecked"}
+/>`}
+      >
         <Checkbox checked={a()} onChange={setA} label={a() ? "Checked" : "Unchecked"} />
       </DemoSection>
 
-      <DemoSection title="Indeterminate">
+      <DemoSection
+        title="Indeterminate"
+        codeTitle="indeterminate is a first-class prop"
+        codeDescription="Kobalte exposes indeterminate alongside checked, so the third state needs no DOM ref-poking. Typical use: a parent 'select all' box driven by how many children are ticked."
+        code={`<Checkbox indeterminate label="Select all" />`}
+      >
         <Checkbox indeterminate label="Select all" />
       </DemoSection>
 
-      <DemoSection title="Disabled">
+      <DemoSection
+        title="Disabled"
+        codeTitle="disabled prop, checked or unchecked"
+        code={`<Checkbox disabled label="Off (disabled)" />
+<Checkbox defaultChecked disabled label="On (disabled)" />`}
+      >
         <Checkbox disabled label="Off (disabled)" />
         <Checkbox defaultChecked disabled label="On (disabled)" />
       </DemoSection>

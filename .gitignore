@@ -34,6 +34,14 @@ dist-demo
 
 # Markdown documentation files
 *.md
+# Root *.md is ignored by default with a curated allowlist below.
+# CLAUDE.md is the repo's engineering contract for agents and humans (it points
+# at LOOPS.md); both are team documentation, not personal scratch, so they are
+# allowlisted. Revert these two lines if the intent was to keep them local —
+# note that CLAUDE.md must live at the repo root to be picked up automatically,
+# so it cannot simply move under docs/.
+!CLAUDE.md
+!LOOPS.md
 !DEV_GUIDE.md
 !docs/**/*.md
 !todo.md
@@ -47,3 +55,4 @@ vite.config.http.ts
 
 # npm configuration (contains tokens)
 .npmrc
+.visual/

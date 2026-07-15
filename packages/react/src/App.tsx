@@ -60,6 +60,11 @@ import NewChartDemo from "./components/NewChartDemo";
 import NewRichTextDemo from "./components/NewRichTextDemo";
 import NewMapDemo from "./components/NewMapDemo";
 import NewCameraDemo from "./components/NewCameraDemo";
+import NewIconDemo from "./components/NewIconDemo";
+import NewObjectDemo from "./components/NewObjectDemo";
+import NewButtonFamilyDemo from "./components/NewButtonFamilyDemo";
+import NewTreeDemo from "./components/NewTreeDemo";
+import NewToolbarDemo from "./components/NewToolbarDemo";
 import { Toaster } from "./components/toast/toaster";
 
 /**
@@ -223,6 +228,11 @@ const App: React.FC = () => {
             <Route path="/rich-text" element={<NewRichTextDemo />} />
             <Route path="/map" element={<NewMapDemo />} />
             <Route path="/camera" element={<NewCameraDemo />} />
+            <Route path="/icon" element={<NewIconDemo />} />
+            <Route path="/object" element={<NewObjectDemo />} />
+            <Route path="/button-family" element={<NewButtonFamilyDemo />} />
+            <Route path="/tree" element={<NewTreeDemo />} />
+            <Route path="/toolbar" element={<NewToolbarDemo />} />
           </Routes>
         </main>
       </div>

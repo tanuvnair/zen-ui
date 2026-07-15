@@ -11,7 +11,18 @@ const NewQRScannerDemo = () => {
       title="QRScanner"
       description="Camera-based QR / barcode scanner via the native BarcodeDetector API. Click Start to request camera permission."
     >
-      <DemoSection title="Default (QR only, environment camera)">
+      <DemoSection
+        title="Default (QR only, environment camera)"
+        codeTitle="paused stops the camera tracks; flip it false to start"
+        code={`const [paused, setPaused] = createSignal(true);
+const [scan, setScan] = createSignal<QRScannerScan | null>(null);
+
+<QRScanner paused={paused()} onScan={(s) => setScan(s)} />
+<Button size="sm" variant="outline" onClick={() => setPaused((p) => !p)}>
+  {paused() ? "Start scanning" : "Pause"}
+</Button>
+<div>Last scan: {scan()?.rawValue ?? "—"}</div>`}
+      >
         <div class="zen-flex zen-flex-col zen-gap-3 zen-max-w-sm zen-w-full">
           <div style={{ width: "240px" }}>
             <QRScanner paused={paused()} onScan={(s) => setScan(s)} />

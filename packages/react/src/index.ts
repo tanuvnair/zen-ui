@@ -159,6 +159,35 @@ export type {
   AvatarSize,
 } from "./components/avatar/avatar";
 
+// Toolbar (Fiori-shaped: actions collapse into an overflow menu)
+export { Toolbar } from "./components/toolbar/toolbar";
+export type { ToolbarProps, ToolbarAction } from "./components/toolbar/toolbar";
+
+// Tree (Fiori-shaped; also zen-ui's first tree of any kind)
+export { Tree } from "./components/tree/tree";
+export type { TreeProps, TreeNode } from "./components/tree/tree";
+
+// Object atoms (Fiori-shaped: ObjectStatus / Number / Identifier / Marker)
+export {
+  ObjectStatus,
+  ObjectNumber,
+  ObjectIdentifier,
+  ObjectMarker,
+  objectStatusVariants,
+} from "./components/object/object";
+export type {
+  ObjectStatusProps,
+  ObjectNumberProps,
+  ObjectIdentifierProps,
+  ObjectMarkerProps,
+  ObjectState,
+  ObjectMarkerType,
+} from "./components/object/object";
+
+// UI Components - Icon (zen-ui icon set; geometry shared with the Solid binding)
+export { Icon, ZEN_ICON_NAMES } from "./components/icon/icon";
+export type { IconProps, IconName } from "./components/icon/icon";
+
 // UI Components - Badge (shadcn-style; no Radix primitive)
 export { Badge, badgeVariants } from "./components/badge/badge";
 export type { BadgeProps } from "./components/badge/badge";
@@ -185,6 +214,20 @@ export type { SkeletonProps } from "./components/skeleton/skeleton";
 
 // UI Components - ScrollArea (Radix-backed)
 export { ScrollArea, ScrollBar } from "./components/scroll-area/scroll-area";
+
+// Button family (Fiori-shaped: ToggleButton / SegmentedButton / SplitButton)
+export {
+  ToggleButton,
+  SegmentedButton,
+  SegmentedButtonItem,
+  SplitButton,
+} from "./components/button/button-family";
+export type {
+  ToggleButtonProps,
+  SegmentedButtonProps,
+  SegmentedButtonItemProps,
+  SplitButtonProps,
+} from "./components/button/button-family";
 
 // UI Components - Button (shadcn/radix-style)
 export { Button, buttonVariants } from "./components/button/button";

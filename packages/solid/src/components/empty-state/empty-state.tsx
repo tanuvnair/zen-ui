@@ -78,7 +78,7 @@ export const EmptyStateIcon = (props: DivProps) => {
   const [local, rest] = splitProps(props, ["class", "children"]);
   return (
     <div
-      aria-hidden
+      aria-hidden="true"
       class={cn(
         "zen-inline-flex zen-items-center zen-justify-center",
         "zen-h-12 zen-w-12 zen-rounded-zen-full zen-bg-zen-muted zen-text-zen-muted-fg",

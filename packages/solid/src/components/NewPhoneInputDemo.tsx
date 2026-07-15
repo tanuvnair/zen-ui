@@ -9,7 +9,17 @@ const NewPhoneInputDemo = () => {
       title="PhoneInput"
       description="Country dial-code Select composed with a tel Input."
     >
-      <DemoSection title="Controlled">
+      <DemoSection
+        title="Controlled"
+        codeTitle="value = { country, number }"
+        code={`const [phone, setPhone] = createSignal<PhoneValue>({
+  country: "+91",
+  number: "",
+});
+
+<PhoneInput value={phone()} onValueChange={setPhone} />
+<div>Value: {phone().country} {phone().number || "—"}</div>`}
+      >
         <div class="zen-w-full zen-max-w-md">
           <PhoneInput value={phone()} onValueChange={setPhone} />
           <div class="zen-text-xs zen-text-zen-muted-fg zen-mt-2">

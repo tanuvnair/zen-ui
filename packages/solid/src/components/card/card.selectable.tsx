@@ -24,7 +24,12 @@ import { cn } from "../../lib/cn";
  * idiom across the rest of the binding. Both forms are accepted.
  */
 
-export type SelectableCardGroupProps = {
+// `onChange` is omitted from the DOM attributes: this group reports the new
+// value string directly, which collides with the DOM's change event.
+export type SelectableCardGroupProps = Omit<
+  JSX.HTMLAttributes<HTMLDivElement>,
+  "class" | "children" | "onChange"
+> & {
   value?: string;
   defaultValue?: string;
   onChange?: (value: string) => void;
@@ -39,7 +44,7 @@ export type SelectableCardGroupProps = {
 };
 
 export const SelectableCardGroup = (props: SelectableCardGroupProps) => {
-  const [local] = splitProps(props, [
+  const [local, rest] = splitProps(props, [
     "value",
     "defaultValue",
     "onChange",
@@ -53,6 +58,7 @@ export const SelectableCardGroup = (props: SelectableCardGroupProps) => {
   ]);
   return (
     <KRadioGroup
+      {...rest}
       value={local.value}
       defaultValue={local.defaultValue}
       onChange={(v) => {
@@ -70,7 +76,10 @@ export const SelectableCardGroup = (props: SelectableCardGroupProps) => {
   );
 };
 
-export type SelectableCardProps = {
+export type SelectableCardProps = Omit<
+  JSX.HTMLAttributes<HTMLDivElement>,
+  "class" | "children"
+> & {
   value: string;
   title?: JSX.Element;
   icon?: JSX.Element;
@@ -83,7 +92,7 @@ export type SelectableCardProps = {
 };
 
 export const SelectableCard = (props: SelectableCardProps) => {
-  const [local] = splitProps(props, [
+  const [local, rest] = splitProps(props, [
     "value",
     "title",
     "icon",
@@ -94,6 +103,7 @@ export const SelectableCard = (props: SelectableCardProps) => {
   ]);
   return (
     <KRadioGroup.Item
+      {...rest}
       value={local.value}
       disabled={local.disabled}
       class={cn(
@@ -117,7 +127,7 @@ export const SelectableCard = (props: SelectableCardProps) => {
         <div class="zen-flex zen-items-start zen-gap-3">
           {local.icon ? (
             <span
-              aria-hidden
+              aria-hidden="true"
               class={cn(
                 "zen-inline-flex zen-items-center zen-justify-center zen-flex-shrink-0",
                 "zen-h-8 zen-w-8 zen-rounded-zen-sm",
@@ -163,7 +173,7 @@ export const SelectableCard = (props: SelectableCardProps) => {
             stroke-width="3"
             stroke-linecap="round"
             stroke-linejoin="round"
-            aria-hidden
+            aria-hidden="true"
           >
             <polyline points="20 6 9 17 4 12" />
           </svg>

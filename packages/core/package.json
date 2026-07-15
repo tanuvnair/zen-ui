@@ -10,7 +10,8 @@
     "./theme": "./src/theme.ts",
     "./uno-preset": "./src/uno-preset.ts",
     "./tokens.css": "./styles/tokens.css",
-    "./preflight.css": "./styles/preflight.css"
+    "./preflight.css": "./styles/preflight.css",
+    "./icons": "./src/icons.ts"
   },
   "files": [
     "src",

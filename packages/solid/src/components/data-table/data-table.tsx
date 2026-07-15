@@ -373,7 +373,7 @@ export function DataTable<TData, TValue = unknown>(rawProps: DataTableProps<TDat
               row.getIsExpanded() && "zen-rotate-90",
             )}
           >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <polyline points="9 6 15 12 9 18" />
             </svg>
           </button>
@@ -726,7 +726,7 @@ export function DataTable<TData, TValue = unknown>(rawProps: DataTableProps<TDat
               row.getIsExpanded() && "zen-rotate-90",
             )}
           >
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <polyline points="9 6 15 12 9 18" />
             </svg>
           </button>
@@ -1037,7 +1037,7 @@ function BulkActionBar<TData>(props: {
                   "focus-visible:zen-outline-none focus-visible:zen-ring-1 focus-visible:zen-ring-zen-ring",
                 )}
               >
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <line x1="18" y1="6" x2="6" y2="18" />
                   <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
@@ -1152,7 +1152,7 @@ function Chip(props: { label: string; onRemove: () => void }) {
           "focus-visible:zen-outline-none focus-visible:zen-ring-1 focus-visible:zen-ring-zen-ring",
         )}
       >
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden>
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <line x1="18" y1="6" x2="6" y2="18" />
           <line x1="6" y1="6" x2="18" y2="18" />
         </svg>
@@ -1565,7 +1565,7 @@ function DragHandle(props: { id: string }) {
         "focus-visible:zen-outline-none focus-visible:zen-ring-2 focus-visible:zen-ring-zen-ring",
       )}
     >
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <circle cx="9" cy="6" r="1.6" />
         <circle cx="15" cy="6" r="1.6" />
         <circle cx="9" cy="12" r="1.6" />
@@ -1654,7 +1654,7 @@ function HeaderCell<TData, TValue>(props: {
           <SortIndicator state={sorted()} />
           <Show when={sortIndex() !== null}>
             <span
-              aria-hidden
+              aria-hidden="true"
               class="zen-text-[1rem] zen-font-semibold zen-text-zen-muted-fg zen-ml-0.5"
               title={`Sort priority ${sortIndex()}`}
             >
@@ -1774,7 +1774,7 @@ function SortIndicator(props: { state: false | "asc" | "desc" }) {
     <Show
       when={props.state}
       fallback={
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="zen-opacity-30" aria-hidden>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="zen-opacity-30" aria-hidden="true">
           <polyline points="8 9 12 5 16 9" />
           <polyline points="16 15 12 19 8 15" />
         </svg>
@@ -1784,12 +1784,12 @@ function SortIndicator(props: { state: false | "asc" | "desc" }) {
         <Show
           when={state() === "asc"}
           fallback={
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <polyline points="6 9 12 15 18 9" />
             </svg>
           }
         >
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="18 15 12 9 6 15" />
           </svg>
         </Show>

@@ -19,7 +19,29 @@ const NewMultiComboboxDemo = () => {
       title="MultiCombobox"
       description="Searchable multi-select with removable chips."
     >
-      <DemoSection title="Controlled">
+      <DemoSection
+        title="Controlled"
+        codeTitle="value as string[] + onValueChange"
+        codeDescription="Selected options render as removable chips in the trigger; picking an option in the popover toggles it instead of closing."
+        code={`const SKILLS = [
+  { value: "ts", label: "TypeScript" },
+  { value: "rs", label: "Rust" },
+  { value: "go", label: "Go" },
+];
+
+const [picks, setPicks] = createSignal<string[]>([]);
+
+<MultiCombobox
+  options={SKILLS}
+  value={picks()}
+  onValueChange={setPicks}
+  placeholder="Pick some skills"
+/>
+
+<div class="zen-text-xs zen-text-zen-muted-fg">
+  Picked: {picks().join(", ") || "—"}
+</div>`}
+      >
         <MultiCombobox
           options={SKILLS}
           value={picks()}

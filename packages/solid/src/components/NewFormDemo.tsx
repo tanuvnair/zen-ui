@@ -46,9 +46,84 @@ const NewFormDemo = () => {
       title="Form + BoundFields"
       description="Compound primitives + config-driven Bound* adapters on top of @modular-forms/solid + Zod."
     >
-      <DemoSection title="BoundFields — config-driven form">
+      <DemoSection
+        title="BoundFields — config-driven form"
+        codeTitle="Each Bound* adapter renders label + control + error from one line"
+        codeDescription="Pass the form store as `of` and modular-forms' Field component as `Field`. The adapters read `field.error`, so any validator you wire into createForm({ validate }) surfaces automatically."
+        code={`const [form, { Form: MForm, Field }] = createForm<SignUpValues>();
+
+<Form>
+  <MForm onSubmit={(values) => setSubmitted(values)}>
+    <BoundInput
+      of={form}
+      Field={Field}
+      name="name"
+      label="Name"
+      required
+      placeholder="Ada Lovelace"
+    />
+    <BoundInput
+      of={form}
+      Field={Field}
+      name="email"
+      label="Email"
+      required
+      type="email"
+      placeholder="ada@algorisys.com"
+    />
+    <BoundTextarea
+      of={form}
+      Field={Field}
+      name="bio"
+      label="Bio"
+      description="A short tagline."
+      rows={3}
+    />
+    <BoundSelect
+      of={form}
+      Field={Field}
+      name="plan"
+      label="Plan"
+      required
+      options={[
+        { value: "free", label: "Free" },
+        { value: "pro", label: "Pro" },
+        { value: "enterprise", label: "Enterprise" },
+      ]}
+      placeholder="Choose"
+    />
+    <BoundRadioGroup
+      of={form}
+      Field={Field}
+      name="preferred"
+      label="Preferred contact"
+      required
+      orientation="horizontal"
+      options={[
+        { value: "email", label: "Email" },
+        { value: "phone", label: "Phone" },
+        { value: "sms", label: "SMS" },
+      ]}
+    />
+    <BoundCheckbox
+      of={form}
+      Field={Field}
+      name="newsletter"
+      inlineLabel="Subscribe to the newsletter"
+    />
+    <BoundSwitch
+      of={form}
+      Field={Field}
+      name="marketing"
+      inlineLabel="Receive marketing updates"
+    />
+    <Button type="submit">Submit</Button>
+  </MForm>
+</Form>`}
+      >
         <Form class="zen-w-full zen-max-w-md">
           <MForm
+            class="zen-space-y-4"
             onSubmit={(values) => setSubmitted(values as SignUpValues)}
           >
             <BoundInput
@@ -126,9 +201,37 @@ const NewFormDemo = () => {
         </Show>
       </DemoSection>
 
-      <DemoSection title="Compound API — FormField / FormItem / FormLabel / FormControl / FormMessage">
+      <DemoSection
+        title="Compound API — FormField / FormItem / FormLabel / FormControl / FormMessage"
+        codeTitle="Drop to the primitives when a field needs custom markup"
+        codeDescription="FormField's children get (field, fieldProps) — spread fieldProps onto your control. FormItem wires the id/aria links, and FormMessage renders field.error on its own."
+        code={`const [form, { Form: MForm, Field }] = createForm<{ email: string }>();
+
+<Form>
+  <MForm onSubmit={(values) => alert(\`Submitted: \${values.email}\`)}>
+    <FormField of={form} Field={Field} name="email">
+      {(_field, fieldProps) => (
+        <FormItem>
+          <FormLabel>Email</FormLabel>
+          <FormControl>
+            <Input
+              type="email"
+              placeholder="you@algorisys.com"
+              {...fieldProps}
+            />
+          </FormControl>
+          <FormDescription>We'll never share it.</FormDescription>
+          <FormMessage />
+        </FormItem>
+      )}
+    </FormField>
+    <Button type="submit">Save</Button>
+  </MForm>
+</Form>`}
+      >
         <Form class="zen-w-full zen-max-w-md">
           <MForm2
+            class="zen-space-y-4"
             onSubmit={(values) => alert(`Submitted: ${values.email}`)}
           >
             <FormField of={form2} Field={Field2} name="email">

@@ -146,4 +146,23 @@ export const NAV: NavGroup[] = [
       { label: "NotificationsInbox", path: "/notifications-inbox", description: "Bell + popover panel; day-grouped feed with unread badge" },
     ],
   },
+  {
+    group: "Heavy / optional (lazy peer deps)",
+    items: [
+      { label: "Chart", path: "/chart", description: "Line / bar / area charts; dependency-free SVG in the Solid binding" },
+      { label: "RichText", path: "/rich-text", description: "Lazy-loaded WYSIWYG editor; jodit is an optional peer dep" },
+      { label: "Map", path: "/map", description: "Lazy-loaded map with markers; leaflet is an optional peer dep" },
+      { label: "Camera", path: "/camera", description: "Camera capture via getUserMedia; no peer dep" },
+    ],
+  },
+  {
+    group: "Fiori-shaped",
+    items: [
+      { label: "Icon", path: "/icon", description: "zen-ui icon set (48 glyphs); inherits text colour, decorative by default" },
+      { label: "Object atoms", path: "/object", description: "ObjectStatus / ObjectNumber / ObjectIdentifier / ObjectMarker" },
+      { label: "Button family", path: "/button-family", description: "ToggleButton, SegmentedButton, SplitButton" },
+      { label: "Toolbar", path: "/toolbar", description: "Actions that collapse into an overflow menu when they do not fit" },
+      { label: "Tree", path: "/tree", description: "Hierarchical expandable list with full ARIA keyboard navigation" },
+    ],
+  },
 ];

@@ -166,7 +166,16 @@ export const SidebarMenu = React.forwardRef<
   HTMLUListElement,
   React.ComponentPropsWithoutRef<"ul">
 >(({ className, ...props }, ref) => (
-  <ul ref={ref} className={cn("zen-flex zen-w-full zen-flex-col zen-gap-0.5", className)} {...props} />
+  // The list reset is the component's own job: zen-ui ships no element reset
+  // (it is opt-in via /preflight), so without this the browser default
+  // `list-style: disc` + `padding-inline-start: 40px` apply. That 40px ate the
+  // collapsed rail — 64px wide, less 16px of padding, less 40px, left 8px of
+  // room for a 16px icon.
+  <ul
+    ref={ref}
+    className={cn("zen-m-0 zen-flex zen-w-full zen-list-none zen-flex-col zen-gap-0.5 zen-p-0", className)}
+    {...props}
+  />
 ));
 SidebarMenu.displayName = "SidebarMenu";
 
@@ -200,7 +209,10 @@ export const SidebarMenuButton = React.forwardRef<
         "hover:zen-bg-zen-muted focus-visible:zen-outline-none focus-visible:zen-ring-2 focus-visible:zen-ring-zen-ring focus-visible:zen-ring-offset-2",
         "[&>svg]:zen-size-4 [&>svg]:zen-shrink-0",
         active && "zen-bg-zen-primary-soft zen-text-zen-primary-soft-fg",
-        collapsed && "zen-justify-center zen-px-0 [&>span]:zen-hidden",
+        // sr-only, not hidden: `display: none` drops the label out of the
+        // accessibility tree, which left a collapsed rail as a column of
+        // buttons with no accessible name at all. Matches SidebarGroupLabel.
+        collapsed && "zen-relative zen-justify-center zen-px-0 [&>span]:zen-sr-only",
         className,
       )}
       {...props}

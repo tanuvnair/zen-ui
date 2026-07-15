@@ -24,6 +24,30 @@ traces, and deleting the harness. Tier 5 (XXIII–XXVI) covers the traceability
 that makes a long unattended run recoverable: changelog, `IMPLEMENT.md`
 tracking, and keeping state resumable.
 
+**Read [slop.md](slop.md) as part of reviewing any UI you build or change.**
+LOOPS.md governs whether the code is correct; slop.md governs whether the
+design is *chosen*. It is the anti-slop design law — the catalogue of
+generic, made-by-default interface moves (blue-to-purple gradients, the
+icon-in-a-tinted-tile, glowy pill buttons, the hero stack with a panel on the
+right, the off-the-shelf Google font carrying the brand) plus what the premium
+version of each actually looks like. Walk it point by point *before* calling UI
+work done, not after.
+
+Two notes on applying it here, because it is written for whole brands and this
+is a component library:
+
+- **Scope.** It bites hardest on [apps/landing](apps/landing) and on demo
+  pages, which are compositions someone reads as a page. For a primitive, the
+  live entries are the execution ones — centre what you meant to centre and
+  prove it, clear the cut, no default all-around shadow, no glow, real
+  contrast, no dead controls, and never hide content behind an entrance
+  animation.
+- **Its "no em dash" rule is about marketing prose, and this repo's docs,
+  comments and commit messages deliberately use them.** Do not sweep them out
+  of engineering writing on slop.md's authority. Where slop.md and a direct
+  instruction from the user conflict, slop.md says the user wins — that applies
+  to the conventions already established in this repo too.
+
 ## Commands
 
 Run from the repo root (Bun workspaces; Node 22.12.0 via `.nvmrc`):
@@ -183,6 +207,7 @@ reference is in the [README](README.md#token-reference).
 
 ## Other references
 
+- [slop.md](slop.md) — the anti-slop design law. Part of reviewing any UI; see [Development guidelines](#development-guidelines) for how it applies to a component library.
 - [docs/fiori-gap-analysis.md](docs/fiori-gap-analysis.md) — component gaps vs SAP Fiori, tiered with a build shortlist.
 - [docs/rp-shadcn-radix-gap.md](docs/rp-shadcn-radix-gap.md) — the shadcn/Radix migration rubric.
 - [todo.md](todo.md) — deferred-work tracker.

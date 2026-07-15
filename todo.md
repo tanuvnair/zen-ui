@@ -541,3 +541,47 @@ unlock the bulk of CRM/ERP use cases:
 
 The rest in this section is half-day or less per item; these two are
 the 1–2-day builds where the depth investment shows up.
+
+---
+
+## Fiori work — queued (2026-07-15)
+
+Tracked against `docs/fiori-gap-analysis.md`. Tier numbering is that doc's.
+
+**Done, both bindings**: icon set (48), Object atoms, Button family, Tree,
+Toolbar (overflow), Page, Bar.
+
+- [ ] **Global search across the demo** (requested) — a Cmd/Ctrl-K command
+      palette over every route. Natural fit: `Command` now exists in both
+      bindings, and `src/nav.ts` is already the single source of truth for the
+      sidebar AND the landing catalogue, so the palette can render from it with
+      no third list to drift. Must land in React AND Solid per the parity rule.
+- [ ] **Tier 1 — app frame** (in progress): ShellBar, FlexibleColumnLayout,
+      DynamicPage (snapping header), ObjectPageLayout (scroll-spy anchors).
+      This is what actually makes an app read as Fiori.
+- [ ] **Tier 3 — table ecosystem**: FilterBar, VariantManagement, p13n dialog,
+      ValueHelp, SelectDialog, ViewSettingsDialog, AnalyticalTable, TreeTable,
+      spreadsheet export. DataTable has the mechanics; these are the surrounding
+      dialogs, and most only make sense with a persistence story behind them —
+      decide that first.
+- [ ] **Tier 4 — NOT RECOMMENDED**: Smart controls, micro charts, launchpad
+      tiles, planning calendars, floorplans. The gap analysis recommends against
+      building these: they encode SAP's backend, OData annotations and
+      Launchpad, not a design language. Revisit only if targeting real SAP
+      integration.
+
+### Known-latent, found while porting
+
+- [ ] Checkbox, RadioGroupItem and Select land a caller's `id` on the wrapper
+      rather than the native control, so `<label for>` will not associate —
+      Kobalte derives sub-part ids from the root. Same class as the Switch bug
+      already fixed.
+- [ ] Solid lint: 57 findings on its first-ever run (33 `solid/reactivity`,
+      4 `solid/no-destructure` in data-table). These silently break reactivity
+      and are invisible to tsc and the build. Fixing them changes runtime
+      behaviour, so it deserves its own commit.
+- [ ] Demo section-count gap: React has ~305 code examples to Solid's 158,
+      because Solid's demos have genuinely fewer SECTIONS. Closing it means
+      adding sections, not snippets.
+- [ ] `Toast` is the last export gap: React wraps Radix Toast primitives, Solid
+      uses solid-toast. A real API divergence — converge or accept it.

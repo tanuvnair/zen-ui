@@ -75,6 +75,7 @@ import NewIconDemo from "./components/NewIconDemo";
 import NewObjectDemo from "./components/NewObjectDemo";
 import NewButtonFamilyDemo from "./components/NewButtonFamilyDemo";
 import NewTreeDemo from "./components/NewTreeDemo";
+import NewToolbarDemo from "./components/NewToolbarDemo";
 
 applyTheme(getInitialTheme());
 
@@ -146,6 +147,7 @@ render(
       <Route path="/object" component={NewObjectDemo} />
       <Route path="/button-family" component={NewButtonFamilyDemo} />
       <Route path="/tree" component={NewTreeDemo} />
+      <Route path="/toolbar" component={NewToolbarDemo} />
     </Router>
   ),
   root,

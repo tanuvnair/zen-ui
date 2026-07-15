@@ -99,7 +99,7 @@ export const AlertIcon = (props: SpanProps) => {
   const [local, rest] = splitProps(props, ["class", "children"]);
   return (
     <span
-      aria-hidden
+      aria-hidden="true"
       class={cn("zen-shrink-0 zen-inline-flex zen-items-center zen-justify-center zen-mt-0.5", local.class)}
       {...rest}
     >
@@ -166,7 +166,7 @@ export const AlertClose = (props: AlertCloseProps) => {
       )}
       {...rest}
     >
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <line x1="18" y1="6" x2="6" y2="18" />
         <line x1="6" y1="6" x2="18" y2="18" />
       </svg>

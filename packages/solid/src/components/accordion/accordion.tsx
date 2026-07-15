@@ -124,7 +124,7 @@ export const AccordionTrigger = (props: AccordionTriggerProps) => {
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          aria-hidden
+          aria-hidden="true"
         >
           <polyline points="6 9 12 15 18 9" />
         </svg>

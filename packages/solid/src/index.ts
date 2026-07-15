@@ -38,6 +38,9 @@ export type {
 } from "./components/button/button-family";
 export type { ButtonProps } from "./components/button/button";
 
+export { Toolbar } from "./components/toolbar/toolbar";
+export type { ToolbarProps, ToolbarAction } from "./components/toolbar/toolbar";
+
 export { Tree } from "./components/tree/tree";
 export type { TreeProps, TreeNode } from "./components/tree/tree";
 

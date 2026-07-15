@@ -170,7 +170,7 @@ export const Likert = (props: LikertProps) => {
                   )}
                 >
                   <span
-                    aria-hidden
+                    aria-hidden="true"
                     class={cn(
                       "zen-inline-flex zen-items-center zen-justify-center",
                       "zen-h-4 zen-w-4 zen-rounded-zen-full zen-border",

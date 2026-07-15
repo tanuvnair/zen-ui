@@ -64,6 +64,7 @@ import NewIconDemo from "./components/NewIconDemo";
 import NewObjectDemo from "./components/NewObjectDemo";
 import NewButtonFamilyDemo from "./components/NewButtonFamilyDemo";
 import NewTreeDemo from "./components/NewTreeDemo";
+import NewToolbarDemo from "./components/NewToolbarDemo";
 import { Toaster } from "./components/toast/toaster";
 
 /**
@@ -231,6 +232,7 @@ const App: React.FC = () => {
             <Route path="/object" element={<NewObjectDemo />} />
             <Route path="/button-family" element={<NewButtonFamilyDemo />} />
             <Route path="/tree" element={<NewTreeDemo />} />
+            <Route path="/toolbar" element={<NewToolbarDemo />} />
           </Routes>
         </main>
       </div>

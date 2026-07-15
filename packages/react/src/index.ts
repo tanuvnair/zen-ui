@@ -159,6 +159,10 @@ export type {
   AvatarSize,
 } from "./components/avatar/avatar";
 
+// Toolbar (Fiori-shaped: actions collapse into an overflow menu)
+export { Toolbar } from "./components/toolbar/toolbar";
+export type { ToolbarProps, ToolbarAction } from "./components/toolbar/toolbar";
+
 // Tree (Fiori-shaped; also zen-ui's first tree of any kind)
 export { Tree } from "./components/tree/tree";
 export type { TreeProps, TreeNode } from "./components/tree/tree";

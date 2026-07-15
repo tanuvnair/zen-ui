@@ -243,7 +243,7 @@ export const StepperList = (props: StepperListProps) => {
               </button>
               <Show when={!isLast()}>
                 <div
-                  aria-hidden
+                  aria-hidden="true"
                   class={cn(
                     horizontal()
                       ? "zen-flex-1 zen-h-px zen-mx-2 zen-min-w-[1rem]"
@@ -276,7 +276,7 @@ const StepperIndicator = (props: { status: StepStatus; index: number }) => {
         "zen-text-xs zen-font-semibold",
         styles[props.status],
       )}
-      aria-hidden
+      aria-hidden="true"
     >
       <Show
         when={props.status === "completed"}

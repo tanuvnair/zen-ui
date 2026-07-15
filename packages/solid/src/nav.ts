@@ -161,6 +161,7 @@ export const NAV: NavGroup[] = [
       { label: "Icon", path: "/icon", description: "zen-ui icon set (48 glyphs); inherits text colour, decorative by default" },
       { label: "Object atoms", path: "/object", description: "ObjectStatus / ObjectNumber / ObjectIdentifier / ObjectMarker" },
       { label: "Button family", path: "/button-family", description: "ToggleButton, SegmentedButton, SplitButton" },
+      { label: "Toolbar", path: "/toolbar", description: "Actions that collapse into an overflow menu when they do not fit" },
       { label: "Tree", path: "/tree", description: "Hierarchical expandable list with full ARIA keyboard navigation" },
     ],
   },

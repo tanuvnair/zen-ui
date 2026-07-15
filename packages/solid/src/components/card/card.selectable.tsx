@@ -127,7 +127,7 @@ export const SelectableCard = (props: SelectableCardProps) => {
         <div class="zen-flex zen-items-start zen-gap-3">
           {local.icon ? (
             <span
-              aria-hidden
+              aria-hidden="true"
               class={cn(
                 "zen-inline-flex zen-items-center zen-justify-center zen-flex-shrink-0",
                 "zen-h-8 zen-w-8 zen-rounded-zen-sm",
@@ -173,7 +173,7 @@ export const SelectableCard = (props: SelectableCardProps) => {
             stroke-width="3"
             stroke-linecap="round"
             stroke-linejoin="round"
-            aria-hidden
+            aria-hidden="true"
           >
             <polyline points="20 6 9 17 4 12" />
           </svg>

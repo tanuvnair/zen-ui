@@ -131,7 +131,7 @@ export const Rating = (props: RatingProps) => {
             "zen-ml-1 zen-text-sm zen-font-medium zen-tabular-nums",
             value() > 0 ? "zen-text-zen-foreground" : "zen-text-zen-muted-fg",
           )}
-          aria-hidden
+          aria-hidden="true"
         >
           {value() > 0 ? `${value()} / ${max()}` : "—"}
         </span>
@@ -153,7 +153,7 @@ const StarIcon = (props: { size: number; filled: boolean }): JSX.Element => (
     stroke-width="1.5"
     stroke-linecap="round"
     stroke-linejoin="round"
-    aria-hidden
+    aria-hidden="true"
   >
     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
   </svg>

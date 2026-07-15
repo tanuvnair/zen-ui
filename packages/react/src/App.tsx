@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import { NavLink, Routes, Route } from "react-router-dom";
+import { NavLink, Routes, Route, useLocation } from "react-router-dom";
 import { NAV } from "./nav";
 
 /**
@@ -26,6 +26,45 @@ const COMPONENT_COUNT = NAV.filter((g) => g.catalogue !== false && g.components 
  */
 const ROOT_URL = new URL("..", new URL(import.meta.env.BASE_URL, window.location.origin))
   .pathname;
+
+/**
+ * "View code" opens the demo file for the route you are on — the USAGE, not the
+ * component's internals. The page already prints a snippet, but that snippet is
+ * a hand-typed `code` string sitting next to the JSX it claims to describe, and
+ * nothing keeps the two honest. This is the file that actually ran.
+ *
+ * Pinned to `main` rather than the current branch: a link that only resolves on
+ * whatever branch happened to build it is a link that breaks on every other one.
+ * The paths come from nav.ts and are checked by `bun run check:nav`.
+ */
+const SOURCE_BASE = "https://github.com/Algorisys-Technologies/zen-ui/blob/main/";
+
+/** The nav entry for the current route, if it has a source. */
+const useSourceHref = (): string | undefined => {
+  const { pathname } = useLocation();
+  for (const group of NAV) {
+    for (const item of group.items) {
+      if (item.to === pathname && item.source) return SOURCE_BASE + item.source;
+    }
+  }
+  return undefined;
+};
+
+const ViewCode: React.FC = () => {
+  const href = useSourceHref();
+  if (!href) return null;
+  return (
+    <a
+      className="app-home-link"
+      href={href}
+      target="_blank"
+      rel="noreferrer noopener"
+      title="The demo source for this page on GitHub"
+    >
+      View code <span aria-hidden>↗</span>
+    </a>
+  );
+};
 
 import Welcome from "./components/Welcome";
 import ThemeSwitcher from "./components/theme-switcher";
@@ -214,6 +253,7 @@ const App: React.FC = () => {
           <a className="app-home-link" href={ROOT_URL}>
             <span aria-hidden>←</span> All demos
           </a>
+          <ViewCode />
           <ThemeSwitcher />
         </div>
       </header>

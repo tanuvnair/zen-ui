@@ -1,5 +1,5 @@
-import { type Component, type ParentProps, ErrorBoundary, For, createSignal } from "solid-js";
-import { A } from "@solidjs/router";
+import { type Component, type ParentProps, ErrorBoundary, For, Show, createSignal } from "solid-js";
+import { A, useLocation } from "@solidjs/router";
 import { useTheme } from "./lib/theme";
 import { NAV } from "./nav";
 import ReleaseNotes from "./components/ReleaseNotes";
@@ -27,6 +27,59 @@ const COMPONENT_COUNT = NAV.filter((g) => g.catalogue !== false && g.components 
  */
 const ROOT_URL = new URL("..", new URL(import.meta.env.BASE_URL, window.location.origin))
   .pathname;
+
+/**
+ * "View code" opens the demo file for the route you are on — the USAGE, not the
+ * component's internals. The page already prints a snippet, but that snippet is
+ * a hand-typed `code` string sitting next to the JSX it claims to describe, and
+ * nothing keeps the two honest. This is the file that actually ran.
+ *
+ * Pinned to `main` rather than the current branch: a link that only resolves on
+ * whatever branch happened to build it is a link that breaks on every other one.
+ * The paths come from nav.ts and are checked by `bun run check:nav`.
+ *
+ * Mirrors the React binding.
+ */
+const SOURCE_BASE = "https://github.com/Algorisys-Technologies/zen-ui/blob/main/";
+
+const ViewCode = () => {
+  const location = useLocation();
+  /**
+   * nav.ts stores base-less paths ("/carousel"), but Solid's useLocation gives
+   * the pathname WITH the router base still on it ("/builder-solid/carousel"),
+   * where React Router strips its basename. Stripping it here — if it is there —
+   * is correct under either behaviour, and does not quietly become wrong if the
+   * router changes its mind.
+   */
+  const routePath = () => {
+    const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+    const p = location.pathname;
+    return base && p.startsWith(base) ? p.slice(base.length) || "/" : p;
+  };
+  const href = () => {
+    for (const group of NAV) {
+      for (const item of group.items) {
+        if (item.path === routePath() && item.source) return SOURCE_BASE + item.source;
+      }
+    }
+    return undefined;
+  };
+  return (
+    <Show when={href()}>
+      {(h) => (
+        <a
+          class="app-home-link"
+          href={h()}
+          target="_blank"
+          rel="noreferrer noopener"
+          title="The demo source for this page on GitHub"
+        >
+          View code <span aria-hidden="true">↗</span>
+        </a>
+      )}
+    </Show>
+  );
+};
 import "./App.css";
 
 /**
@@ -118,6 +171,7 @@ const App: Component<ParentProps> = (props) => {
           <a class="app-home-link" href={ROOT_URL}>
             <span aria-hidden="true">←</span> All demos
           </a>
+          <ViewCode />
           <label style={{
             display: "inline-flex",
             "align-items": "center",

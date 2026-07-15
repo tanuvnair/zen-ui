@@ -4,8 +4,8 @@ import { cn } from "../../lib/cn";
 import { Icon, type IconName } from "../icon/icon";
 
 /**
- * Object atoms — the small, semantic display elements SAP Fiori builds object
- * pages, list reports and tables out of. See docs/fiori-gap-analysis.md; these
+ * Object atoms — the small, semantic display elements object pages, list
+ * reports and tables are built out of. See docs/fiori-gap-analysis.md; these
  * were rated the best value in the whole gap because they are tiny yet carry
  * most of the "enterprise" feel.
  *
@@ -54,7 +54,7 @@ const objectStatusVariants = cva(
   {
     variants: {
       inverted: {
-        // Fiori's "inverted" status: filled pill rather than coloured text.
+        // The "inverted" status: filled pill rather than coloured text.
         true: "zen-rounded-zen-sm zen-px-2 zen-py-0.5 zen-font-medium",
         false: "",
       },

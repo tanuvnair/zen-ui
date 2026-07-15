@@ -546,7 +546,7 @@ the 1–2-day builds where the depth investment shows up.
 
 ---
 
-## Fiori work — queued (2026-07-15)
+## Zen-shaped work — queued (2026-07-15)
 
 Tracked against `docs/fiori-gap-analysis.md`. Tier numbering is that doc's.
 
@@ -561,7 +561,7 @@ built — Tier 1 spent a day marked done while a row was missing.
 
 - [ ] **`Page` and `Bar` have no demo or nav entry.** Shipped in 9aab1eb as
       exports only, so they violate the "add it to nav.ts, add its Route" rule
-      and are invisible in both demos. Everything else Fiori-shaped has a demo.
+      and are invisible in both demos. Everything else Zen-shaped has a demo.
 - [ ] **SKILLS.md (or similar) so coding agents can drive this library.**
       Requested 2026-07-15. Claude / Cursor / Antigravity currently have to
       infer the API from source. Wants: the `zen-` prefix rule and why variants

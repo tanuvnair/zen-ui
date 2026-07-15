@@ -24,7 +24,7 @@ export interface SelectListItem {
   label: string;
   /** Secondary line under the label. */
   description?: string;
-  /** Right-aligned trailing text — Fiori's "info", e.g. a status or amount. */
+  /** Right-aligned trailing text — the "info", e.g. a status or amount. */
   info?: string;
   icon?: IconName;
   disabled?: boolean;

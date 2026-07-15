@@ -78,7 +78,7 @@ const COLUMN_ORDER: FlexibleColumnName[] = ["start", "mid", "end"];
 
 type Sizes = Partial<Record<FlexibleColumnName, string>>;
 
-/** Fiori's column ratios when all three columns are affordable. */
+/** The column ratios when all three columns are affordable. */
 const WIDE_SIZES: Record<FlexibleColumnLayoutType, Sizes> = {
   OneColumn: { start: "zen-basis-full" },
   TwoColumnsBeginExpanded: { start: "zen-basis-2/3", mid: "zen-basis-1/3" },
@@ -123,7 +123,7 @@ function resolveColumns(
     basis: sizes[name] as string,
   }));
 
-  // One column: Fiori shows the most-recently-navigated one, which is the
+  // One column: shows the most-recently-navigated one, which is the
   // last of the layout's own columns — start for OneColumn, mid for any
   // two-column layout, end for any three-column layout.
   if (maxColumnsCount === 1) {

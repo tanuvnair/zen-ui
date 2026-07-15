@@ -39,7 +39,7 @@ const NewValueHelpDemo = () => {
     <div className="demo-page">
       <h1>ValueHelp</h1>
       <p className="lede">
-        Fiori's F4 lookup dialog. <code>SelectDialog</code> answers "which of these?";
+        The F4 lookup dialog. <code>SelectDialog</code> answers "which of these?";
         ValueHelp also answers "everything matching these rules". The{" "}
         <strong>Select</strong> tab is the same searchable list; the{" "}
         <strong>Conditions</strong> tab builds rules (include/exclude, an operator, one or

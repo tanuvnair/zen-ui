@@ -6,7 +6,7 @@ import { Icon } from "../icon/icon";
  * DynamicPage — a page whose header COLLAPSES ("snaps") as the content scrolls,
  * leaving a sticky title bar behind, plus an optional floating footer.
  *
- * See docs/fiori-gap-analysis.md (Tier 1). This underpins Fiori's List Report
+ * See docs/fiori-gap-analysis.md (Tier 1). This underpins the List Report
  * and Object Page floorplans; the snapping is the whole component.
  *
  *   <DynamicPage className="zen-h-[520px]">
@@ -205,8 +205,8 @@ export interface DynamicPageTitleProps
   breadcrumbs?: React.ReactNode;
   /** Extra title content shown only while the header is EXPANDED. */
   expandedContent?: React.ReactNode;
-  /** Extra title content shown only while the header is SNAPPED — Fiori's way
-   *  of keeping the facts you lose to the collapse. */
+  /** Extra title content shown only while the header is SNAPPED — the way
+   *  to keep the facts you lose to the collapse. */
   snappedContent?: React.ReactNode;
 }
 
@@ -238,8 +238,8 @@ export const DynamicPageTitle = React.forwardRef<HTMLDivElement, DynamicPageTitl
         <div className="zen-flex zen-items-start zen-justify-between zen-gap-4">
           <div className="zen-min-w-0 zen-flex-1">
             <h2 className="zen-m-0">
-              {/* The heading IS the expand/collapse control: Fiori toggles on a
-                  title click, and a11y wants a real button carrying
+              {/* The heading IS the expand/collapse control: the header toggles
+                  on a title click, and a11y wants a real button carrying
                   aria-expanded. One element satisfies both, and its text is the
                   accessible name — no aria-label to fall out of sync. */}
               <button

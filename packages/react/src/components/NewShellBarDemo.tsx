@@ -104,7 +104,7 @@ const NewShellBarDemo = () => (
       <h2>2. Product switcher on the title</h2>
       <CodeExample
         title="menuItems turns the title into a dropdown"
-        description="The Fiori product-switcher pattern: the title names the app and opens the list of them."
+        description="The product-switcher pattern: the title names the app and opens the list of them."
         code={`const products: ShellBarMenuItem[] = [
   { id: "orders", label: "Purchase Orders", icon: "file" },
   { id: "invoices", label: "Invoices", icon: "draft" },

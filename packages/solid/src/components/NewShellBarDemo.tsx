@@ -51,7 +51,15 @@ const PROFILE = {
 const NewShellBarDemo = () => (
   <DemoPage
     title="ShellBar"
-    description="The global application header: logo, product title, search, action icons, notifications, profile. Two things collapse independently as it narrows — `items` overflow into a ••• menu (measured the way Toolbar does it), and the search field turns into a magnifier that expands over the bar."
+    description={
+      <>
+        The global application header: logo, product title, search, action icons,
+        notifications, profile. Two things collapse independently as it narrows —{" "}
+        <code>items</code> overflow into a ••• menu (measured the way{" "}
+        <code>Toolbar</code> does it), and the search field turns into a magnifier
+        that expands over the bar.
+      </>
+    }
   >
     <DemoSection
       title="1. Full width — the whole bar"
@@ -95,7 +103,7 @@ const NewShellBarDemo = () => (
     <DemoSection
       title="2. Product switcher on the title"
       codeTitle="menuItems turns the title into a dropdown"
-      codeDescription="The Fiori product-switcher pattern: the title names the app and opens the list of them."
+      codeDescription="The product-switcher pattern: the title names the app and opens the list of them."
       code={`const PRODUCTS: ShellBarMenuItem[] = [
   { id: "orders", label: "Purchase Orders", icon: "file" },
   { id: "invoices", label: "Invoices", icon: "draft" },

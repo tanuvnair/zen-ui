@@ -36,7 +36,7 @@ const NewSelectDialogDemo = () => {
     <div className="demo-page">
       <h1>SelectDialog</h1>
       <p>
-        Fiori's list picker: a modal with a search field, a scrollable list and a footer. Single-select
+        The list picker: a modal with a search field, a scrollable list and a footer. Single-select
         commits on click — picking <em>is</em> the answer, so there is no OK button. Multi-select draws
         checkboxes and defers everything to OK, so a mis-click costs nothing. Selection is drafted
         inside the dialog and only escapes through <code>onConfirm</code>.

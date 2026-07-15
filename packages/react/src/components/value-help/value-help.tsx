@@ -25,7 +25,7 @@ import {
 import { filterItems } from "../select-list/filter";
 
 /**
- * ValueHelp — Fiori's F4 lookup dialog. SelectDialog answers "which of these?";
+ * ValueHelp — the F4 lookup dialog. SelectDialog answers "which of these?";
  * ValueHelp also answers "everything matching these rules", which is the whole
  * reason it is a separate component:
  *
@@ -55,7 +55,7 @@ export type ValueHelpOperator =
 export interface ValueHelpCondition {
   /** Stable row identity. Generated when a row is added. */
   id: string;
-  /** Fiori's exclude flag: the rule subtracts instead of adds. */
+  /** The exclude flag: the rule subtracts instead of adds. */
   exclude: boolean;
   operator: ValueHelpOperator;
   value: string;

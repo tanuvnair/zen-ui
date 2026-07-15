@@ -270,7 +270,16 @@ const ControlledExample = () => {
 const NewObjectPageDemo = () => (
   <DemoPage
     title="ObjectPageLayout"
-    description="Fiori's object detail page: a title bar that stays, an object header that scrolls away, and a sticky anchor bar whose links stay in sync with the section you are reading. `sections` is data rather than children — the anchor bar has to render the whole list before any section is on screen, and the scroll-spy needs an element per section to observe. Both would otherwise mean rebuilding the list out of the DOM on every scroll."
+    description={
+      <>
+        The object detail page: a title bar that stays, an object header that
+        scrolls away, and a sticky anchor bar whose links stay in sync with the
+        section you are reading. <code>sections</code> is data rather than children
+        — the anchor bar has to render the whole list before any section is on
+        screen, and the scroll-spy needs an element per section to observe. Both
+        would otherwise mean rebuilding the list out of the DOM on every scroll.
+      </>
+    }
   >
     <DemoSection
       title="1. Anchored sections, synced to the scroll"
@@ -307,7 +316,7 @@ const NewObjectPageDemo = () => (
     <DemoSection
       title="2. Sub-sections"
       codeTitle="A section can be split into labelled sub-sections"
-      codeDescription="Sub-sections render inside their section with their own heading and id, so they can be linked to directly. The anchor bar stays at section level — Fiori's per-section sub-menu is not implemented."
+      codeDescription="Sub-sections render inside their section with their own heading and id, so they can be linked to directly. The anchor bar stays at section level — a per-section sub-menu is not implemented."
       previewStyle={{ display: "block" }}
       code={`const SECTIONS: ObjectPageSection[] = [
   {

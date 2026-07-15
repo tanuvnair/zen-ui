@@ -15,10 +15,10 @@ import {
 import { filterItems } from "../select-list/filter";
 
 /**
- * SelectDialog — Fiori's list picker: a modal with a search field, a scrollable
+ * SelectDialog — the list picker: a modal with a search field, a scrollable
  * list, and a footer.
  *
- * Two modes, and they behave differently on purpose, matching Fiori:
+ * Two modes, and they behave differently on purpose:
  *
  * - **Single** — picking a row IS the confirmation. The dialog closes on click
  *   and there is no OK button, because an OK would be a second click that says

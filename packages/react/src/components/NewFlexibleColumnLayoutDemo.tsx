@@ -156,7 +156,7 @@ const NewFlexibleColumnLayoutDemo = () => {
     <div className="demo-page">
       <h1>FlexibleColumnLayout</h1>
       <p className="lede">
-        Fiori's master-detail frame: one to three columns for list → detail →
+        The master-detail frame: one to three columns for list → detail →
         detail, each independently scrollable, collapsing as room runs out. The
         layout names are SAP's verbatim — the layout state machine is what apps
         drive, so <code>ThreeColumnsMidExpanded</code> means here exactly what it

@@ -157,12 +157,18 @@ const NewFlexibleColumnLayoutDemo = () => {
   return (
     <DemoPage
       title="FlexibleColumnLayout"
-      description="Fiori's master-detail frame: one to three columns for list → detail → detail, each independently scrollable, collapsing as room runs out. The layout names are SAP's verbatim — the layout state machine is what apps drive, so ThreeColumnsMidExpanded means here exactly what it means there. Collapse is measured on the container, not the window, so the component behaves the same inside a split pane or a builder canvas."
+      description="The master-detail frame: one to three columns for list → detail → detail, each independently scrollable, collapsing as room runs out. The layout names are SAP's verbatim — the layout state machine is what apps drive, so ThreeColumnsMidExpanded means here exactly what it means there. Collapse is measured on the container, not the window, so the component behaves the same inside a split pane or a builder canvas."
     >
       <DemoSection
         title="1. The layout state machine"
         codeTitle="Seven named layouts"
-        codeDescription="The component is controlled: it never changes `layout` itself. onLayoutChange reports what was actually rendered — including the responsive tier."
+        codeDescription={
+          <>
+            The component is controlled: it never changes <code>layout</code>{" "}
+            itself. onLayoutChange reports what was actually rendered — including
+            the responsive tier.
+          </>
+        }
         code={`const [layout, setLayout] = createSignal<FlexibleColumnLayoutType>("ThreeColumnsMidExpanded");
 
 <FlexibleColumnLayout

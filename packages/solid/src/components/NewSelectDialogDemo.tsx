@@ -35,7 +35,7 @@ const NewSelectDialogDemo = () => {
   return (
     <DemoPage
       title="SelectDialog"
-      description="Fiori's list picker: a modal with a search field, a scrollable list and a footer. Single-select commits on click — picking is the answer, so there is no OK button. Multi-select draws checkboxes and defers everything to OK, so a mis-click costs nothing. Selection is drafted inside the dialog and only escapes through onConfirm."
+      description="The list picker: a modal with a search field, a scrollable list and a footer. Single-select commits on click — picking is the answer, so there is no OK button. Multi-select draws checkboxes and defers everything to OK, so a mis-click costs nothing. Selection is drafted inside the dialog and only escapes through onConfirm."
     >
       <DemoSection
         title="1. Single select — the click is the answer"

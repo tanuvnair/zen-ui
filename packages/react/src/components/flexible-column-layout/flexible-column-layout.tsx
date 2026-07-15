@@ -3,7 +3,7 @@ import { cn } from "../../lib/cn";
 
 /**
  * FlexibleColumnLayout — 1–3 columns for the master-detail pattern
- * (list → detail → detail), with Fiori's responsive collapse rules.
+ * (list → detail → detail), with responsive collapse rules.
  *
  * See docs/fiori-gap-analysis.md (Tier 1). Master-detail is the dominant Fiori
  * navigation pattern and the app frame is the library's largest gap.
@@ -21,7 +21,7 @@ import { cn } from "../../lib/cn";
  * apps drive: a router maps a URL to a layout, the layout maps to columns.
  * Renaming them would break the only mental model consumers already have.
  *
- * The component is CONTROLLED, as Fiori's is: it never changes `layout` itself.
+ * The component is CONTROLLED: it never changes `layout` itself.
  * Responsive collapse changes which columns are *rendered*, not which layout is
  * requested — so widening the container restores the full layout without the
  * app having to remember what it asked for. `onLayoutChange` reports what
@@ -98,7 +98,7 @@ const COLUMN_ORDER: FlexibleColumnName[] = ["start", "mid", "end"];
 
 type Sizes = Partial<Record<FlexibleColumnName, string>>;
 
-/** Fiori's column ratios when all three columns are affordable. */
+/** The column ratios when all three columns are affordable. */
 const WIDE_SIZES: Record<FlexibleColumnLayoutType, Sizes> = {
   OneColumn: { start: "zen-basis-full" },
   TwoColumnsBeginExpanded: { start: "zen-basis-2/3", mid: "zen-basis-1/3" },
@@ -112,7 +112,7 @@ const WIDE_SIZES: Record<FlexibleColumnLayoutType, Sizes> = {
 /**
  * Two-column tier. A three-column layout drops the START column and re-spreads
  * mid/end over the freed room — 25/50/25 squeezed into 700px would give three
- * unusable 230px columns, so Fiori sheds the least-recently-navigated one
+ * unusable 230px columns, so it sheds the least-recently-navigated one
  * instead of scaling everything down.
  */
 const MEDIUM_SIZES: Record<FlexibleColumnLayoutType, Sizes> = {
@@ -145,7 +145,7 @@ function resolveColumns(
     basis: sizes[name] as string,
   }));
 
-  // One column: Fiori shows the most-recently-navigated one, which is the
+  // One column: shows the most-recently-navigated one, which is the
   // last of the layout's own columns — start for OneColumn, mid for any
   // two-column layout, end for any three-column layout.
   if (maxColumnsCount === 1) {

@@ -2,7 +2,7 @@ import * as React from "react";
 import { cn } from "../../lib/cn";
 
 /**
- * ObjectPageLayout — Fiori's object detail page: a title bar that stays, an
+ * ObjectPageLayout — the object detail page: a title bar that stays, an
  * object header that scrolls away, and a sticky AnchorBar whose links stay in
  * sync with whatever section you are looking at.
  *
@@ -42,7 +42,7 @@ import { cn } from "../../lib/cn";
  *
  * IDS: a section's `id` is its identity in the API and its id in the DOM, so it
  * is what a URL fragment or an external link can point at — and so it must be
- * unique in the document. One object page per screen is the Fiori assumption.
+ * unique in the document. One object page per screen is the assumption.
  *
  * ARIA: the bar is a `nav` landmark of buttons carrying `aria-current`, not a
  * `tablist` of `role="tab"`. It behaves like a tablist — roving tabindex,

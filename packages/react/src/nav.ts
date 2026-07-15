@@ -94,7 +94,7 @@ export const NAV: NavGroup[] = [
     ],
   },
   {
-    title: "Fiori-shaped",
+    title: "Zen-shaped",
     items: [
       { to: "/icon", label: "Icon", description: "zen-ui icon set (48 glyphs); inherits text colour, decorative by default" },
       { to: "/object", label: "Object atoms", description: "ObjectStatus / ObjectNumber / ObjectIdentifier / ObjectMarker" },
@@ -104,7 +104,7 @@ export const NAV: NavGroup[] = [
     ],
   },
   {
-    title: "Fiori table ecosystem",
+    title: "Zen table ecosystem",
     items: [
       { to: "/select-dialog", label: "SelectDialog", description: "Searchable list picker — single commits on click, multi commits on OK" },
       { to: "/value-help", label: "ValueHelp", description: "F4 lookup dialog — the list picker plus a condition builder" },
@@ -113,7 +113,7 @@ export const NAV: NavGroup[] = [
     ],
   },
   {
-    title: "Fiori app frame",
+    title: "Zen app frame",
     items: [
       { to: "/shellbar", label: "ShellBar", description: "Top-level app header — branding, search, actions, profile menu" },
       { to: "/flexible-column-layout", label: "FlexibleColumnLayout", description: "1–3 column master-detail frame with responsive collapse" },

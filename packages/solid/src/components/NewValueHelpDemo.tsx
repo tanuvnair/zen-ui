@@ -38,7 +38,7 @@ const NewValueHelpDemo = () => {
   return (
     <DemoPage
       title="ValueHelp"
-      description="Fiori's F4 lookup dialog. SelectDialog answers 'which of these?'; ValueHelp also answers 'everything matching these rules'. The Select tab is the same searchable list; the Conditions tab builds rules (include/exclude, an operator, one or two values) that a caller turns into a query. Unlike SelectDialog, clicking a row never commits on its own — the second tab needs an OK too, so OK is the only way out. Blank-valued rules are dropped on commit, since a rule with no value filters nothing."
+      description="The F4 lookup dialog. SelectDialog answers 'which of these?'; ValueHelp also answers 'everything matching these rules'. The Select tab is the same searchable list; the Conditions tab builds rules (include/exclude, an operator, one or two values) that a caller turns into a query. Unlike SelectDialog, clicking a row never commits on its own — the second tab needs an OK too, so OK is the only way out. Blank-valued rules are dropped on commit, since a rule with no value filters nothing."
     >
       <DemoSection
         title="1. List + conditions, committed together"

@@ -2,13 +2,13 @@ import * as React from "react";
 import { cn } from "../../lib/cn";
 
 /**
- * Page and Bar — the two small structural pieces of Fiori's Tier 1 frame
+ * Page and Bar — the two small structural pieces of the Tier 1 frame
  * (docs/fiori-gap-analysis.md). Neither is clever; both are load-bearing,
  * because everything else in the frame assumes them.
  *
  *   Page — a whole-screen container: header / content / footer, where ONLY the
  *          content scrolls.
- *   Bar  — the three-slot (start / middle / end) row Fiori uses for headers,
+ *   Bar  — the three-slot (start / middle / end) row used for headers,
  *          subheaders and footers.
  */
 

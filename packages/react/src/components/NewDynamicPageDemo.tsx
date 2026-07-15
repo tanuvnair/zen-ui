@@ -62,7 +62,7 @@ const NewDynamicPageDemo = () => {
       <p className="lede">
         A page whose header <strong>snaps</strong> — collapses — as the content
         scrolls, leaving the title bar sticky behind it, plus an optional
-        floating footer. This is the frame under Fiori's List Report and Object
+        floating footer. This is the frame under the List Report and Object
         Page. Snapping is driven by the page's own scroll container, never by{" "}
         <code>window</code>, so it works inside any container — including this
         demo shell, where the document itself does not scroll at all.
@@ -130,7 +130,7 @@ const NewDynamicPageDemo = () => {
         <h2>3. Different title content when snapped</h2>
         <CodeExample
           title="expandedContent / snappedContent"
-          description="Fiori shows different title content once the header is gone — the facts you would otherwise lose. Scroll to swap the two."
+          description="The page shows different title content once the header is gone — the facts you would otherwise lose. Scroll to swap the two."
           code={`<DynamicPageTitle
   heading="Order 4711"
   breadcrumbs={<Breadcrumb>…</Breadcrumb>}

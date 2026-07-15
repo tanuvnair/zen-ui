@@ -5,6 +5,7 @@ import { CodeExample } from "./demo-helpers";
 const NewSliderDemo: React.FC = () => {
   const [volume, setVolume] = useState([50]);
   const [range, setRange] = useState([20, 80]);
+  const [freq, setFreq] = useState([3]);
 
   return (
     <div className="demo-page">
@@ -15,6 +16,47 @@ const NewSliderDemo: React.FC = () => {
         (Arrow / PgUp / PgDn / Home / End), ARIA, RTL, vertical orientation,
         and form submission.
       </p>
+
+      <section className="demo-section">
+        <h2>0. Marks</h2>
+        <CodeExample
+          title="Ticks along the track, with optional labels"
+          description="Marks are decoration over the scale, not the scale itself — step still decides which values are reachable, so a mark at a value step cannot land on would draw a tick the thumb can never sit on. A mark with no label is just a tick. Horizontal only."
+          code={`<Slider
+  defaultValue={[3]}
+  min={1}
+  max={5}
+  step={1}
+  marks={[
+    { value: 1, label: "Never" },
+    { value: 2 },
+    { value: 3, label: "Sometimes" },
+    { value: 4 },
+    { value: 5, label: "Always" },
+  ]}
+/>`}
+        >
+          <div style={{ width: "100%", maxWidth: 460, paddingBottom: 8 }}>
+            <Slider
+              value={freq}
+              onValueChange={setFreq}
+              min={1}
+              max={5}
+              step={1}
+              marks={[
+                { value: 1, label: "Never" },
+                { value: 2 },
+                { value: 3, label: "Sometimes" },
+                { value: 4 },
+                { value: 5, label: "Always" },
+              ]}
+            />
+            <p className="zen-mt-8 zen-mb-0 zen-text-xs zen-text-zen-muted-fg">
+              value → <code>{freq[0]}</code>
+            </p>
+          </div>
+        </CodeExample>
+      </section>
 
       <section className="demo-section">
         <h2>1. Basic (single-thumb, controlled)</h2>

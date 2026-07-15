@@ -135,7 +135,7 @@ export {
 
 // Form Components - Slider (Radix-backed)
 export { Slider } from "./components/form/slider/slider";
-export type { SliderProps } from "./components/form/slider/slider";
+export type { SliderProps, SliderMark } from "./components/form/slider/slider";
 
 // Form Components - InputOTP (one <input> per digit, zero-dependency)
 export {

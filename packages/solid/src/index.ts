@@ -311,7 +311,7 @@ export type {
 } from "./components/accordion/accordion";
 
 export { Slider } from "./components/form/slider/slider";
-export type { SliderProps } from "./components/form/slider/slider";
+export type { SliderProps, SliderMark } from "./components/form/slider/slider";
 
 export {
   Popover,

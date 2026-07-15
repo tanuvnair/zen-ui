@@ -77,6 +77,7 @@ export const NAV: NavGroup[] = [
       { to: "/stat-card", label: "StatCard", description: "A labelled figure — icon, delta, and somewhere to go" },
       { to: "/sheet", label: "Sheet / Drawer", description: "Slide-in side panel on Radix Dialog; right / left / top / bottom" },
       { to: "/date-range-picker", label: "DateRangePicker", description: "Two-month side-by-side calendar in a Popover; range anchoring, controlled / uncontrolled" },
+      { to: "/dynamic-date-range", label: "DynamicDateRange", description: "Semantic periods — \"Last 7 days\", \"This quarter\"; stores the question, not the answer" },
       { to: "/tag-input", label: "TagInput", description: "Type + Enter chip input; comma-paste splits, Backspace removes, per-tag validator, max-N" },
       { to: "/multi-combobox", label: "MultiCombobox", description: "Multi-select Combobox with chip trigger + overflow collapse + sync / async option loading" },
       { to: "/rating", label: "Rating", description: "5-star rating input; hover preview, arrow-key nav, sm / md / lg, customizable max" },

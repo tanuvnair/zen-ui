@@ -150,6 +150,7 @@ export const NAV: NavGroup[] = [
     items: [
       { label: "DatePicker", path: "/date-picker", description: "Calendar in a Popover; inline Calendar too" },
       { label: "DateRangePicker", path: "/date-range-picker", description: "Two-month side-by-side calendar; range anchoring" },
+      { label: "DynamicDateRange", path: "/dynamic-date-range", description: "Semantic periods — \"Last 7 days\", \"This quarter\"; stores the question, not the answer" },
       { label: "TimePicker", path: "/time-picker", description: "Segmented HH:MM(:SS), 12h / 24h, auto-advance + arrow stepping" },
       { label: "DateTimePicker", path: "/date-time-picker", description: "Calendar + TimePicker in one Popover" },
     ],

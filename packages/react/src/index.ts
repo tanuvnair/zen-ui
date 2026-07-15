@@ -87,6 +87,23 @@ export { ColorPalette } from "./components/color-picker/color-palette";
 export type { ColorPaletteProps } from "./components/color-picker/color-palette";
 export type { ColorOption } from "@algorisys/zen-ui-core/color";
 
+// DynamicDateRange (semantic periods; the value is the question, not the answer)
+export { DynamicDateRange } from "./components/form/dynamic-date-range/dynamic-date-range";
+export type { DynamicDateRangeProps } from "./components/form/dynamic-date-range/dynamic-date-range";
+export type {
+  DateRangeValue,
+  DateRangeOperator,
+  ResolvedRange,
+  OperatorMeta,
+} from "@algorisys/zen-ui-core/date-range";
+export {
+  resolveDateRange,
+  formatDateRangeValue,
+  DATE_RANGE_OPERATORS,
+  parseISODate,
+  toISODate,
+} from "@algorisys/zen-ui-core/date-range";
+
 // Carousel (CSS scroll-snap; every child is a slide, no CarouselItem to import)
 export { Carousel } from "./components/carousel/carousel";
 export type { CarouselProps } from "./components/carousel/carousel";

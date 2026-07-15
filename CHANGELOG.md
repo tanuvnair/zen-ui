@@ -51,6 +51,11 @@ document's root font size to 10px.
 - `Carousel` — a scroll-snap slide strip. Every child is a slide, so there is
   no `CarouselItem` to import, and `perView` turns the stage into a strip.
   Deliberately has no autoplay
+- `DynamicDateRange` — a date range you describe rather than point at:
+  "Last 7 days", "This quarter", "Year to date". 32 operators. The value
+  stores the PERIOD rather than the dates it currently means, so a saved
+  filter still means the last seven days next year. The engine is
+  framework-agnostic and lives in `@algorisys/zen-ui-core/date-range`
 - `Link` — a styled anchor with `inline`, `external` and `disabled`
 - `StatCard` — a labelled figure with an icon, a delta and somewhere to go
 - `Toolbar` — actions that collapse into an overflow menu

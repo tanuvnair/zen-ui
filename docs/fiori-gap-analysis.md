@@ -30,7 +30,7 @@ zen-ui is a **shadcn/Radix-style general-purpose library**; Fiori is an **enterp
 
 Roughly:
 
-- **Primitives / form controls** — ~80% covered. The one real gap left is DynamicDateRange. SegmentedButton, SplitButton, ToggleButton, Tree, Toolbar, MaskInput, ColorPicker and Carousel have since been built.
+- **Primitives / form controls** — ~90% covered. SegmentedButton, SplitButton, ToggleButton, Tree, Toolbar, MaskInput, ColorPicker, Carousel and DynamicDateRange have since been built; what remains is a typography layer and the illustration/icon sets, which are asset gaps rather than component gaps.
 - **App frame** (ShellBar, FlexibleColumnLayout, DynamicPage, ObjectPage) — was 0%, now **built in both bindings**, plus `Page`/`Bar` and a light `PageHeader` for screens that want a heading rather than a snapping header. This was the largest gap and the one that most defines a "Fiori-like" app; it is closed.
 - **Enterprise object atoms** (ObjectStatus/Number/Identifier/Marker) — was 0%, now **built in both bindings**. MessageStrip variants and QuickView remain.
 - **Table ecosystem beyond the grid itself** — was ~15%. `SelectDialog`, `ValueHelp`, `ViewSettingsDialog` and `FilterBar` are built; **VariantManagement, p13n and export remain**, which is where the persistence story lives.
@@ -107,7 +107,7 @@ These are small components that carry enormous weight in enterprise UIs.
 | **StepInput** | Numeric input with +/- steppers | ✅ `NumberField` |
 | **ColorPicker** / **ColorPalette** (+ Item, Popover) | HSL/RGB picker; predefined swatch grid | ❌ |
 | **MaskInput** | Fixed character mask input | ✅ `MaskInput` — engine shared via `core/mask` |
-| **DynamicDateRange** | **Semantic relative dates** — "Today", "Last 7 Days", "This Quarter", "From…" | ❌ Big gap; `DateRangePicker` only does absolute ranges. |
+| **DynamicDateRange** | **Semantic relative dates** — "Today", "Last 7 Days", "This Quarter", "From…" | ✅ `DynamicDateRange` — 32 operators; the value stores the PERIOD, not the dates, so a saved filter re-resolves. Engine in `core/date-range`. |
 | **Token** / **Tokenizer** | Chip collection | ⚠️ `TagInput` is close |
 | **Link**, **Title**, **Label**, **Text**, **ExpandableText** | Typography primitives; ExpandableText = show more/less | ❌ zen-ui has no typography layer |
 | **Icon** | SVG icon from the SAP icon font (~1,000 icons) | ⚠️ `Icon` ships 48 hand-drawn glyphs and still no icon dependency. The set, not the component, is the gap. |

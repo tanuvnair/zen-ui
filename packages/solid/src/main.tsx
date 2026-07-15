@@ -91,6 +91,7 @@ import NewMaskInputDemo from "./components/NewMaskInputDemo";
 import NewLinkDemo from "./components/NewLinkDemo";
 import NewColorPickerDemo from "./components/NewColorPickerDemo";
 import NewCarouselDemo from "./components/NewCarouselDemo";
+import NewDynamicDateRangeDemo from "./components/NewDynamicDateRangeDemo";
 
 applyTheme(getInitialTheme());
 
@@ -181,6 +182,7 @@ render(
       <Route path="/link" component={NewLinkDemo} />
       <Route path="/color-picker" component={NewColorPickerDemo} />
       <Route path="/carousel" component={NewCarouselDemo} />
+      <Route path="/dynamic-date-range" component={NewDynamicDateRangeDemo} />
     </Router>
   ),
   root,

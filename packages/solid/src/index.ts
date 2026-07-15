@@ -136,6 +136,22 @@ export { ColorPalette } from "./components/color-picker/color-palette";
 export type { ColorPaletteProps } from "./components/color-picker/color-palette";
 export type { ColorOption } from "@algorisys/zen-ui-core/color";
 
+export { DynamicDateRange } from "./components/form/dynamic-date-range/dynamic-date-range";
+export type { DynamicDateRangeProps } from "./components/form/dynamic-date-range/dynamic-date-range";
+export type {
+  DateRangeValue,
+  DateRangeOperator,
+  ResolvedRange,
+  OperatorMeta,
+} from "@algorisys/zen-ui-core/date-range";
+export {
+  resolveDateRange,
+  formatDateRangeValue,
+  DATE_RANGE_OPERATORS,
+  parseISODate,
+  toISODate,
+} from "@algorisys/zen-ui-core/date-range";
+
 export { Carousel } from "./components/carousel/carousel";
 export type { CarouselProps } from "./components/carousel/carousel";
 

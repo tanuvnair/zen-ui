@@ -13,7 +13,8 @@
     "./preflight.css": "./styles/preflight.css",
     "./icons": "./src/icons.ts",
     "./mask": "./src/mask.ts",
-    "./color": "./src/color.ts"
+    "./color": "./src/color.ts",
+    "./date-range": "./src/date-range.ts"
   },
   "files": [
     "src",

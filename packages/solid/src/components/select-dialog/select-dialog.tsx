@@ -1,10 +1,13 @@
-import { createMemo, createSignal, createUniqueId, createEffect, For, Show } from "solid-js";
+import { createMemo, createSignal, createUniqueId, createEffect, Show } from "solid-js";
 import { cn } from "../../lib/cn";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "../dialog/dialog";
 import { Button } from "../button/button";
-import { Input } from "../form/input/input";
-import { Checkbox } from "../form/checkbox/checkbox";
-import { Icon, type IconName } from "../icon/icon";
+import {
+  SelectSearchField,
+  SelectListBody,
+  filterItems,
+  type SelectListItem,
+} from "../select-list/select-list";
 
 /**
  * SelectDialog — Fiori's list picker: a modal with a search field, a scrollable
@@ -25,17 +28,12 @@ import { Icon, type IconName } from "../icon/icon";
  * Filtering is client-side over label + description. Pass `onSearch` to take it
  * over (server-driven / fuzzy): the dialog then renders `items` verbatim and
  * filtering becomes the caller's job.
+ *
+ * The search field and list body come from `select-list`, shared with ValueHelp.
  */
-export interface SelectDialogItem {
-  id: string;
-  /** Secondary line under the label. */
-  label: string;
-  description?: string;
-  /** Right-aligned trailing text — Fiori's "info", e.g. a status or amount. */
-  info?: string;
-  icon?: IconName;
-  disabled?: boolean;
-}
+
+/** The item shape. Shared with ValueHelp's Select tab as `SelectListItem`. */
+export type SelectDialogItem = SelectListItem;
 
 export interface SelectDialogProps {
   open: boolean;
@@ -63,13 +61,6 @@ export interface SelectDialogProps {
   class?: string;
 }
 
-const matches = (item: SelectDialogItem, q: string) =>
-  item.label.toLowerCase().includes(q) ||
-  (item.description?.toLowerCase().includes(q) ?? false);
-
-const ROW_CLASS =
-  "zen-flex zen-w-full zen-items-center zen-gap-3 zen-rounded-zen-sm zen-px-4 zen-py-2.5 zen-text-left";
-
 export const SelectDialog = (props: SelectDialogProps) => {
   const [query, setQuery] = createSignal("");
   // Seeded by the effect below rather than here: `selectedIds` is read when the
@@ -88,11 +79,7 @@ export const SelectDialog = (props: SelectDialogProps) => {
     setQuery("");
   });
 
-  const visible = createMemo(() => {
-    const q = query().trim().toLowerCase();
-    if (props.onSearch || !q) return props.items;
-    return props.items.filter((i) => matches(i, q));
-  });
+  const visible = createMemo(() => filterItems(props.items, query(), Boolean(props.onSearch)));
 
   const commit = (ids: string[]) => {
     props.onConfirm(ids);
@@ -140,57 +127,24 @@ export const SelectDialog = (props: SelectDialogProps) => {
             <DialogDescription id={descriptionId}>{props.description}</DialogDescription>
           </Show>
           <Show when={props.searchable ?? true}>
-            <div class="zen-relative zen-mt-1">
-              <Icon
-                name="search"
-                size={14}
-                class="zen-pointer-events-none zen-absolute zen-left-3 zen-top-1/2 -zen-translate-y-1/2 zen-text-zen-muted-fg"
-              />
-              <Input
-                value={query()}
-                onInput={(e) => handleSearch(e.currentTarget.value)}
-                placeholder={searchPlaceholder()}
-                aria-label={searchPlaceholder()}
-                class="zen-pl-9"
-              />
-            </div>
+            <SelectSearchField
+              value={query()}
+              onValueChange={handleSearch}
+              placeholder={searchPlaceholder()}
+              class="zen-mt-1"
+            />
           </Show>
         </div>
 
         <div class="zen-min-h-0 zen-flex-1 zen-overflow-y-auto zen-px-2 zen-py-2">
-          <Show
-            when={visible().length > 0}
-            fallback={
-              <p class="zen-m-0 zen-px-4 zen-py-8 zen-text-center zen-text-sm zen-text-zen-muted-fg">
-                {props.emptyText ?? "No matching items"}
-              </p>
-            }
-          >
-            <ul class="zen-m-0 zen-flex zen-list-none zen-flex-col zen-p-0">
-              <For each={visible()}>
-                {(item) => (
-                  <li>
-                    <Show
-                      when={props.multiple}
-                      fallback={
-                        <SingleRow
-                          item={item}
-                          current={draft().includes(item.id)}
-                          onPick={() => commit([item.id])}
-                        />
-                      }
-                    >
-                      <MultiRow
-                        item={item}
-                        checked={draft().includes(item.id)}
-                        onToggle={() => toggle(item.id)}
-                      />
-                    </Show>
-                  </li>
-                )}
-              </For>
-            </ul>
-          </Show>
+          <SelectListBody
+            items={visible()}
+            multiple={props.multiple}
+            selected={draft()}
+            onToggle={toggle}
+            onPick={(id) => commit([id])}
+            emptyText={props.emptyText}
+          />
         </div>
 
         <div class="zen-flex zen-items-center zen-justify-end zen-gap-2 zen-border-t zen-border-zen-border zen-px-6 zen-py-3">
@@ -227,63 +181,3 @@ export const SelectDialog = (props: SelectDialogProps) => {
     </Dialog>
   );
 };
-
-const RowBody = (props: { item: SelectDialogItem }) => (
-  <>
-    <Show when={props.item.icon}>
-      {(icon) => <Icon name={icon()} size={16} class="zen-shrink-0 zen-text-zen-muted-fg" />}
-    </Show>
-    <span class="zen-flex zen-min-w-0 zen-flex-1 zen-flex-col">
-      <span class="zen-truncate zen-text-sm">{props.item.label}</span>
-      <Show when={props.item.description}>
-        <span class="zen-truncate zen-text-xs zen-text-zen-muted-fg">
-          {props.item.description}
-        </span>
-      </Show>
-    </span>
-    <Show when={props.item.info}>
-      <span class="zen-shrink-0 zen-text-xs zen-text-zen-muted-fg">{props.item.info}</span>
-    </Show>
-  </>
-);
-
-/**
- * A real <button>, not a role="option": picking commits, so this is an action.
- * It also buys Enter/Space and tab order without a roving-tabindex manager.
- * `aria-current` marks the incoming selection without claiming listbox
- * semantics the surrounding markup does not have.
- */
-const SingleRow = (props: { item: SelectDialogItem; current: boolean; onPick: () => void }) => (
-  <button
-    type="button"
-    disabled={props.item.disabled}
-    aria-current={props.current || undefined}
-    onClick={() => props.onPick()}
-    class={cn(
-      ROW_CLASS,
-      "zen-border-0 zen-bg-transparent zen-cursor-pointer",
-      "hover:zen-bg-zen-muted focus-visible:zen-outline-none focus-visible:zen-ring-2 focus-visible:zen-ring-zen-ring",
-      "disabled:zen-cursor-not-allowed disabled:zen-opacity-50",
-      props.current && "zen-bg-zen-muted",
-    )}
-  >
-    <RowBody item={props.item} />
-    <Show when={props.current}>
-      <Icon name="check" size={16} class="zen-shrink-0 zen-text-zen-primary" />
-    </Show>
-  </button>
-);
-
-/** A <label> so the whole row is the checkbox's hit target, not just the box. */
-const MultiRow = (props: { item: SelectDialogItem; checked: boolean; onToggle: () => void }) => (
-  <label
-    class={cn(
-      ROW_CLASS,
-      "zen-cursor-pointer hover:zen-bg-zen-muted",
-      props.item.disabled && "zen-cursor-not-allowed zen-opacity-50",
-    )}
-  >
-    <Checkbox checked={props.checked} disabled={props.item.disabled} onChange={() => props.onToggle()} />
-    <RowBody item={props.item} />
-  </label>
-);

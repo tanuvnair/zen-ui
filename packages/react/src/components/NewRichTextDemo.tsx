@@ -1,6 +1,18 @@
 import { useState } from "react";
 import { RichText } from "./rich-text/rich-text";
 import { CodeExample } from "./demo-helpers";
+// Jodit renders its toolbar from its own stylesheet. Without it the toolbar's
+// icons have no width attribute and nothing to size them, so they expand to
+// fill the pane — a 930px chevron. Same requirement (and fix) as the Map demo's
+// `import "leaflet/dist/leaflet.css"`.
+//
+// This pulls from `jodit`, NOT `jodit-pro-react`: the wrapper's package exports
+// map does not expose its CSS, so `jodit-pro-react/build/esm/index.css` fails to
+// resolve (ERR_PACKAGE_PATH_NOT_EXPORTED) — and Vite drops it silently rather
+// than erroring, leaving a green build and an unstyled editor. jodit-pro-react
+// wraps Jodit, so Jodit's own stylesheet is the right one either way, and it is
+// the same import the Solid binding documents.
+import "jodit/es2021/jodit.min.css";
 
 const NewRichTextDemo: React.FC = () => {
   const [html, setHtml] = useState("<p>Hello from <strong>zen-ui</strong> 👋</p>");

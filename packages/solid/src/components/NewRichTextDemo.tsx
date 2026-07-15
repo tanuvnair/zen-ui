@@ -1,6 +1,10 @@
 import { createSignal } from "solid-js";
 import { RichText } from "./rich-text/rich-text";
 import { DemoPage, DemoSection } from "./demo-helpers";
+// Jodit renders its toolbar from its own stylesheet; without it the icons have
+// no width and expand to fill the pane. The component JSDoc documents this
+// requirement — the demo has to actually honour it.
+import "jodit/es2021/jodit.min.css";
 
 const NewRichTextDemo = () => {
   const [html, setHtml] = createSignal("<p>Hello from <strong>zen-ui</strong> 👋</p>");

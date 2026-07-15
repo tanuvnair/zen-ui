@@ -55,6 +55,13 @@ and clobber each other — rebuild the lib before inspecting `dist/style.css`.
 - **Lint baselines**: Solid 8 errors / 47 warnings; React 29 problems. Measure
   before you claim a delta — a stated baseline that is off by one turns "adds
   nothing" into "adds one".
+- **A CSS import that resolves to nothing still builds green.** A dependency's
+  `exports` map can block a subpath (`ERR_PACKAGE_PATH_NOT_EXPORTED`) and Vite
+  drops the import silently rather than erroring — the build passes and the
+  component renders unstyled. RichText shipped exactly this: jodit's toolbar
+  icons have no width attribute, so with no stylesheet they expanded to a 930px
+  chevron. If you import a dep's CSS, assert it reached the bundle
+  (`grep <a-known-class> dist/assets/*.css`), not merely that the build passed.
 - **A failed command looks identical to a clean one** when you grep its output
   for error lines. `lint:solid` returned "0 issues" for a long time purely
   because ESLint aborted on a missing config. Assert the tool actually ran.

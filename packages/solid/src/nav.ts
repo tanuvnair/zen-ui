@@ -105,6 +105,13 @@ export const NAV: NavGroup[] = [
     group: "Layout",
     items: [
       { label: "ScrollArea", path: "/scroll-area", description: "Custom scrollbars on both axes" },
+      // These three had a demo AND a route but no nav entry, so they were
+      // unreachable from the sidebar and missing from the catalogue — the
+      // "add it to nav.ts" rule, violated quietly. It is why this demo
+      // counted 68 components against React's 70.
+      { label: "Breadcrumb", path: "/breadcrumb", description: "Hierarchical navigation path; collapsible ellipsis for deep trees" },
+      { label: "Pagination", path: "/pagination", description: "Page navigation with truncated ranges" },
+      { label: "Sidebar", path: "/sidebar", description: "Collapsible navigation shell; provider + trigger + grouped menu" },
     ],
   },
   {

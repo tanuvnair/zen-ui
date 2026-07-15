@@ -97,6 +97,7 @@ import NewPageHeaderDemo from "./components/NewPageHeaderDemo";
 import NewStatCardDemo from "./components/NewStatCardDemo";
 import NewCustomizingDemo from "./components/NewCustomizingDemo";
 import NewMaskInputDemo from "./components/NewMaskInputDemo";
+import NewPopoverDemo from "./components/NewPopoverDemo";
 import { Toaster } from "./components/toast/toaster";
 
 /**
@@ -286,6 +287,7 @@ const App: React.FC = () => {
             <Route path="/stat-card" element={<NewStatCardDemo />} />
             <Route path="/customizing" element={<NewCustomizingDemo />} />
             <Route path="/mask-input" element={<NewMaskInputDemo />} />
+            <Route path="/popover" element={<NewPopoverDemo />} />
           </Routes>
         </main>
       </div>

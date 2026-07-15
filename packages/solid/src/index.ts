@@ -38,6 +38,9 @@ export type {
 } from "./components/button/button-family";
 export type { ButtonProps } from "./components/button/button";
 
+export { Page, Bar } from "./components/page/page";
+export type { PageProps, BarProps } from "./components/page/page";
+
 export { Toolbar } from "./components/toolbar/toolbar";
 export type { ToolbarProps, ToolbarAction } from "./components/toolbar/toolbar";
 

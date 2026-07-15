@@ -159,6 +159,10 @@ export type {
   AvatarSize,
 } from "./components/avatar/avatar";
 
+// Page + Bar (Fiori-shaped structural frame)
+export { Page, Bar } from "./components/page/page";
+export type { PageProps, BarProps } from "./components/page/page";
+
 // Toolbar (Fiori-shaped: actions collapse into an overflow menu)
 export { Toolbar } from "./components/toolbar/toolbar";
 export type { ToolbarProps, ToolbarAction } from "./components/toolbar/toolbar";

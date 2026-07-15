@@ -84,6 +84,7 @@ import NewSelectDialogDemo from "./components/NewSelectDialogDemo";
 import NewValueHelpDemo from "./components/NewValueHelpDemo";
 import NewViewSettingsDemo from "./components/NewViewSettingsDemo";
 import NewFilterBarDemo from "./components/NewFilterBarDemo";
+import NewPageHeaderDemo from "./components/NewPageHeaderDemo";
 import { Toaster } from "./components/toast/toaster";
 
 /**
@@ -264,6 +265,7 @@ const App: React.FC = () => {
             <Route path="/value-help" element={<NewValueHelpDemo />} />
             <Route path="/view-settings" element={<NewViewSettingsDemo />} />
             <Route path="/filter-bar" element={<NewFilterBarDemo />} />
+            <Route path="/page-header" element={<NewPageHeaderDemo />} />
           </Routes>
         </main>
       </div>

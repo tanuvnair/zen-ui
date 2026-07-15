@@ -84,6 +84,7 @@ import NewSelectDialogDemo from "./components/NewSelectDialogDemo";
 import NewValueHelpDemo from "./components/NewValueHelpDemo";
 import NewViewSettingsDemo from "./components/NewViewSettingsDemo";
 import NewFilterBarDemo from "./components/NewFilterBarDemo";
+import NewPageHeaderDemo from "./components/NewPageHeaderDemo";
 
 applyTheme(getInitialTheme());
 
@@ -167,6 +168,7 @@ render(
       <Route path="/value-help" component={NewValueHelpDemo} />
       <Route path="/view-settings" component={NewViewSettingsDemo} />
       <Route path="/filter-bar" component={NewFilterBarDemo} />
+      <Route path="/page-header" component={NewPageHeaderDemo} />
     </Router>
   ),
   root,

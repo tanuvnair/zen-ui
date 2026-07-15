@@ -177,6 +177,7 @@ export const NAV: NavGroup[] = [
   {
     group: "Zen app frame",
     items: [
+      { label: "PageHeader", path: "/page-header", description: "A heading with a back affordance and one action — the light one" },
       { label: "ShellBar", path: "/shellbar", description: "Top-level app header — branding, search, actions, profile menu" },
       { label: "FlexibleColumnLayout", path: "/flexible-column-layout", description: "1–3 column master-detail frame with responsive collapse" },
       { label: "DynamicPage", path: "/dynamic-page", description: "Title + header that snaps away on scroll; pinnable header" },

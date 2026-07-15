@@ -163,6 +163,11 @@ export type {
 export { Page, Bar } from "./components/page/page";
 export type { PageProps, BarProps } from "./components/page/page";
 
+// PageHeader (a heading with a back affordance and one action — the light
+// alternative to DynamicPage when a screen just needs a title)
+export { PageHeader } from "./components/page-header/page-header";
+export type { PageHeaderProps } from "./components/page-header/page-header";
+
 // Toolbar (Zen-shaped: actions collapse into an overflow menu)
 export { Toolbar } from "./components/toolbar/toolbar";
 export type { ToolbarProps, ToolbarAction } from "./components/toolbar/toolbar";

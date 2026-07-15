@@ -41,6 +41,9 @@ export type { ButtonProps } from "./components/button/button";
 export { Page, Bar } from "./components/page/page";
 export type { PageProps, BarProps } from "./components/page/page";
 
+export { PageHeader } from "./components/page-header/page-header";
+export type { PageHeaderProps } from "./components/page-header/page-header";
+
 export { Toolbar } from "./components/toolbar/toolbar";
 export type { ToolbarProps, ToolbarAction } from "./components/toolbar/toolbar";
 

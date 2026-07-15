@@ -1,5 +1,5 @@
 import { type JSX, splitProps } from "solid-js";
-import { Dialog as KDialog } from "@kobalte/core/dialog";
+import * as KDialog from "@kobalte/core/dialog";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/cn";
 
@@ -22,9 +22,13 @@ import { cn } from "../../lib/cn";
  *       </SheetFooter>
  *     </SheetContent>
  *   </Sheet>
+ *
+ * Namespace-imported for the same reason as [dialog.tsx]: Kobalte's `Dialog`
+ * and `AlertDialog` objects are the same mutated root, so `.Content` reached
+ * through them depends on which module loaded last.
  */
 
-export const Sheet = KDialog;
+export const Sheet = KDialog.Root;
 export const SheetTrigger = KDialog.Trigger;
 export const SheetClose = KDialog.CloseButton;
 export const SheetPortal = KDialog.Portal;

@@ -1,5 +1,5 @@
 import { type JSX, splitProps } from "solid-js";
-import { Dialog as KDialog } from "@kobalte/core/dialog";
+import * as KDialog from "@kobalte/core/dialog";
 import { cn } from "../../lib/cn";
 
 /**
@@ -23,9 +23,17 @@ import { cn } from "../../lib/cn";
  * Kobalte supplies focus trap, scroll lock, Esc-to-close, click-outside
  * dismissal, portal rendering, and a11y. For confirm-style dialogs that
  * should block all dismissal until the user answers, use AlertDialog.
+ *
+ * Imported as a module namespace rather than via Kobalte's `Dialog` object:
+ * both `dialog` and `alert-dialog` build their namespace with
+ * `Object.assign(DialogRoot, …)` on the SAME root function, so importing both
+ * in one bundle leaves `Dialog === AlertDialog` and whichever module evaluates
+ * last owns `.Content`. That silently gave every plain Dialog here
+ * role="alertdialog". The `Root`/`Content` named exports are per-module and
+ * unaffected. (Kobalte 0.13.11 — re-check on upgrade.)
  */
 
-export const Dialog = KDialog;
+export const Dialog = KDialog.Root;
 export const DialogTrigger = KDialog.Trigger;
 export const DialogPortal = KDialog.Portal;
 export const DialogClose = KDialog.CloseButton;

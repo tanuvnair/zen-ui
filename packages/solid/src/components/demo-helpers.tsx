@@ -1,4 +1,4 @@
-import { type JSX, type ParentProps, createSignal, Show } from "solid-js";
+import { type JSX, type ParentProps, children, createSignal, Show } from "solid-js";
 import "./demo-helpers.css";
 
 /**
@@ -107,6 +107,12 @@ export const CodeExample = (props: {
   children?: JSX.Element;
   previewStyle?: JSX.CSSProperties;
 }) => {
+  // `props.children` is a getter: every read re-runs the caller's JSX and
+  // builds a SECOND instance. Reading it once to test for presence and again
+  // to render used to mount two of everything — invisible for a plain Button
+  // (the spare is never inserted), but a child that portals mounts itself
+  // regardless, so /select-dialog opened two stacked dialogs per click.
+  const resolved = children(() => props.children);
   const [copied, setCopied] = createSignal(false);
   const handleCopy = () => {
     navigator.clipboard
@@ -135,9 +141,9 @@ export const CodeExample = (props: {
           {copied() ? "✓ Copied" : "Copy Code"}
         </button>
       </div>
-      <Show when={props.children}>
+      <Show when={resolved()}>
         <div class="example-preview" style={props.previewStyle}>
-          {props.children}
+          {resolved()}
         </div>
       </Show>
       <pre class="example-code">

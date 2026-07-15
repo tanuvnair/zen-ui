@@ -1,5 +1,5 @@
 import { type JSX, splitProps } from "solid-js";
-import { AlertDialog as KAlertDialog } from "@kobalte/core/alert-dialog";
+import * as KAlertDialog from "@kobalte/core/alert-dialog";
 import { cn } from "../../lib/cn";
 
 /**
@@ -26,9 +26,13 @@ import { cn } from "../../lib/cn";
  * AlertDialog.Cancel under CloseButton — use the Action label visually
  * but wire the destructive callback via your own onClick (the Cancel
  * affordance is what we expose as <AlertDialogCancel>).
+ *
+ * Namespace-imported for the same reason as [dialog.tsx]: Kobalte's `Dialog`
+ * and `AlertDialog` objects are one and the same (both `Object.assign` the
+ * shared root), so reaching `.Content` through them is load-order roulette.
  */
 
-export const AlertDialog = KAlertDialog;
+export const AlertDialog = KAlertDialog.Root;
 export const AlertDialogTrigger = KAlertDialog.Trigger;
 export const AlertDialogPortal = KAlertDialog.Portal;
 export const AlertDialogCancel = KAlertDialog.CloseButton;

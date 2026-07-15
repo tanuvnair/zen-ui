@@ -3,6 +3,17 @@ import "./App.css";
 import { NavLink, Routes, Route } from "react-router-dom";
 import { NAV } from "./nav";
 
+/**
+ * Derived from NAV, never hand-counted: nav.ts is already the single source of
+ * truth for the sidebar and the landing catalogue, and a hard-coded number here
+ * would drift the moment a component is added. `catalogue: false` groups
+ * (Getting started) are routes, not components, so they do not count.
+ */
+const COMPONENT_COUNT = NAV.filter((g) => g.catalogue !== false).reduce(
+  (n, g) => n + g.items.length,
+  0,
+);
+
 import Welcome from "./components/Welcome";
 import ThemeSwitcher from "./components/theme-switcher";
 
@@ -65,6 +76,11 @@ import NewObjectDemo from "./components/NewObjectDemo";
 import NewButtonFamilyDemo from "./components/NewButtonFamilyDemo";
 import NewTreeDemo from "./components/NewTreeDemo";
 import NewToolbarDemo from "./components/NewToolbarDemo";
+import NewShellBarDemo from "./components/NewShellBarDemo";
+import NewFlexibleColumnLayoutDemo from "./components/NewFlexibleColumnLayoutDemo";
+import NewDynamicPageDemo from "./components/NewDynamicPageDemo";
+import NewObjectPageDemo from "./components/NewObjectPageDemo";
+import NewSelectDialogDemo from "./components/NewSelectDialogDemo";
 import { Toaster } from "./components/toast/toaster";
 
 /**
@@ -160,7 +176,8 @@ const App: React.FC = () => {
           <div className="app-header-text">
             <h1 className="app-title">Zen UI Component Library</h1>
             <p className="app-subtitle">
-              shadcn / Radix-style React component library by Algorisys.
+              shadcn / Radix-style React component library by Algorisys ·{" "}
+              {COMPONENT_COUNT} components
             </p>
           </div>
         </div>
@@ -233,6 +250,14 @@ const App: React.FC = () => {
             <Route path="/button-family" element={<NewButtonFamilyDemo />} />
             <Route path="/tree" element={<NewTreeDemo />} />
             <Route path="/toolbar" element={<NewToolbarDemo />} />
+            <Route path="/shellbar" element={<NewShellBarDemo />} />
+            <Route
+              path="/flexible-column-layout"
+              element={<NewFlexibleColumnLayoutDemo />}
+            />
+            <Route path="/dynamic-page" element={<NewDynamicPageDemo />} />
+            <Route path="/object-page" element={<NewObjectPageDemo />} />
+            <Route path="/select-dialog" element={<NewSelectDialogDemo />} />
           </Routes>
         </main>
       </div>

@@ -167,6 +167,53 @@ export type { PageProps, BarProps } from "./components/page/page";
 export { Toolbar } from "./components/toolbar/toolbar";
 export type { ToolbarProps, ToolbarAction } from "./components/toolbar/toolbar";
 
+// ShellBar (Fiori-shaped app frame: the top-level application header)
+export { ShellBar } from "./components/shellbar/shellbar";
+export type {
+  ShellBarProps,
+  ShellBarItem,
+  ShellBarMenuItem,
+  ShellBarProfile,
+} from "./components/shellbar/shellbar";
+
+// FlexibleColumnLayout (Fiori-shaped app frame: 1-3 column master-detail)
+export { FlexibleColumnLayout } from "./components/flexible-column-layout/flexible-column-layout";
+export type {
+  FlexibleColumnLayoutProps,
+  FlexibleColumnLayoutType,
+  FlexibleColumnLayoutChangeDetail,
+  FlexibleColumnName,
+} from "./components/flexible-column-layout/flexible-column-layout";
+
+// DynamicPage (Fiori-shaped app frame: header snaps away on scroll)
+export {
+  DynamicPage,
+  DynamicPageTitle,
+  DynamicPageHeader,
+  DynamicPageFooter,
+} from "./components/dynamic-page/dynamic-page";
+export type {
+  DynamicPageProps,
+  DynamicPageTitleProps,
+  DynamicPageHeaderProps,
+  DynamicPageFooterProps,
+} from "./components/dynamic-page/dynamic-page";
+
+// SelectDialog (Fiori-shaped: the searchable list picker)
+export { SelectDialog } from "./components/select-dialog/select-dialog";
+export type {
+  SelectDialogProps,
+  SelectDialogItem,
+} from "./components/select-dialog/select-dialog";
+
+// ObjectPageLayout (Fiori-shaped app frame: scroll-spy anchored sections)
+export { ObjectPageLayout } from "./components/object-page/object-page";
+export type {
+  ObjectPageLayoutProps,
+  ObjectPageSection,
+  ObjectPageSubSection,
+} from "./components/object-page/object-page";
+
 // Tree (Fiori-shaped; also zen-ui's first tree of any kind)
 export { Tree } from "./components/tree/tree";
 export type { TreeProps, TreeNode } from "./components/tree/tree";

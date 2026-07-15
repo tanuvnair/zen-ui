@@ -31,7 +31,13 @@ const STATE_ICON: Record<Exclude<ObjectState, "none">, IconName> = {
 /* ---------------------------- ObjectStatus ----------------------------- */
 
 const objectStatusVariants = cva(
-  "zen-inline-flex zen-items-center zen-gap-1 zen-text-sm zen-leading-snug",
+  // `relative` is load-bearing, not cosmetic: `stateAnnouncement` renders an
+  // `sr-only` span, which is `position: absolute`. Without a positioned
+  // ancestor its containing block is the initial containing block, so it
+  // escapes any scroll container it sits in and contributes its offset to the
+  // document's scrollable overflow. Inside ObjectPageLayout's scroller that
+  // grew the page to 3343px and let the whole app shell scroll away.
+  "zen-relative zen-inline-flex zen-items-center zen-gap-1 zen-text-sm zen-leading-snug",
   {
     variants: {
       inverted: {

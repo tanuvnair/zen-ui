@@ -76,6 +76,11 @@ import NewObjectDemo from "./components/NewObjectDemo";
 import NewButtonFamilyDemo from "./components/NewButtonFamilyDemo";
 import NewTreeDemo from "./components/NewTreeDemo";
 import NewToolbarDemo from "./components/NewToolbarDemo";
+import NewShellBarDemo from "./components/NewShellBarDemo";
+import NewFlexibleColumnLayoutDemo from "./components/NewFlexibleColumnLayoutDemo";
+import NewDynamicPageDemo from "./components/NewDynamicPageDemo";
+import NewObjectPageDemo from "./components/NewObjectPageDemo";
+import NewSelectDialogDemo from "./components/NewSelectDialogDemo";
 
 applyTheme(getInitialTheme());
 
@@ -148,6 +153,14 @@ render(
       <Route path="/button-family" component={NewButtonFamilyDemo} />
       <Route path="/tree" component={NewTreeDemo} />
       <Route path="/toolbar" component={NewToolbarDemo} />
+      <Route path="/shellbar" component={NewShellBarDemo} />
+      <Route
+        path="/flexible-column-layout"
+        component={NewFlexibleColumnLayoutDemo}
+      />
+      <Route path="/dynamic-page" component={NewDynamicPageDemo} />
+      <Route path="/object-page" component={NewObjectPageDemo} />
+      <Route path="/select-dialog" component={NewSelectDialogDemo} />
     </Router>
   ),
   root,

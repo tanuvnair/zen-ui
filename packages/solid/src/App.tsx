@@ -2,6 +2,17 @@ import { type Component, type ParentProps, ErrorBoundary, For, createSignal } fr
 import { A } from "@solidjs/router";
 import { useTheme } from "./lib/theme";
 import { NAV } from "./nav";
+
+/**
+ * Derived from NAV, never hand-counted: nav.ts is already the single source of
+ * truth for the sidebar and the landing catalogue, and a hard-coded number here
+ * would drift the moment a component is added. `catalogue: false` groups
+ * (Getting started) are routes, not components, so they do not count.
+ */
+const COMPONENT_COUNT = NAV.filter((g) => g.catalogue !== false).reduce(
+  (n, g) => n + g.items.length,
+  0,
+);
 import "./App.css";
 
 /**
@@ -84,7 +95,7 @@ const App: Component<ParentProps> = (props) => {
           </button>
           <div class="app-header-text">
             <h1 class="app-title">Zen UI · Solid</h1>
-            <p class="app-subtitle">@algorisys/zen-ui-solid · component demo</p>
+            <p class="app-subtitle">@algorisys/zen-ui-solid · component demo · {COMPONENT_COUNT} components</p>
           </div>
         </div>
         <div class="app-header-actions">

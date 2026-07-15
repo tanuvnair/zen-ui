@@ -165,4 +165,19 @@ export const NAV: NavGroup[] = [
       { label: "Tree", path: "/tree", description: "Hierarchical expandable list with full ARIA keyboard navigation" },
     ],
   },
+  {
+    group: "Fiori table ecosystem",
+    items: [
+      { label: "SelectDialog", path: "/select-dialog", description: "Searchable list picker — single commits on click, multi commits on OK" },
+    ],
+  },
+  {
+    group: "Fiori app frame",
+    items: [
+      { label: "ShellBar", path: "/shellbar", description: "Top-level app header — branding, search, actions, profile menu" },
+      { label: "FlexibleColumnLayout", path: "/flexible-column-layout", description: "1–3 column master-detail frame with responsive collapse" },
+      { label: "DynamicPage", path: "/dynamic-page", description: "Title + header that snaps away on scroll; pinnable header" },
+      { label: "ObjectPageLayout", path: "/object-page", description: "Anchored sections with scroll-spy navigation" },
+    ],
+  },
 ];

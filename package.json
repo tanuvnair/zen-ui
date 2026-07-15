@@ -8,6 +8,7 @@
     "apps/*"
   ],
   "scripts": {
+    "dev:all": "node scripts/dev-all.mjs",
     "dev": "bun --filter @algorisys/zen-ui-react dev",
     "build": "bun --filter @algorisys/zen-ui-react build",
     "build:lib": "bun --filter @algorisys/zen-ui-react build:lib",

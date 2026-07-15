@@ -31,6 +31,8 @@ Run from the repo root (Bun workspaces; Node 22.12.0 via `.nvmrc`):
 ```bash
 bun install
 
+bun run dev:all          # every demo behind one URL -> localhost:5170
+
 bun run dev              # React demo   (base /builder)
 bun run dev:solid        # Solid demo   (base /builder-solid)
 bun run dev:landing
@@ -39,6 +41,36 @@ bun run build:lib        # publishable React lib -> packages/react/dist
 bun run build:lib:solid
 bun run lint             # lint:solid for the Solid binding
 ```
+
+`dev:all` is the one to reach for when comparing the bindings: React and Solid
+cannot share a vite server (the two JSX transforms fight over the same files),
+so it runs one child server per binding on an OS-assigned free port and proxies
+each binding's base path to its child. You open one port; the split stays an
+implementation detail. Adding a framework is one entry in
+[scripts/demos.mjs](scripts/demos.mjs) — the hub page, the proxy table and the
+spawned servers all derive from it.
+
+The landing app is the exception: its base is `/`, the same path the hub
+occupies, so it is linked on its own port rather than proxied. Re-basing it
+under `/landing` would break every absolute asset URL it serves.
+
+Three things that bit while building it, and will bite the next edit:
+
+- **A base that is a prefix of another base silently mis-routes.** `/builder` is
+  a prefix of `/builder-solid`, so a plain string proxy key sent every Solid URL
+  to the React server, which answered with its own 404 — while the hub started
+  perfectly and the page looked right. The keys are anchored regexes
+  (`^/builder(/|$)`) for that reason — do not "simplify" them back.
+- **Killing a detached child right after spawning it races setsid().**
+  `detached: true` means the child calls `setsid()` *after* the fork, so
+  `process.kill(-pid)` fired milliseconds later throws `ESRCH`, the signal
+  reaches nobody, and the child survives as an orphan holding its port — where
+  it answers the next run's health check. The hub failing on a taken port does
+  exactly this, and stranded four vite servers. `killGroup()` retries through
+  `ESRCH` for that reason.
+- **Child ports are deliberately not pinned.** Vite's default 5173 is probably
+  already taken by your own `bun run dev`, and nobody types the child ports
+  anyway.
 
 Note `build` (demo) and `build:lib` (library) both write to `packages/*/dist`
 and clobber each other — rebuild the lib before inspecting `dist/style.css`.

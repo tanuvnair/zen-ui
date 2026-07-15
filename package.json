@@ -11,6 +11,7 @@
     "dev:all": "node scripts/dev-all.mjs",
     "check:cn": "bun run scripts/check-cn.ts",
     "check:mask": "bun run scripts/check-mask.ts",
+    "check:color": "bun run scripts/check-color.ts",
     "dev": "bun --filter @algorisys/zen-ui-react dev",
     "build": "bun --filter @algorisys/zen-ui-react build",
     "build:lib": "bun --filter @algorisys/zen-ui-react build:lib",

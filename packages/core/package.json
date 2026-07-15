@@ -12,7 +12,8 @@
     "./tokens.css": "./styles/tokens.css",
     "./preflight.css": "./styles/preflight.css",
     "./icons": "./src/icons.ts",
-    "./mask": "./src/mask.ts"
+    "./mask": "./src/mask.ts",
+    "./color": "./src/color.ts"
   },
   "files": [
     "src",

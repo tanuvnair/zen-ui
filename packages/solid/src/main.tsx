@@ -89,6 +89,7 @@ import NewStatCardDemo from "./components/NewStatCardDemo";
 import NewCustomizingDemo from "./components/NewCustomizingDemo";
 import NewMaskInputDemo from "./components/NewMaskInputDemo";
 import NewLinkDemo from "./components/NewLinkDemo";
+import NewColorPickerDemo from "./components/NewColorPickerDemo";
 
 applyTheme(getInitialTheme());
 
@@ -177,6 +178,7 @@ render(
       <Route path="/customizing" component={NewCustomizingDemo} />
       <Route path="/mask-input" component={NewMaskInputDemo} />
       <Route path="/link" component={NewLinkDemo} />
+      <Route path="/color-picker" component={NewColorPickerDemo} />
     </Router>
   ),
   root,

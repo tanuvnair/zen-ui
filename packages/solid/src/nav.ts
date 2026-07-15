@@ -37,6 +37,7 @@ export const NAV: NavGroup[] = [
       { label: "Button", path: "/button", description: "Variants \u00d7 colours \u00d7 sizes \u00d7 shapes via CVA; polymorphic `as` prop" },
       { label: "Badge", path: "/badge", description: "Styled span with variants \u00d7 colours; `as` for clickable badges" },
       { label: "Link", path: "/link", description: "Styled anchor; polymorphic via as, external, disabled" },
+      { label: "ColorPicker", path: "/color-picker", description: "Swatch palette + the platform picker; hex in, hex out" },
       { label: "Card", path: "/card", description: "Surface primitive + SelectableCard for goal pickers / plan selectors" },
       { label: "StatCard", path: "/stat-card", description: "A labelled figure — icon, delta, and somewhere to go" },
       { label: "Skeleton", path: "/skeleton", description: "Animated muted-box placeholder; size it with utility classes" },

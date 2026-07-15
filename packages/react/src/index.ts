@@ -79,6 +79,14 @@ export type {
   Notification,
 } from "./components/notifications-inbox/notifications-inbox";
 
+// ColorPicker + ColorPalette (swatch grid + the platform's own picker;
+// colour maths shared via core/color)
+export { ColorPicker } from "./components/color-picker/color-picker";
+export type { ColorPickerProps } from "./components/color-picker/color-picker";
+export { ColorPalette } from "./components/color-picker/color-palette";
+export type { ColorPaletteProps } from "./components/color-picker/color-palette";
+export type { ColorOption } from "@algorisys/zen-ui-core/color";
+
 // Link (styled anchor; asChild for router links, external + disabled)
 export { Link, linkVariants } from "./components/link/link";
 export type { LinkProps } from "./components/link/link";

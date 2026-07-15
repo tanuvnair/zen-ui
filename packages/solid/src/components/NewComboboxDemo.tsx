@@ -30,7 +30,7 @@ const NewComboboxDemo = () => {
       <DemoSection
         title="Creatable"
         codeTitle="Offer the typed text when it matches nothing"
-        codeDescription="Type a tag that does not exist — 'design', say — and the list offers to create it instead of saying 'No results'. The component does not add the option itself: it cannot know where your list lives or what a new option's value should be, so onCreate hands you the text and adding it is yours. Typing an existing label offers nothing, because it already exists."
+        codeDescription="Type a tag that does not exist — 'design', say — and the list offers to create it instead of saying 'No results'. Adding the option is always yours: the component cannot know where your list lives or what a new value should be. RETURN the new option and it is selected for you; return nothing and the value is left alone. Typing an existing label offers nothing, because it already exists."
         code={`const [tags, setTags] = createSignal([{ value: "bug", label: "bug" }, …]);
 
 <Combobox
@@ -40,8 +40,8 @@ const NewComboboxDemo = () => {
   creatable
   onCreate={(label) => {
     const opt = { value: label.toLowerCase(), label };
-    setTags((prev) => [...prev, opt]);   // the caller owns the list
-    setTag(opt.value);                    // and the selection
+    setTags((prev) => [...prev, opt]);   // adding is always yours
+    return opt;                           // returning it selects it for you
   }}
 />`}
       >
@@ -54,7 +54,7 @@ const NewComboboxDemo = () => {
             onCreate={(label) => {
               const opt = { value: label.toLowerCase(), label };
               setTags((prev) => [...prev, opt]);
-              setTag(opt.value);
+              return opt;
             }}
             placeholder="Pick or create a tag"
             searchPlaceholder="Type a tag…"

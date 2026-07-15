@@ -51,12 +51,17 @@ import {
  *   <Combobox
  *     options={tags}
  *     creatable
- *     onCreate={(label) => addTag(label)}
+ *     onCreate={(label) => {
+ *       const opt = { value: slug(label), label };
+ *       setTags((prev) => [...prev, opt]);
+ *       return opt;               // returned -> selected for you
+ *     }}
  *   />
  *
- * The component does not add the option itself — it cannot know where the
- * list lives or what a new one's `value` should be. `onCreate` hands the
- * caller the typed text; adding it to `options` and selecting it is theirs.
+ * The component never touches `options`: it cannot know where the list lives
+ * or what a new option's `value` should be, so creating is always the
+ * caller's. Selecting does not have to be. RETURN the new option and it is
+ * selected; return nothing and the value is left alone for the caller to set.
  */
 
 export interface ComboboxOption {
@@ -91,12 +96,16 @@ export interface ComboboxProps {
    */
   creatable?: boolean;
   /**
-   * Called with the typed text when the create row is chosen. The component
-   * does not touch `options`: it cannot know where the list lives or what a
-   * new option's `value` should be, so adding and selecting it is the
-   * caller's job.
+   * Called with the typed text when the create row is chosen. Adding the
+   * option to your list is always yours — the component cannot know where the
+   * list lives or what a new `value` should be.
+   *
+   * RETURN the new option and it is selected for you. Return nothing and the
+   * value is left alone, so a caller who wants to select it later (after a
+   * round trip to a server, say) stays in control. Both are supported on
+   * purpose; returning is just the short path.
    */
-  onCreate?: (label: string) => void;
+  onCreate?: (label: string) => ComboboxOption | void;
   /** Verb on the create row — `Create "foo"`. Default "Create". */
   createLabel?: string;
   /** Trigger button's width. Defaults to 240. */
@@ -283,7 +292,14 @@ const Combobox: React.FC<ComboboxProps> = ({
                   value={`__create__${typed}`}
                   keywords={[typed]}
                   onSelect={() => {
-                    onCreate!(typed);
+                    const created = onCreate!(typed);
+                    if (created) {
+                      // Cache the label before selecting: the caller's options
+                      // update has not landed yet, so the trigger would look
+                      // this value up, miss, and fall back to the placeholder.
+                      lastLabelRef.current = created.label;
+                      update(created.value, created);
+                    }
                     setQuery("");
                     setOpen(false);
                   }}

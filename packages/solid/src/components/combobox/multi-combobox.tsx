@@ -25,10 +25,32 @@ export type MultiComboboxProps = {
   placeholder?: string;
   searchPlaceholder?: string;
   emptyMessage?: string;
+  /**
+   * Offer to create the typed text when it matches no option's label.
+   * Needs `onCreate` to do anything.
+   */
+  creatable?: boolean;
+  /**
+   * Called with the typed text when the create row is chosen. Adding the
+   * option to your list is always yours — the component cannot know where the
+   * list lives or what a new `value` should be.
+   *
+   * RETURN the new option and it is APPENDED to the selection, which is what
+   * "create a tag" almost always means. Return nothing and the selection is
+   * left alone. Mirrors Combobox, where returning selects instead of appends —
+   * the difference is the selection model, not the contract.
+   */
+  onCreate?: (label: string) => ComboboxOption | void;
+  /** Verb on the create row — `Create "foo"`. Default "Create". */
+  createLabel?: string;
   width?: number | string;
   disabled?: boolean;
   class?: string;
 };
+
+/** See combobox.tsx: Kobalte builds the list from `options`, so the create row
+ *  has to be one — that is what keeps it arrow-navigable. */
+const CREATE_SENTINEL = "__zen_create__";
 
 export const MultiCombobox = (rawProps: MultiComboboxProps) => {
   const [props] = splitProps(rawProps, [
@@ -39,6 +61,9 @@ export const MultiCombobox = (rawProps: MultiComboboxProps) => {
     "placeholder",
     "searchPlaceholder",
     "emptyMessage",
+    "creatable",
+    "onCreate",
+    "createLabel",
     "width",
     "disabled",
     "class",
@@ -63,16 +88,50 @@ export const MultiCombobox = (rawProps: MultiComboboxProps) => {
 
   const remove = (v: string) => setValues(selectedValues().filter((x) => x !== v));
 
+  const [query, setQuery] = createSignal("");
+  // Compared against the LABEL, not the value: the user is typing what they
+  // read, and "already exists" has to mean the same thing to them as to us.
+  const typed = () => query().trim();
+  const showCreate = createMemo(
+    () =>
+      Boolean(props.creatable && props.onCreate) &&
+      typed().length > 0 &&
+      !(props.options ?? []).some(
+        (o) => o.label.trim().toLowerCase() === typed().toLowerCase(),
+      ),
+  );
+  const effectiveOptions = createMemo<ComboboxOption[]>(() =>
+    showCreate()
+      ? [
+          ...(props.options ?? []),
+          { value: CREATE_SENTINEL, label: `${props.createLabel ?? "Create"} “${typed()}”` },
+        ]
+      : (props.options ?? []),
+  );
+
   return (
     <KCombobox<ComboboxOption, ComboboxOption>
       multiple
-      options={props.options ?? []}
+      options={effectiveOptions()}
       optionValue="value"
       optionTextValue="label"
       optionLabel="label"
       optionDisabled="disabled"
       value={selectedOptions()}
-      onChange={(opts) => setValues((opts ?? []).map((o) => o.value))}
+      onInputChange={setQuery}
+      onChange={(opts) => {
+        const list = opts ?? [];
+        // Kobalte hands back the whole selection, so the sentinel arrives IN
+        // it. Strip it or the create row becomes a chip.
+        const rest = list.filter((o) => o.value !== CREATE_SENTINEL).map((o) => o.value);
+        if (!list.some((o) => o.value === CREATE_SENTINEL)) {
+          setValues(rest);
+          return;
+        }
+        const created = props.onCreate?.(typed());
+        setQuery("");
+        setValues(created && !rest.includes(created.value) ? [...rest, created.value] : rest);
+      }}
       disabled={props.disabled}
       placeholder={props.placeholder ?? "Select…"}
       itemComponent={(itemProps) => (

@@ -57,12 +57,16 @@ export type ComboboxProps = {
    */
   creatable?: boolean;
   /**
-   * Called with the typed text when the create row is chosen. The component
-   * does not touch `options`: it cannot know where the list lives or what a
-   * new option's `value` should be, so adding and selecting it is the
-   * caller's job.
+   * Called with the typed text when the create row is chosen. Adding the
+   * option to your list is always yours — the component cannot know where the
+   * list lives or what a new `value` should be.
+   *
+   * RETURN the new option and it is selected for you. Return nothing and the
+   * value is left alone, so a caller who wants to select it later (after a
+   * round trip to a server, say) stays in control. Both are supported on
+   * purpose; returning is just the short path.
    */
-  onCreate?: (label: string) => void;
+  onCreate?: (label: string) => ComboboxOption | void;
   /** Verb on the create row — `Create "foo"`. Default "Create". */
   createLabel?: string;
   width?: number | string;
@@ -184,8 +188,12 @@ export const Combobox = (rawProps: ComboboxProps) => {
         // The create row is not a selection: hand the text back and leave the
         // value alone, or the sentinel becomes the answer.
         if (opt?.value === CREATE_SENTINEL) {
-          props.onCreate?.(typed());
+          const created = props.onCreate?.(typed());
           setQuery("");
+          if (created) {
+            if (!isControlled()) setInternalValue(created.value);
+            props.onValueChange?.(created.value, created);
+          }
           return;
         }
         const next = opt?.value ?? "";

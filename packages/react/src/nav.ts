@@ -108,6 +108,8 @@ export const NAV: NavGroup[] = [
     items: [
       { to: "/select-dialog", label: "SelectDialog", description: "Searchable list picker — single commits on click, multi commits on OK" },
       { to: "/value-help", label: "ValueHelp", description: "F4 lookup dialog — the list picker plus a condition builder" },
+      { to: "/view-settings", label: "ViewSettingsDialog", description: "Sort / group / filter settings; commits on OK" },
+      { to: "/filter-bar", label: "FilterBar", description: "List Report filter area — fields, Go, and Adapt filters" },
     ],
   },
   {

@@ -199,6 +199,19 @@ export type {
   DynamicPageFooterProps,
 } from "./components/dynamic-page/dynamic-page";
 
+// ViewSettingsDialog (Fiori-shaped: sort / group / filter settings)
+export { ViewSettingsDialog } from "./components/view-settings/view-settings-dialog";
+export type {
+  ViewSettingsDialogProps,
+  ViewSettingsValue,
+  ViewSettingsItem,
+  ViewSettingsFilterGroup,
+} from "./components/view-settings/view-settings-dialog";
+
+// FilterBar (Fiori-shaped: the List Report filter area)
+export { FilterBar } from "./components/filter-bar/filter-bar";
+export type { FilterBarProps, FilterBarField } from "./components/filter-bar/filter-bar";
+
 // ValueHelp (Fiori-shaped: the F4 lookup dialog — list + condition builder)
 export { ValueHelp } from "./components/value-help/value-help";
 export type {

@@ -82,6 +82,17 @@ export type {
   SelectDialogItem,
 } from "./components/select-dialog/select-dialog";
 
+export { ViewSettingsDialog } from "./components/view-settings/view-settings-dialog";
+export type {
+  ViewSettingsDialogProps,
+  ViewSettingsValue,
+  ViewSettingsItem,
+  ViewSettingsFilterGroup,
+} from "./components/view-settings/view-settings-dialog";
+
+export { FilterBar } from "./components/filter-bar/filter-bar";
+export type { FilterBarProps, FilterBarField } from "./components/filter-bar/filter-bar";
+
 export { ValueHelp } from "./components/value-help/value-help";
 export type {
   ValueHelpProps,

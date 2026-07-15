@@ -82,6 +82,8 @@ import NewDynamicPageDemo from "./components/NewDynamicPageDemo";
 import NewObjectPageDemo from "./components/NewObjectPageDemo";
 import NewSelectDialogDemo from "./components/NewSelectDialogDemo";
 import NewValueHelpDemo from "./components/NewValueHelpDemo";
+import NewViewSettingsDemo from "./components/NewViewSettingsDemo";
+import NewFilterBarDemo from "./components/NewFilterBarDemo";
 
 applyTheme(getInitialTheme());
 
@@ -163,6 +165,8 @@ render(
       <Route path="/object-page" component={NewObjectPageDemo} />
       <Route path="/select-dialog" component={NewSelectDialogDemo} />
       <Route path="/value-help" component={NewValueHelpDemo} />
+      <Route path="/view-settings" component={NewViewSettingsDemo} />
+      <Route path="/filter-bar" component={NewFilterBarDemo} />
     </Router>
   ),
   root,

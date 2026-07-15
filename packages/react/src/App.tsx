@@ -82,6 +82,8 @@ import NewDynamicPageDemo from "./components/NewDynamicPageDemo";
 import NewObjectPageDemo from "./components/NewObjectPageDemo";
 import NewSelectDialogDemo from "./components/NewSelectDialogDemo";
 import NewValueHelpDemo from "./components/NewValueHelpDemo";
+import NewViewSettingsDemo from "./components/NewViewSettingsDemo";
+import NewFilterBarDemo from "./components/NewFilterBarDemo";
 import { Toaster } from "./components/toast/toaster";
 
 /**
@@ -260,6 +262,8 @@ const App: React.FC = () => {
             <Route path="/object-page" element={<NewObjectPageDemo />} />
             <Route path="/select-dialog" element={<NewSelectDialogDemo />} />
             <Route path="/value-help" element={<NewValueHelpDemo />} />
+            <Route path="/view-settings" element={<NewViewSettingsDemo />} />
+            <Route path="/filter-bar" element={<NewFilterBarDemo />} />
           </Routes>
         </main>
       </div>

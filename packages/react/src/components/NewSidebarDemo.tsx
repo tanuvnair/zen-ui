@@ -9,6 +9,9 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+  SidebarMenuSubButton,
   SidebarTrigger,
 } from "./sidebar/sidebar";
 import { CodeExample } from "./demo-helpers";
@@ -24,6 +27,13 @@ const UsersIcon = () => (
     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
     <circle cx="9" cy="7" r="4" />
     <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+  </svg>
+);
+const ChartIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="18" y1="20" x2="18" y2="10" />
+    <line x1="12" y1="20" x2="12" y2="4" />
+    <line x1="6" y1="20" x2="6" y2="14" />
   </svg>
 );
 const CogIcon = () => (
@@ -112,6 +122,85 @@ const NewSidebarDemo: React.FC = () => (
                   <span>Settings</span>
                 </SidebarMenuButton>
               </SidebarFooter>
+            </Sidebar>
+            <div style={{ flex: 1, padding: 16 }}>Page content…</div>
+          </div>
+        </SidebarProvider>
+      </CodeExample>
+    </section>
+
+    <section className="demo-section">
+      <h2>2. Nested items, and the collapsed flyout</h2>
+      <p style={{ fontSize: "0.875rem", color: "var(--zen-color-muted-fg)", margin: "0 0 0.75rem" }}>
+        <code>SidebarMenuSub</code> owns the nested list. Expanded, it discloses
+        inline with a chevron. Collapse the rail and the same children re-host
+        into a flyout anchored to the icon, because a 48px rail has nowhere to
+        put them. Write the tree once; both modes work.
+      </p>
+      <CodeExample
+        title="SidebarMenuSub / SidebarMenuSubItem / SidebarMenuSubButton"
+        code={`<SidebarMenu>
+  <SidebarMenuItem>
+    <SidebarMenuButton active>
+      <HomeIcon /><span>Dashboard</span>
+    </SidebarMenuButton>
+  </SidebarMenuItem>
+  <SidebarMenuItem>
+    <SidebarMenuSub label="Reports" icon={<ChartIcon />}>
+      <SidebarMenuSubItem>
+        <SidebarMenuSubButton asChild active>
+          <a href="#sales">Sales</a>
+        </SidebarMenuSubButton>
+      </SidebarMenuSubItem>
+      <SidebarMenuSubItem>
+        <SidebarMenuSubButton asChild>
+          <a href="#forecast">Forecast</a>
+        </SidebarMenuSubButton>
+      </SidebarMenuSubItem>
+    </SidebarMenuSub>
+  </SidebarMenuItem>
+</SidebarMenu>`}
+      >
+        <SidebarProvider>
+          <div style={{ display: "flex", height: 320, width: "100%", border: "1px solid var(--zen-color-border)", borderRadius: 8, overflow: "hidden" }}>
+            <Sidebar>
+              <SidebarHeader>
+                <SidebarTrigger />
+                <strong>Acme</strong>
+              </SidebarHeader>
+              <SidebarContent>
+                <SidebarGroup>
+                  <SidebarGroupLabel>Main</SidebarGroupLabel>
+                  <SidebarMenu>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton active>
+                        <HomeIcon />
+                        <span>Dashboard</span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <SidebarMenuSub label="Reports" icon={<ChartIcon />}>
+                        <SidebarMenuSubItem>
+                          <SidebarMenuSubButton asChild>
+                            <a href="#sales">Sales</a>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                        <SidebarMenuSubItem>
+                          <SidebarMenuSubButton asChild>
+                            <a href="#forecast">Forecast</a>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      </SidebarMenuSub>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton>
+                        <UsersIcon />
+                        <span>Team</span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  </SidebarMenu>
+                </SidebarGroup>
+              </SidebarContent>
             </Sidebar>
             <div style={{ flex: 1, padding: 16 }}>Page content…</div>
           </div>

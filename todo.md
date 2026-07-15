@@ -549,26 +549,160 @@ the 1–2-day builds where the depth investment shows up.
 Tracked against `docs/fiori-gap-analysis.md`. Tier numbering is that doc's.
 
 **Done, both bindings**: icon set (48), Object atoms, Button family, Tree,
-Toolbar (overflow), Page, Bar.
+Toolbar (overflow), Page, Bar, ShellBar, FlexibleColumnLayout, DynamicPage,
+ObjectPageLayout, SelectDialog, Sidebar sub-items + collapsed flyout.
+
+**Tier 1's rows are all built** (SideNavigation closed 2026-07-15; one caveat
+about a named `NavigationLayout` wrapper below). Tier 2 is roughly half and was
+previously untracked here. Tier 3 is 1 of 4 dialogs. Status below is checked
+against `index.ts` exports in both bindings, not against memory of what a session
+said it built.
+
+- [ ] **`Page` and `Bar` have no demo or nav entry.** Shipped in 9aab1eb as
+      exports only, so they violate the "add it to nav.ts, add its Route" rule
+      and are invisible in both demos. Everything else Fiori-shaped has a demo.
+- [ ] **SKILLS.md (or similar) so coding agents can drive this library.**
+      Requested 2026-07-15. Claude / Cursor / Antigravity currently have to
+      infer the API from source. Wants: the `zen-` prefix rule and why variants
+      sit outside it, the compound-component patterns, the parity rule (a
+      component added to one binding must be added to the other), the token /
+      theming surface, and per-family usage snippets. `nav.ts` + the demos are
+      the obvious generation source — they already enumerate every component
+      with a description. Decide: one root SKILLS.md, or a real Agent Skill
+      (SKILL.md + frontmatter) that tools can auto-load.
 
 - [ ] **Global search across the demo** (requested) — a Cmd/Ctrl-K command
       palette over every route. Natural fit: `Command` now exists in both
       bindings, and `src/nav.ts` is already the single source of truth for the
       sidebar AND the landing catalogue, so the palette can render from it with
       no third list to drift. Must land in React AND Solid per the parity rule.
-- [ ] **Tier 1 — app frame** (in progress): ShellBar, FlexibleColumnLayout,
-      DynamicPage (snapping header), ObjectPageLayout (scroll-spy anchors).
-      This is what actually makes an app read as Fiori.
-- [ ] **Tier 3 — table ecosystem**: FilterBar, VariantManagement, p13n dialog,
-      ValueHelp, SelectDialog, ViewSettingsDialog, AnalyticalTable, TreeTable,
-      spreadsheet export. DataTable has the mechanics; these are the surrounding
-      dialogs, and most only make sense with a persistence story behind them —
-      decide that first.
-- [ ] **Tier 4 — NOT RECOMMENDED**: Smart controls, micro charts, launchpad
-      tiles, planning calendars, floorplans. The gap analysis recommends against
-      building these: they encode SAP's backend, OData annotations and
-      Launchpad, not a design language. Revisit only if targeting real SAP
-      integration.
+- [ ] **Tier 1 — app frame. 9 of the gap doc's 9 rows, with one caveat.** Was
+      marked done 2026-07-15, but that entry scoped "app frame" to the four
+      components that session happened to build; the tier's table has nine rows.
+      Re-opened, then closed properly the same day.
+  - [x] **SideNavigation behaviours** — done 2026-07-15, both bindings, as an
+        extension of `Sidebar` rather than a second nav shell (decided with the
+        gap doc's recommendation in view; two collapsible sidebars would drift).
+        **The gap doc is wrong about the premise**: it says `Sidebar` has "no
+        collapse-to-icons + popup-menu behavior", but collapse-to-icons was
+        already there. The actual gaps were sub-items and the popup, both now
+        shipped as `SidebarMenuSub` / `SidebarMenuSubItem` /
+        `SidebarMenuSubButton`. The tier's `(+ Group, Item, SubItem)` maps to
+        `SidebarGroup` / `SidebarMenuItem` / `SidebarMenuSubItem`.
+        `SidebarMenuSub` owns the trigger, the open state and the list, so the
+        same children render inline when expanded and inside a flyout Popover
+        when collapsed. Diverges from shadcn, where `SidebarMenuSub` is only the
+        `<ul>` — noted in the component docstring. 13 behaviours driven per
+        binding (`subnav-verify.tmp.mjs`).
+  - [ ] **Caveat: no named `NavigationLayout` wrapper.** The gap doc's row is
+        "NavigationLayout + SideNavigation", and only the SideNavigation half is
+        built. Its own note scopes the gap to "collapse-to-icons + popup-menu
+        behavior", which is closed, and the wrapper is a trivial composition of
+        ShellBar + Sidebar + Page. Decide whether it earns a component or the
+        row is done. Not counted as a build item until then.
+  - [ ] _Pre-existing demo cosmetic, both bindings_: `<strong>Acme</strong>` in
+        the Sidebar demo's header does not hide when the rail collapses, so it
+        spills over the page content. The demo's brand is caller-land, but
+        `Sidebar` also has no `overflow-hidden` to contain it. Visible in
+        section 1 since before this work. Left alone — changing the aside's
+        overflow is a behaviour change for consumers.
+  - [x] Page, Bar, Toolbar (overflow), Tree — earlier commits. Page and Bar
+        still have no demo or nav entry (see the item above).
+  - [x] ShellBar, FlexibleColumnLayout, DynamicPage (snapping header),
+        ObjectPageLayout (scroll-spy anchors) — done 2026-07-15.
+        Both bindings: component + demo + nav entry + route. Two bugs found by
+        driving the demo rather than by tsc, lint or the build — all three were
+        green throughout:
+        - `ObjectStatus` renders its `stateAnnouncement` in an `sr-only` span,
+          which is `position: absolute` with no positioned ancestor. Inside
+          ObjectPageLayout's scroller it escaped to the initial containing block,
+          grew the document to 3343px and let the whole app shell scroll away —
+          a clipped sidebar over white space. Fixed with `zen-relative` on the
+          wrapper, in both bindings.
+        - React's `FlexibleColumnLayout` memoised `present` on the column
+          *nodes*. Inline JSX (`startColumn={<OrderList />}`) is a new identity
+          every render, so `present`/`columns`/`detail` all churned, firing the
+          `[detail]` effect → `onLayoutChange` → caller setState → render. 99.6%
+          idle CPU, and it starved React's queue so route changes updated the URL
+          without ever committing the new page. Keyed on booleans now. Solid was
+          unaffected (fine-grained reactivity).
+- [ ] **Tier 2 — enterprise semantics. Roughly half.** Untracked here until
+      2026-07-15: this section used to jump Tier 1 → Tier 3, so a whole tier of
+      "high value, tractable to build" work was invisible. Small components that
+      carry disproportionate weight in enterprise UIs — and unlike Tier 4, none
+      of them assume an SAP backend, which makes this the tier most likely to
+      earn its keep.
+  - [x] Object atoms (ObjectStatus, ObjectNumber, ObjectIdentifier,
+        ObjectMarker), Button family (SegmentedButton, SplitButton,
+        ToggleButton), icon set (48).
+  - [x] _Already covered by existing components_: MessageStrip → `Alert` /
+        `Banner`; StepInput → `NumberField`; BusyIndicator / BusyDialog →
+        `Loading`.
+  - [ ] **MessagePopover / MessageView** — aggregated form validation grouped by
+        severity, click-to-navigate-to-field. No equivalent, and the gap doc
+        flags it as high value for `Form`. **Best-value item in the tier.**
+  - [ ] **DynamicDateRange** — semantic relative dates ("Today", "Last 7 Days",
+        "This Quarter", "From…"). `DateRangePicker` only does absolute ranges.
+  - [ ] Typography layer — Link / Title / Label / Text / ExpandableText
+        (show-more/less). zen-ui has no typography primitives at all, so this is
+        wider than it looks.
+  - [ ] ObjectAttribute, InfoLabel / GenericTag, QuickView / QuickViewCard.
+  - [ ] ColorPicker / ColorPalette, MaskInput, Carousel.
+  - [ ] _Upgrades to something that already exists, not new builds_: MessageBox
+        (semantic presets over `AlertDialog`), IllustratedMessage (`EmptyState`
+        + an illustration set), Panel (`Accordion` is partial), MenuButton
+        (`DropdownMenu` composes to it), Token / Tokenizer (`TagInput` is
+        close), Wizard branching + validation gating (`Stepper` lacks it).
+
+- [ ] **Tier 3 — table ecosystem. 1 of 4 dialogs.** Persistence question settled
+      2026-07-15: **build the stateless dialogs first**, defer anything that
+      needs a store.
+      - [x] SelectDialog — searchable list picker, single + multi select.
+            Done 2026-07-15, both bindings: component + demo + nav + route,
+            15 behaviours driven per binding (`sd-verify.tmp.mjs`). Single
+            commits on click; multi drafts until OK and Cancel restores the
+            open-time selection. `onConfirm` reports ids in **list order**, not
+            tick order, matching UI5's `selectedContexts` — ids the current
+            `items` no longer holds (rotated `onSearch` page) keep their draft
+            order on the end rather than being dropped.
+            Three bugs, none of which tsc / lint / the build could see:
+            - **Kobalte clobbers its own `Dialog.Content`.** `dialog` and
+              `alert-dialog` both do `Object.assign(DialogRoot, …)` on the SAME
+              root function, so importing both leaves `Dialog === AlertDialog`
+              and the last module evaluated owns `.Content`. Every plain Dialog
+              **and Sheet** in the Solid binding was announcing
+              `role="alertdialog"` to screen readers. Fixed by importing the
+              per-module `Root`/`Content` named exports instead of reaching
+              through the mutated namespace object. Kobalte 0.13.11 — upstream,
+              so re-check on upgrade; `role-verify.tmp.mjs` guards all three
+              roles.
+            - **`CodeExample` mounted every demo child twice.** `props.children`
+              is a getter, and it was read once to test presence and again to
+              render, so each read rebuilt the caller's JSX. Invisible for a
+              plain Button (the spare is never inserted) but a child that
+              portals mounts anyway — /select-dialog opened two stacked dialogs
+              per click. Fixed with Solid's `children()` helper. Worth a sweep:
+              any Solid demo child that portals had the same duplicate.
+            - Multi-select committed in tick order (see above).
+      - [ ] ValueHelp — the F4 field picker; builds on SelectDialog.
+      - [ ] ViewSettingsDialog — sort / group / filter settings.
+      - [ ] FilterBar — filter fields + Go / Adapt Filters, variant slot.
+      - [ ] _Deferred until saved views have a home_: VariantManagement, p13n
+            dialog. Both are storage questions wearing a component costume.
+      - [ ] _Separate_: AnalyticalTable, TreeTable, spreadsheet export —
+            extensions of DataTable, not dialogs around it.
+- [ ] **Tier 4 — build the whole tier** (decided 2026-07-15, overriding the
+      recommendation below): smart controls, micro charts, launchpad tiles,
+      planning calendars, floorplans.
+
+      The gap analysis recommends AGAINST this and that reasoning still stands
+      — these encode SAP's backend, OData annotations and Launchpad rather than
+      a design language, so they are the tier most likely to age badly or need
+      a real SAP integration to be worth anything. Recorded here so the
+      trade-off is visible rather than re-litigated: the call was made with the
+      recommendation in view. Micro charts are the most defensible piece (small
+      sparkline / bullet / radial charts are design-language); smart controls
+      are the least (they assume annotations we do not have).
 
 ### Known-latent, found while porting
 

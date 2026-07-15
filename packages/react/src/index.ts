@@ -593,12 +593,17 @@ export {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+  SidebarMenuSubButton,
   SidebarTrigger,
   useSidebar,
 } from "./components/sidebar/sidebar";
 export type {
   SidebarProviderProps,
   SidebarMenuButtonProps,
+  SidebarMenuSubProps,
+  SidebarMenuSubButtonProps,
   SidebarTriggerProps,
 } from "./components/sidebar/sidebar";
 

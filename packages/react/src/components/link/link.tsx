@@ -8,7 +8,7 @@ import { Icon } from "../icon/icon";
  * Link — a styled anchor.
  *
  *   <Link href="/pricing">Pricing</Link>
- *   <Link href="https://sap.com" external>SAP</Link>
+ *   <Link href="https://www.algorisys.com" external>Algorisys</Link>
  *   <p>Read the <Link href="/docs" inline>documentation</Link> first.</p>
  *
  * The most surprising thing missing from this library: every app that used it

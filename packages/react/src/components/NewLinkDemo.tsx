@@ -45,21 +45,21 @@ const NewLinkDemo: React.FC = () => (
       <CodeExample
         title="external says so, in the markup and out loud"
         description="external sets target=_blank and rel='noopener noreferrer' — noopener closes the window.opener hole, noreferrer stops the referrer leaking — and renders the mark that means it. The icon is decorative, so the fact it opens a new tab is also said in words for anyone who cannot see it. Pass your own target or rel and yours wins."
-        code={`<Link href="https://www.sap.com" external>SAP</Link>
+        code={`<Link href="https://www.algorisys.com" external>Algorisys</Link>
 
 // renders: target="_blank" rel="noopener noreferrer"
 //          + an icon, + a visually-hidden "(opens in a new tab)"`}
       >
         <div style={ROW}>
-          <Link href="https://www.sap.com" external>
-            SAP
+          <Link href="https://www.algorisys.com" external>
+            Algorisys
           </Link>
-          <Link href="https://carbondesignsystem.com" external size="sm">
-            Carbon
+          <Link href="https://www.youtube.com/@tekacademylabs" external size="sm">
+            Tek Academy Labs
           </Link>
           <p className="zen-m-0 zen-text-sm">
             Or{" "}
-            <Link href="https://developer.mozilla.org" external inline>
+            <Link href="https://www.algorisys.com" external inline>
               inline and external
             </Link>{" "}
             together.

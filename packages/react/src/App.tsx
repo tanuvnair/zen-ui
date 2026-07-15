@@ -2,11 +2,6 @@ import { useState } from "react";
 import "./App.css";
 import { NavLink, Routes, Route } from "react-router-dom";
 import { NAV } from "./nav";
-// The version comes from the package that is actually published, so the footer
-// cannot drift from what a consumer installs. resolveJsonModule is already on,
-// and Vite emits JSON as named exports, so only `version` survives tree-shaking
-// — the rest of package.json never reaches the bundle.
-import { version as ZEN_VERSION } from "../package.json";
 
 /**
  * Derived from NAV, never hand-counted: nav.ts is already the single source of
@@ -107,6 +102,7 @@ import NewLinkDemo from "./components/NewLinkDemo";
 import NewColorPickerDemo from "./components/NewColorPickerDemo";
 import NewCarouselDemo from "./components/NewCarouselDemo";
 import NewDynamicDateRangeDemo from "./components/NewDynamicDateRangeDemo";
+import ReleaseNotes from "./components/ReleaseNotes";
 import { Toaster } from "./components/toast/toaster";
 
 /**
@@ -305,10 +301,15 @@ const App: React.FC = () => {
         </main>
       </div>
       <footer className="app-footer">
-        <span>zen-ui · shadcn / Radix-style components by Algorisys</span>
-        <span className="app-version" title="@algorisys/zen-ui-react">
-          v{ZEN_VERSION}
+        <span>
+          © {new Date().getFullYear()}{" "}
+          <a href="https://www.algorisys.com" target="_blank" rel="noreferrer noopener">
+            Algorisys Technologies Pvt. Ltd
+          </a>
+          <span className="app-footer-sep">·</span>
+          zen-ui · shadcn / Radix-style components
         </span>
+        <ReleaseNotes />
       </footer>
       {/* Mounted once near the root so toast({...}) can be called from
        * anywhere in the demo tree. */}

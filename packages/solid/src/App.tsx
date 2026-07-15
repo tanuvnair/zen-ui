@@ -2,6 +2,10 @@ import { type Component, type ParentProps, ErrorBoundary, For, createSignal } fr
 import { A } from "@solidjs/router";
 import { useTheme } from "./lib/theme";
 import { NAV } from "./nav";
+// The version comes from the package that is actually published, so the footer
+// cannot drift from what a consumer installs. Only `version` survives
+// tree-shaking; the rest of package.json never reaches the bundle.
+import { version as ZEN_VERSION } from "../package.json";
 
 /**
  * Derived from NAV, never hand-counted: nav.ts is already the single source of
@@ -184,6 +188,12 @@ const App: Component<ParentProps> = (props) => {
           </ErrorBoundary>
         </main>
       </div>
+      <footer class="app-footer">
+        <span>zen-ui · Kobalte-backed components by Algorisys</span>
+        <span class="app-version" title="@algorisys/zen-ui-solid">
+          v{ZEN_VERSION}
+        </span>
+      </footer>
     </div>
   );
 };

@@ -250,3 +250,30 @@
     transform: translateX(0);
   }
 }
+
+/* ─── Footer ───────────────────────────────────────────────────────── */
+/* A sibling of .app-body inside the flex-column shell, so it pins to the
+   bottom and .app-content stays the single scroll container. flex-shrink:0 or
+   it collapses when the content is tall — the shell is height:100%, not
+   min-height (see the note on .app-shell). */
+.app-footer {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 1.25rem;
+  border-top: 1px solid var(--zen-color-border);
+  background: var(--zen-color-background);
+  font-size: 0.75rem;
+  color: var(--zen-color-muted-fg);
+}
+
+.app-version {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.6875rem;
+  padding: 0.125rem 0.375rem;
+  border: 1px solid var(--zen-color-border);
+  border-radius: 0.25rem;
+  color: var(--zen-color-foreground);
+}

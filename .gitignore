@@ -47,6 +47,7 @@ dist-demo
 !CLAUDE.md
 !LOOPS.md
 !slop.md
+!CHANGELOG.md
 !DEV_GUIDE.md
 !docs/**/*.md
 !todo.md

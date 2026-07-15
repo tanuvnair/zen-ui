@@ -7,10 +7,14 @@ import ReleaseNotes from "./components/ReleaseNotes";
 /**
  * Derived from NAV, never hand-counted: nav.ts is already the single source of
  * truth for the sidebar and the landing catalogue, and a hard-coded number here
- * would drift the moment a component is added. `catalogue: false` groups
- * (Getting started) are routes, not components, so they do not count.
+ * would drift the moment a component is added.
+ *
+ * Two exclusions, for two different reasons. `catalogue: false` groups (Getting
+ * started) are routes rather than components. `components: false` groups
+ * (Patterns) ARE on the landing page but are screens assembled from the
+ * components above — counting them would count the same components twice.
  */
-const COMPONENT_COUNT = NAV.filter((g) => g.catalogue !== false).reduce(
+const COMPONENT_COUNT = NAV.filter((g) => g.catalogue !== false && g.components !== false).reduce(
   (n, g) => n + g.items.length,
   0,
 );

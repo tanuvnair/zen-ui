@@ -6,10 +6,14 @@ import { NAV } from "./nav";
 /**
  * Derived from NAV, never hand-counted: nav.ts is already the single source of
  * truth for the sidebar and the landing catalogue, and a hard-coded number here
- * would drift the moment a component is added. `catalogue: false` groups
- * (Getting started) are routes, not components, so they do not count.
+ * would drift the moment a component is added.
+ *
+ * Two exclusions, for two different reasons. `catalogue: false` groups (Getting
+ * started) are routes rather than components. `components: false` groups
+ * (Patterns) ARE on the landing page but are screens assembled from the
+ * components above — counting them would count the same components twice.
  */
-const COMPONENT_COUNT = NAV.filter((g) => g.catalogue !== false).reduce(
+const COMPONENT_COUNT = NAV.filter((g) => g.catalogue !== false && g.components !== false).reduce(
   (n, g) => n + g.items.length,
   0,
 );
@@ -102,6 +106,7 @@ import NewLinkDemo from "./components/NewLinkDemo";
 import NewColorPickerDemo from "./components/NewColorPickerDemo";
 import NewCarouselDemo from "./components/NewCarouselDemo";
 import NewDynamicDateRangeDemo from "./components/NewDynamicDateRangeDemo";
+import NewListReportDemo from "./components/NewListReportDemo";
 import ReleaseNotes from "./components/ReleaseNotes";
 import { Toaster } from "./components/toast/toaster";
 
@@ -297,6 +302,7 @@ const App: React.FC = () => {
             <Route path="/color-picker" element={<NewColorPickerDemo />} />
             <Route path="/carousel" element={<NewCarouselDemo />} />
             <Route path="/dynamic-date-range" element={<NewDynamicDateRangeDemo />} />
+            <Route path="/list-report" element={<NewListReportDemo />} />
           </Routes>
         </main>
       </div>

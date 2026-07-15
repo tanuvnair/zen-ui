@@ -19,6 +19,16 @@ export type NavGroup = {
   items: NavItem[];
   /** Groups flagged `catalogue: false` are sidebar-only (e.g. Getting started). */
   catalogue?: boolean;
+  /**
+   * Whether this group's items count toward the header's component tally.
+   * Default true.
+   *
+   * A second axis, because `catalogue` cannot express it: Patterns belongs ON
+   * the landing page but is not made of components — it is screens assembled
+   * from the groups above. Counting a screen as a component inflates the
+   * number the header states, and that number is checked.
+   */
+  components?: boolean;
 };
 
 export const NAV: NavGroup[] = [
@@ -128,6 +138,18 @@ export const NAV: NavGroup[] = [
       { to: "/flexible-column-layout", label: "FlexibleColumnLayout", description: "1–3 column master-detail frame with responsive collapse" },
       { to: "/dynamic-page", label: "DynamicPage", description: "Title + header that snaps away on scroll; pinnable header" },
       { to: "/object-page", label: "ObjectPageLayout", description: "Anchored sections with scroll-spy navigation" },
+    ],
+  },
+  {
+    // Screens, not components. Everything here is assembled from what is
+    // already in the sidebar above — the point is the composition, so a
+    // "ListReport" component would defeat it. Solid's nav already uses
+    // "Composite" for components BUILT FROM other components (QRScanner,
+    // NotificationsInbox), which is a different idea; hence "Patterns".
+    title: "Patterns",
+    components: false,
+    items: [
+      { to: "/list-report", label: "List Report", description: "FilterBar + DataTable — filter a set, read the result, act on a row" },
     ],
   },
 ];

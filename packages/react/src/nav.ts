@@ -117,7 +117,7 @@ export const NAV: NavGroup[] = [
   {
     title: "Heavy / optional (lazy peer deps)",
     items: [
-      { to: "/chart", label: "Chart (recharts)", description: "Lazy-loaded line / bar / area charts; recharts is an optional peer dep", source: "packages/react/src/components/NewChartDemo.tsx" },
+      { to: "/chart", label: "Chart (recharts)", description: "Lazy-loaded line / bar / area / pie / donut; recharts is an optional peer dep", source: "packages/react/src/components/NewChartDemo.tsx" },
       { to: "/rich-text", label: "RichText (jodit)", description: "Lazy-loaded WYSIWYG editor; jodit-pro-react is an optional peer dep", source: "packages/react/src/components/NewRichTextDemo.tsx" },
       { to: "/map", label: "Map (leaflet)", description: "Lazy-loaded map with markers; leaflet + react-leaflet are optional peer deps", source: "packages/react/src/components/NewMapDemo.tsx" },
       { to: "/camera", label: "Camera (webcam)", description: "Lazy-loaded camera capture; react-webcam is an optional peer dep", source: "packages/react/src/components/NewCameraDemo.tsx" },

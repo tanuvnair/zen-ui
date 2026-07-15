@@ -1,14 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createMemo, createSignal, onCleanup, For, Show, mergeProps } from "solid-js";
+import {
+  CHART_PALETTE,
+  arcPath,
+  describeSlices,
+  formatPercent,
+  toSlices,
+  type Slice,
+} from "@algorisys/zen-ui-core/chart";
 import { cn } from "../../lib/cn";
 
 /**
  * Chart — line / area / bar chart rendered as plain SVG. No dependency.
  *
  * The React binding wraps `recharts`, which is React-only. Rather than pull a
- * React runtime into the Solid binding, this renders the same three chart types
- * from the same public props with hand-built SVG, so `Chart` works out of the
- * box with nothing to install.
+ * React runtime into the Solid binding, this renders the same chart types from
+ * the same public props with hand-built SVG, so `Chart` works out of the box
+ * with nothing to install.
+ *
+ * That means the two bindings share no renderer at all, which is exactly why
+ * the pie/donut maths lives in @algorisys/zen-ui-core/chart rather than here:
+ * it is the only thing the two can agree about a percentage through.
  *
  *   <Chart
  *     type="line"
@@ -28,23 +40,29 @@ export interface ChartSeries {
 }
 
 export interface ChartProps {
-  type?: "line" | "area" | "bar";
+  type?: "line" | "area" | "bar" | "pie" | "donut";
   data: Array<Record<string, any>>;
+  /**
+   * For line/area/bar: one entry per plotted series.
+   *
+   * For pie/donut: only the FIRST entry is read — it names the value on each
+   * row. A pie has one number per slice; a second series would be a second pie.
+   */
   series: ChartSeries[];
-  /** key on each row used for the x-axis */
+  /** key on each row used for the x-axis — or, for pie/donut, the slice label */
   xKey: string;
+  /**
+   * Slice colours for pie/donut, in row order, wrapping if short. Defaults to
+   * the zen palette. (Per-series `color` cannot express this: a pie is one
+   * series and many colours.)
+   */
+  colors?: string[];
   height?: number;
   class?: string;
 }
 
-const PALETTE = [
-  "var(--zen-color-primary)",
-  "var(--zen-color-info)",
-  "var(--zen-color-success)",
-  "var(--zen-color-warning)",
-  "var(--zen-color-error)",
-  "var(--zen-color-neutral)",
-];
+/** Shared with the React binding, so the two cannot drift apart. */
+const PALETTE = CHART_PALETTE;
 
 /** SVG-space geometry, in px. Not CSS lengths — no token applies. */
 const PAD = { top: 12, right: 12, bottom: 24, left: 44 };
@@ -94,6 +112,23 @@ const formatTick = (v: number): string => {
 
 export const Chart = (props: ChartProps) => {
   const merged = mergeProps({ type: "line" as const, height: 300 }, props);
+
+  // A pie answers a different question from an axis chart — parts of a whole,
+  // not a value over a range — so it shares none of the scale/axis machinery
+  // below. Splitting here keeps that machinery from growing a "unless it is a
+  // pie" branch in every function.
+  return (
+    <Show when={merged.type !== "pie" && merged.type !== "donut"} fallback={<PieDonut {...merged} />}>
+      <AxisChart {...merged} />
+    </Show>
+  );
+};
+Chart.displayName = "Chart";
+
+// Named `merged` rather than aliased from `props`: an alias is what the
+// reactivity rule flags, and Solid's props object must be read through, never
+// captured.
+const AxisChart = (merged: ChartProps & { type: "line" | "area" | "bar" | "pie" | "donut"; height: number }) => {
 
   const [width, setWidth] = createSignal(0);
   const [hover, setHover] = createSignal<number | null>(null);
@@ -427,3 +462,130 @@ export const Chart = (props: ChartProps) => {
     </div>
   );
 };
+
+/**
+ * Pie and donut — hand-built arcs, mirroring what the React binding gets from
+ * recharts' <Pie>.
+ *
+ * A viewBox rather than a measured width: unlike the axis charts, nothing here
+ * needs to know its pixel size. The circle is drawn once in a 0–100 space and
+ * the browser scales it, so there is no ResizeObserver and no first-paint jump.
+ *
+ * All the geometry comes from core: the arc path, the angles, the percentages.
+ * The interesting cases are pinned by `bun run check:chart` — a 100% slice
+ * (start === end draws NOTHING), and a slice past 180° (drawn as its own
+ * complement without the large-arc flag, which looks perfectly convincing).
+ */
+const R_OUTER = 40;
+const R_INNER = 22;
+
+const PieDonut = (props: ChartProps & { type: "line" | "area" | "bar" | "pie" | "donut"; height: number }) => {
+  const [hover, setHover] = createSignal<number | null>(null);
+
+  const slices = createMemo(() =>
+    props.series[0]
+      ? toSlices(props.data, props.xKey, props.series[0].key, props.colors ?? PALETTE)
+      : [],
+  );
+
+  const label = () => (props.type === "donut" ? "Donut chart" : "Pie chart");
+  const svgH = () => Math.max(0, props.height - LEGEND_H);
+
+  return (
+    <div class={cn("zen-relative zen-w-full", props.class)} style={{ height: `${props.height}px` }}>
+      <svg
+        width="100%"
+        height={svgH()}
+        viewBox="0 0 100 100"
+        role="img"
+        aria-label={describeSlices(slices(), label())}
+      >
+        <For each={slices()}>
+          {(s, i) => (
+            <path
+              d={arcPath(50, 50, R_OUTER, props.type === "donut" ? R_INNER : 0, s.startAngle, s.endAngle)}
+              fill={s.color}
+              // The gap between slices is the page showing through, not a
+              // colour — so it stays right in any theme.
+              stroke="var(--zen-color-background)"
+              stroke-width="0.75"
+              opacity={hover() === null || hover() === i() ? 1 : 0.45}
+              onMouseEnter={() => setHover(i())}
+              onMouseLeave={() => setHover(null)}
+            />
+          )}
+        </For>
+      </svg>
+
+      <Show when={hover() !== null && slices()[hover()!]}>
+        {(s) => (
+          <div
+            class={cn(
+              "zen-pointer-events-none zen-absolute zen-left-1/2 zen-top-2 -zen-translate-x-1/2",
+              "zen-rounded-zen-md zen-border zen-border-zen-border zen-bg-zen-background",
+              "zen-px-2 zen-py-1 zen-text-xs zen-text-zen-foreground zen-shadow-md",
+            )}
+          >
+            <span class="zen-font-medium">{s().label}</span>{" "}
+            <span class="zen-text-zen-muted-fg">
+              {s().value} · {formatPercent(s().percent)}
+            </span>
+          </div>
+        )}
+      </Show>
+
+      <div class="zen-flex zen-flex-wrap zen-items-center zen-justify-center zen-gap-3 zen-text-xs">
+        <For each={slices()}>
+          {(s, i) => (
+            <span
+              class="zen-inline-flex zen-cursor-default zen-items-center zen-gap-1.5"
+              onMouseEnter={() => setHover(i())}
+              onMouseLeave={() => setHover(null)}
+            >
+              <span
+                aria-hidden="true"
+                class="zen-inline-block zen-h-2 zen-w-2 zen-rounded-zen-full"
+                style={{ "background-color": s.color }}
+              />
+              <span class="zen-text-zen-muted-fg">{s.label}</span>
+            </span>
+          )}
+        </For>
+      </div>
+
+      <SliceTable slices={slices()} labelHeader={props.xKey} />
+    </div>
+  );
+};
+
+/**
+ * The slice data as a table, for screen readers.
+ *
+ * Visually hidden rather than absent: an aria-label can say "Agree 50%, Neutral
+ * 30%", but a listener cannot navigate a sentence, compare two numbers in it, or
+ * come back to one. A table they can. This is the difference between a pie chart
+ * being described and being readable. Mirrors the React binding.
+ */
+const SliceTable = (props: { slices: Slice[]; labelHeader: string }) => (
+  <table class="zen-sr-only">
+    <caption>Chart data</caption>
+    <thead>
+      <tr>
+        <th scope="col">{props.labelHeader}</th>
+        <th scope="col">Value</th>
+        <th scope="col">Share</th>
+      </tr>
+    </thead>
+    <tbody>
+      <For each={props.slices}>
+        {(s) => (
+          <tr>
+            <th scope="row">{s.label}</th>
+            <td>{s.value}</td>
+            <td>{formatPercent(s.percent)}</td>
+          </tr>
+        )}
+      </For>
+    </tbody>
+  </table>
+);

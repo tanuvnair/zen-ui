@@ -621,6 +621,11 @@ export type {
 
 // Heavy / optional peer deps — lazy-loaded, never bundled.
 export { Chart } from "./components/chart/chart";
+// The types were missing here while React exported them, so Solid consumers
+// could use Chart but never name its props. A parity bug, not a design.
+export type { ChartProps, ChartSeries } from "./components/chart/chart";
+export type { Slice } from "@algorisys/zen-ui-core/chart";
+export { CHART_PALETTE } from "@algorisys/zen-ui-core/chart";
 export { RichText } from "./components/rich-text/rich-text";
 export { Map } from "./components/map/map";
 export { Camera } from "./components/camera/camera";

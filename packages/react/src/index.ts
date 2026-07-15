@@ -683,6 +683,8 @@ export type {
 // UI Components - Chart (lazy recharts wrapper; optional peer dep)
 export { Chart } from "./components/chart/chart";
 export type { ChartProps, ChartSeries } from "./components/chart/chart";
+export type { Slice } from "@algorisys/zen-ui-core/chart";
+export { CHART_PALETTE } from "@algorisys/zen-ui-core/chart";
 
 // UI Components - RichText (lazy jodit-pro-react wrapper; optional peer dep)
 export { RichText } from "./components/rich-text/rich-text";

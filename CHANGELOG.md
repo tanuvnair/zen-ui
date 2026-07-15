@@ -48,6 +48,14 @@ document's root font size to 10px.
 - `ColorPicker` / `ColorPalette` — a swatch that opens a palette, a hex field
   and the platform's own picker. The colour maths is framework-agnostic and
   lives in `@algorisys/zen-ui-core/color`
+- `Chart` — `type="pie"` and `type="donut"`, alongside line/area/bar. A pie is
+  the existing props asking a different question, so it needed no new concepts:
+  `xKey` already names the slice label and the first series names the value.
+  `colors` is the one addition — a pie is one series and many colours. The slice
+  maths is framework-agnostic and lives in `@algorisys/zen-ui-core/chart`, which
+  matters more here than elsewhere: React draws with recharts and Solid with
+  hand-built SVG, so it is the only thing the two share. Every pie also ships a
+  visually-hidden data table
 - `Carousel` — a scroll-snap slide strip. Every child is a slide, so there is
   no `CarouselItem` to import, and `perView` turns the stage into a strip.
   Deliberately has no autoplay

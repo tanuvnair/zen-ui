@@ -5,3 +5,4 @@ export * from "./uno-preset";
 export * from "./mask";
 export * from "./color";
 export * from "./date-range";
+export * from "./chart";

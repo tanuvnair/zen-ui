@@ -15,7 +15,7 @@ all of `app/components/`, and `app/models/types.ts`. Cross-referenced against ze
 [`packages/react/src/nav.ts`](../packages/react/src/nav.ts) (the component catalogue),
 `packages/react/src/index.ts` / `packages/solid/src/index.ts` (exports), and the component
 sources themselves — because the exports list alone does not tell you whether `Rating` supports
-half-stars or whether `Chart` can draw a pie. It cannot, and it cannot.
+half-stars or whether `Chart` can draw a pie. Both can now — see the Revised note below.
 
 Two findings from the survey materially reshape the brief and are worth stating before the tables:
 
@@ -79,8 +79,8 @@ survey triplet (`Rating` · `NPS` · `Likert`) already exists, as do `DataTable`
   **emoji scale** (nothing).
 - **Form controls** — ~90% covered. Real gaps are narrow: `Rating` has no half-star, `Slider` has
   no tick marks/labels, `Combobox` has no creatable mode.
-- **Charts** — **partial and blocking**. `Chart` does line/bar/area only. SkillsEngine's two most
-  visible analysis screens need **pie and doughnut**, which zen-ui cannot draw at all.
+- **Charts** — ~~partial and blocking~~ **closed**. `Chart` now does line/bar/area/**pie**/**donut**
+  in both bindings, so the two analysis screens are unblocked and chart.js can go.
 - **Drag-to-reorder** — **0% covered**. SkillsEngine needs it in 4 places (3 authoring, 1 runtime)
   and currently uses the unmaintained `react-beautiful-dnd` with a StrictMode shim.
 - **Page-level chrome** — `title/title.tsx` has **61 importers**, the most-used component in the
@@ -98,7 +98,7 @@ Tiers 1–2.
 | **MatrixQuestion** | `multiple choice grid` + `checkboxes grid`; hand-rolled `<table>` 3× (builder, preview, runtime) | ❌ **missing** | Build `Matrix` + `Matrix.Row` | **P0** |
 | **Likert (numeric)** | `linear scale`, hardcoded 1–5 | ⚠️ **partial** — no numeric layout, no endpoint labels | Add `layout="scale"`, `minLabel`/`maxLabel` | **P0** |
 | **Likert (emoji)** | `emoji` 5-point sentiment | ⚠️ **partial** — no custom option rendering | Add `renderOption` to `LikertOption` | **P0** |
-| **Chart pie/doughnut** | `admin.surveyresponses.$id.tsx:21` (Pie), `admin.joharireport.$id.tsx:12` (Doughnut), `DashboardCharts.tsx:15` (recharts Pie) | ⚠️ **partial** — `chart.tsx:97` is line/bar/area only | Add `type="pie" \| "donut"` | **P0** |
+| **Chart pie/doughnut** | `admin.surveyresponses.$id.tsx:21` (Pie), `admin.joharireport.$id.tsx:12` (Doughnut), `DashboardCharts.tsx:15` (recharts Pie) | ✅ **built** — `type="pie" \| "donut"` in both bindings; slice maths in `core/chart` | — | done |
 | **SortableList** | `react-beautiful-dnd` ×3: `addquestion.tsx:964,1193`, `admin.createtest.$testId.tsx:300`, `admin.createsurvey.$id.tsx:568` (nested) | ❌ **missing** | Build `SortableList` (+ nested) | **P1** |
 | **Ranking question** | `question-components/ranking.tsx` — a stub returning `<div>Ranking</div>` | ❌ **missing** | `Ranking` on top of `SortableList` | **P1** |
 | **PageHeader** | `title/title.tsx` — **61 importers** | ❌ **missing** (`DynamicPage` is too heavy) | Build `PageHeader` | **P1** |
@@ -352,6 +352,29 @@ cannot. Settle that before writing code.
 
 ### Chart — pie and doughnut
 
+> **Revised 2026-07-15 — built.** `type="pie" | "donut"` ships in both
+> bindings. It needed no new concepts: `xKey` already names the slice label and
+> `series[0]` already names the value, so a pie is the existing props asking a
+> different question. `colors` was the one addition — a pie is one series and
+> many colours, which per-series `color` cannot express.
+>
+> The doc's "~1 day, recharts supports it, this is a wiring job" was true of the
+> React binding only. Solid has no pie primitive, so its arcs are hand-built;
+> the shared maths lives in `@algorisys/zen-ui-core/chart` and is pinned by
+> `bun run check:chart` (43 checks). That sharing is load-bearing rather than
+> tidy: the bindings have no renderer in common, so it is the only place they
+> can be made to agree about what a percentage is.
+>
+> Two divergences the wiring introduced and the driven contract caught, both
+> invisible to a build: recharts starts a pie at 3 o'clock and sweeps
+> ANTICLOCKWISE (core starts at 12, clockwise), and recharts orders a pie legend
+> alphabetically and ignores an explicit payload — so both bindings hand-build
+> the legend now. Same props had been drawing the same data in different places.
+>
+> Beyond the ask: every pie ships a visually-hidden data table. The shape
+> carries all the meaning and none of it survives into audio, and an aria-label
+> is a sentence a listener cannot navigate or compare within.
+
 `Chart` (`components/chart/chart.tsx:97`) resolves exactly three roots:
 
 ```tsx
@@ -464,7 +487,7 @@ brief; 4–6 are the force multipliers.
 2. **`Matrix`.** The genuine hole, and the largest one. Two of 11 types, three hand-rolled copies
    deleted, and the a11y story (`scope`, per-row radiogroups, 2-D roving tabindex) is the whole
    point of centralising it. **~3–4 days incl. Solid.**
-3. **`Chart` — `pie` / `donut`.** Recharts already supports it; zen-ui just doesn't expose it.
+3. ~~**`Chart` — `pie` / `donut`.**~~ **Done** — shipped in both bindings; see the section above.
    Unblocks the two most visible analysis screens and lets SkillsEngine drop chart.js entirely.
    **~1 day.**
 4. **`PageHeader`.** 61 importers. The cheapest real adoption beachhead in the app. **~1 day.**

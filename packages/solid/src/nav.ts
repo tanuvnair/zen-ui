@@ -187,7 +187,7 @@ export const NAV: NavGroup[] = [
   {
     group: "Heavy / optional (lazy peer deps)",
     items: [
-      { label: "Chart", path: "/chart", description: "Line / bar / area charts; dependency-free SVG in the Solid binding", source: "packages/solid/src/components/NewChartDemo.tsx" },
+      { label: "Chart", path: "/chart", description: "Line / bar / area / pie / donut; dependency-free SVG in the Solid binding", source: "packages/solid/src/components/NewChartDemo.tsx" },
       { label: "RichText", path: "/rich-text", description: "Lazy-loaded WYSIWYG editor; jodit is an optional peer dep", source: "packages/solid/src/components/NewRichTextDemo.tsx" },
       { label: "Map", path: "/map", description: "Lazy-loaded map with markers; leaflet is an optional peer dep", source: "packages/solid/src/components/NewMapDemo.tsx" },
       { label: "Camera", path: "/camera", description: "Camera capture via getUserMedia; no peer dep", source: "packages/solid/src/components/NewCameraDemo.tsx" },
